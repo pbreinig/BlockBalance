@@ -1,8 +1,15 @@
-import React from 'react';
-import { Text } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
+import { NavigationContainer } from '@react-navigation/native';
+import { BottomTabNavigator } from './src/navigation/bottom-tab-navigator';
 
 const App = () => {
-	return <Text> {'BlockBalance'}</Text>;
+	return (
+		<PaperProvider>
+			<NavigationContainer>
+				<BottomTabNavigator />
+			</NavigationContainer>
+		</PaperProvider>
+	);
 };
 
 export default App;

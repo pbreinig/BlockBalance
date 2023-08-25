@@ -1,15 +1,10 @@
 module.exports = {
 	root: true,
-	extends: ['@react-native', 'prettier'],
+	extends: ['@react-native', 'plugin:prettier/recommended'],
 	rules: {
-		'object-curly-newline': [
-			'error',
-			{
-				ObjectExpression: { multiline: true, minProperties: 3 },
-				ObjectPattern: { multiline: true, minProperties: 3 },
-				ImportDeclaration: { multiline: true, minProperties: 3 },
-				ExportDeclaration: { multiline: true, minProperties: 3 },
-			},
-		],
+		'react/react-in-jsx-scope': 'off',
+		'react/jsx-uses-react': 'off',
+		'no-console': 'error',
+		'linebreak-style': 'off',
 	},
 };
