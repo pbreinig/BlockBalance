@@ -2,15 +2,44 @@ import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navig
 import { PortfolioScreen } from '../screens/portfolio-screen';
 import { MarketScreen } from '../screens/market-screen';
 import { SettingsScreen } from '../screens/settings-screen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export const BottomTabNavigator = () => {
 	return (
 		<Tab.Navigator>
-			<Tab.Screen name="Portfolio" component={PortfolioScreen} />
-			<Tab.Screen name="Market" component={MarketScreen} />
-			<Tab.Screen name="Settings" component={SettingsScreen} />
+			<Tab.Screen
+				name="Portfolio"
+				component={PortfolioScreen}
+				options={{
+					tabBarIcon: ({ color }) => (
+						<MaterialCommunityIcons name={'wallet'} color={color} size={24} />
+					),
+				}}
+			/>
+			<Tab.Screen
+				name="Market"
+				component={MarketScreen}
+				options={{
+					tabBarIcon: ({ color }) => (
+						<MaterialCommunityIcons
+							name={'chart-timeline-variant'}
+							color={color}
+							size={24}
+						/>
+					),
+				}}
+			/>
+			<Tab.Screen
+				name="Settings"
+				component={SettingsScreen}
+				options={{
+					tabBarIcon: ({ color }) => (
+						<MaterialCommunityIcons name={'cog'} color={color} size={24} />
+					),
+				}}
+			/>
 		</Tab.Navigator>
 	);
 };
