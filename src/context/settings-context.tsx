@@ -3,21 +3,23 @@ import { MD3DarkTheme, MD3LightTheme, MD3Theme } from 'react-native-paper';
 
 type SettingsContextType = {
 	theme: MD3Theme;
+	isThemeDark: boolean;
 	toggleTheme: () => void;
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 const useSettings = () => {
-	const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true);
-	const theme = isDarkTheme ? MD3DarkTheme : MD3LightTheme;
+	const [isThemeDark, setIsThemeDark] = useState<boolean>(true);
+	const theme = isThemeDark ? MD3DarkTheme : MD3LightTheme;
 
 	const toggleTheme = () => {
-		setIsDarkTheme(!isDarkTheme);
+		setIsThemeDark(!isThemeDark);
 	};
 
 	return {
 		theme,
+		isThemeDark,
 		toggleTheme,
 	};
 };

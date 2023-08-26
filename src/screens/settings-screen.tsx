@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { Switch, Text, useTheme } from 'react-native-paper';
+import { Switch, Text } from 'react-native-paper';
 import { useSettingsContext } from '../context/settings-context';
 
 const styles = StyleSheet.create({
@@ -10,13 +10,12 @@ const styles = StyleSheet.create({
 	},
 });
 export const SettingsScreen = () => {
-	const { toggleTheme } = useSettingsContext();
-	const theme = useTheme();
+	const { isThemeDark, toggleTheme } = useSettingsContext();
 
 	return (
 		<View style={styles.body}>
 			<Text>{'Dark Mode'}</Text>
-			<Switch value={theme.dark} onChange={toggleTheme} />
+			<Switch value={isThemeDark} onChange={toggleTheme} />
 		</View>
 	);
 };
