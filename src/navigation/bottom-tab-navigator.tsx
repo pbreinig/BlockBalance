@@ -13,8 +13,12 @@ export const BottomTabNavigator = () => {
 				name="Portfolio"
 				component={PortfolioScreen}
 				options={{
-					tabBarIcon: ({ color }) => (
-						<MaterialCommunityIcons name={'wallet'} color={color} size={24} />
+					tabBarIcon: ({ color, focused }) => (
+						<MaterialCommunityIcons
+							name={focused ? 'wallet' : 'wallet-outline'}
+							color={color}
+							size={24}
+						/>
 					),
 				}}
 			/>
@@ -22,11 +26,16 @@ export const BottomTabNavigator = () => {
 				name="Market"
 				component={MarketScreen}
 				options={{
-					tabBarIcon: ({ color }) => (
+					tabBarIcon: ({ color, focused }) => (
 						<MaterialCommunityIcons
-							name={'chart-timeline-variant'}
+							name={
+								focused
+									? 'chart-timeline-variant-shimmer'
+									: 'chart-timeline-variant'
+							}
 							color={color}
 							size={24}
+							style={!focused && { top: 2 }}
 						/>
 					),
 				}}
@@ -35,8 +44,12 @@ export const BottomTabNavigator = () => {
 				name="Settings"
 				component={SettingsScreen}
 				options={{
-					tabBarIcon: ({ color }) => (
-						<MaterialCommunityIcons name={'cog'} color={color} size={24} />
+					tabBarIcon: ({ color, focused }) => (
+						<MaterialCommunityIcons
+							name={focused ? 'cog' : 'cog-outline'}
+							color={color}
+							size={24}
+						/>
 					),
 				}}
 			/>
