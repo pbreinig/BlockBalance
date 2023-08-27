@@ -5955,6 +5955,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-navigation-bar-color@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-navigation-bar-color/-/react-native-navigation-bar-color-2.0.2.tgz#2e14ca79a656d81d5b4b7433ae43966ef5206444"
+  integrity sha512-ZmpLWRocyme1au11e5ZuecMS/UCi57nlzgnioi03Q6ERMbeUOqqbWgNBaNB7SsCeqBV6fZPjo3+A64zEIpzw4w==
+
 react-native-paper@^5.10.3:
   version "5.10.3"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-5.10.3.tgz#75f5dafc71e0f0072877fcb24aa877bd1ec7d22b"
