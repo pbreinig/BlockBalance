@@ -1,10 +1,10 @@
-import { FlatList, StyleSheet, View } from 'react-native';
-import { StyleConstants } from '../constants/style-constants';
+import { FlatList, View } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
-import { MarketListItem } from '../components/market-list-item';
-import { fetchMarket } from '../api/coingecko-api';
+import { MarketListItem } from '../../components/market-list-item';
+import { fetchMarket } from '../../api/coingecko-api';
 import { useEffect, useState } from 'react';
-import { useSettingsContext } from '../context/settings-context';
+import { useSettingsContext } from '../../context/settings-context';
+import { styles } from './market-screen-styles';
 export const MarketScreen = () => {
 	const { theme } = useSettingsContext();
 	const [data, setData] = useState([]);
@@ -56,24 +56,3 @@ export const MarketScreen = () => {
 		</View>
 	);
 };
-
-const { Screen, ListItem } = StyleConstants;
-const styles = StyleSheet.create({
-	body: {
-		padding: Screen.PADDING,
-	},
-	flatList: {
-		width: '100%',
-		marginTop: ListItem.PADDING,
-	},
-	flatListContainer: {
-		paddingBottom: 40,
-	},
-	listLabelContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		width: '100%',
-		top: 6,
-		paddingHorizontal: ListItem.PADDING,
-	},
-});

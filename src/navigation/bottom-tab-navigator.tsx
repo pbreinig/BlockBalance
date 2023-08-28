@@ -1,7 +1,7 @@
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
-import { PortfolioScreen } from '../screens/portfolio-screen';
-import { MarketScreen } from '../screens/market-screen';
-import { SettingsScreen } from '../screens/settings-screen';
+import { PortfolioScreen } from '../screens/portfolio-screen/portfolio-screen';
+import { MarketScreen } from '../screens/market-screen/market-screen';
+import { SettingsScreen } from '../screens/settings-screen/settings-screen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createMaterialBottomTabNavigator();

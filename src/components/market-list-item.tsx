@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { Avatar, Surface, Text } from 'react-native-paper';
-import { StyleConstants } from '../constants/style-constants';
 import { useSettingsContext } from '../context/settings-context';
+import { styles } from './market-list-item-styles';
 
 interface IMarketListItemProps {
 	rank: number;
@@ -60,47 +60,3 @@ export const MarketListItem: React.FC<IMarketListItemProps> = (props) => {
 		</Surface>
 	);
 };
-
-const { ListItem } = StyleConstants;
-const styles = StyleSheet.create({
-	surface: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		width: '100%',
-		height: ListItem.HEIGHT,
-		padding: ListItem.PADDING,
-		borderRadius: ListItem.BORDER_RADIUS,
-		marginBottom: ListItem.MARGIN_BOTTOM,
-	},
-	rankContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		minWidth: 15,
-		height: 15,
-		borderTopLeftRadius: ListItem.BORDER_RADIUS,
-		borderBottomRightRadius: 3,
-		paddingHorizontal: 5,
-	},
-	image: {
-		marginRight: ListItem.PADDING,
-		backgroundColor: 'transparent',
-	},
-	textContainer: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-	},
-	tickerChangeContainer: {
-		flexDirection: 'row',
-	},
-	ticker: {
-		textTransform: 'uppercase',
-	},
-	textRight: {
-		textAlign: 'right',
-	},
-});
