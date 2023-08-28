@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { Avatar, Surface, Text } from 'react-native-paper';
 import { useSettingsContext } from '../context/settings-context';
 import { styles } from './market-list-item-styles';
+import { formatCurrency } from '@coingecko/cryptoformat';
 
 interface IMarketListItemProps {
 	rank: number;
@@ -18,6 +19,8 @@ export const MarketListItem: React.FC<IMarketListItemProps> = (props) => {
 	const { rank, name, ticker, imageSrc, price, pricePercentage24h, marketCap } = props;
 	const { theme } = useSettingsContext();
 	const isUp = pricePercentage24h >= 0;
+
+	const format = (value: number) => formatCurrency(value, 'USD', 'en');
 
 	return (
 		<Surface style={styles.surface} mode={'flat'}>
@@ -48,12 +51,14 @@ export const MarketListItem: React.FC<IMarketListItemProps> = (props) => {
 					</View>
 				</View>
 				<View>
-					<Text variant={'titleMedium'} style={styles.textRight}>{`$${price}`}</Text>
+					<Text variant={'titleMedium'} style={styles.textRight}>{`${format(
+						price,
+					)}`}</Text>
 					<Text
 						variant={'labelMedium'}
 						style={[styles.textRight, { color: theme.colors.onSurfaceVariant }]}
 					>
-						{`$${marketCap}`}
+						{`${format(marketCap)}`}
 					</Text>
 				</View>
 			</View>

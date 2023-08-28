@@ -1159,6 +1159,11 @@
     deepmerge "^3.2.0"
     hoist-non-react-statics "^3.3.0"
 
+"@coingecko/cryptoformat@^0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@coingecko/cryptoformat/-/cryptoformat-0.5.4.tgz#b105b44e48466f480ef72b720c40618c723752b9"
+  integrity sha512-qAHbG/TjKbyPE0hRCeET1+8qBs4dtpXVyXDeSj0xhENLPBFW9tNTY2OOYr9Fw5fAylHJkCdhdn7Htk18ZSyxFw==
+
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz#a23514e8fb9af1269d5f7788aa556798d61c6b59"
