@@ -1,9 +1,9 @@
 import { createContext, useContext, useState } from 'react';
 import { MD3Theme } from 'react-native-paper';
-import { DarkTheme, LightTheme } from '../constants/themes';
+import { AdditionalColors, DarkTheme, LightTheme } from '../constants/themes';
 
 type SettingsContextType = {
-	theme: MD3Theme;
+	theme: MD3Theme & AdditionalColors;
 	isThemeDark: boolean;
 	toggleTheme: () => void;
 };

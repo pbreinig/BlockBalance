@@ -1,6 +1,12 @@
 import { MD3DarkTheme, MD3LightTheme, MD3Theme } from 'react-native-paper';
 
-export const DarkTheme: MD3Theme = {
+export type AdditionalColors = {
+	additionalColors: {
+		green: string;
+	};
+};
+
+export const DarkTheme: MD3Theme & AdditionalColors = {
 	...MD3DarkTheme,
 	colors: {
 		primary: '#34548A',
@@ -24,7 +30,7 @@ export const DarkTheme: MD3Theme = {
 		surface: '#1A1B26',
 		onSurface: '#C0CAF5',
 		surfaceVariant: '#1A1B26',
-		onSurfaceVariant: '#C0CAF5',
+		onSurfaceVariant: '#565F89',
 		outline: '#34548A',
 		outlineVariant: '#34548A',
 		shadow: '#000000',
@@ -44,9 +50,12 @@ export const DarkTheme: MD3Theme = {
 		onSurfaceDisabled: '#C0CAF561',
 		backdrop: '#312F3866',
 	},
+	additionalColors: {
+		green: '#9ECE6A',
+	},
 };
 
-export const LightTheme: MD3Theme = {
+export const LightTheme: MD3Theme & AdditionalColors = {
 	...MD3LightTheme,
 	colors: {
 		primary: '#7AA2F7',
@@ -70,7 +79,7 @@ export const LightTheme: MD3Theme = {
 		surface: '#D5D6DB',
 		onSurface: '#343B58',
 		surfaceVariant: '#D5D6DB',
-		onSurfaceVariant: '#343B58',
+		onSurfaceVariant: '#9699A3',
 		outline: '#7AA2F7',
 		outlineVariant: '#7AA2F7',
 		shadow: '#000000',
@@ -89,5 +98,8 @@ export const LightTheme: MD3Theme = {
 		surfaceDisabled: '#D5D6DB1F',
 		onSurfaceDisabled: '#343B5861',
 		backdrop: '#312F3866',
+	},
+	additionalColors: {
+		green: '#485E30',
 	},
 };

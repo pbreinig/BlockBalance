@@ -6,5 +6,6 @@ module.exports = {
 		'react/jsx-uses-react': 'off',
 		'no-console': 'error',
 		'linebreak-style': 'off',
+		'react-native/no-inline-styles': 'off',
 	},
 };
