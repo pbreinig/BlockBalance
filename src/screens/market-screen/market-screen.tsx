@@ -42,7 +42,7 @@ export const MarketScreen = () => {
 				</Text>
 			</View>
 			{isLoading ? (
-				<ActivityIndicator />
+				<ActivityIndicator style={{ top: 18 }} />
 			) : (
 				<FlatList
 					data={data}
