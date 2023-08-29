@@ -1,27 +1,39 @@
 import { createContext, useContext, useState } from 'react';
+import { useColorScheme } from 'react-native';
 import { MD3Theme } from 'react-native-paper';
 import { AdditionalColors, DarkTheme, LightTheme } from '../constants/themes';
 
+type ThemeType = 'light' | 'dark' | 'system';
+
 type SettingsContextType = {
 	theme: MD3Theme & AdditionalColors;
-	isThemeDark: boolean;
-	toggleTheme: () => void;
+	themeType: ThemeType;
+	setThemeType: (theme: ThemeType) => void;
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 const useSettings = () => {
-	const [isThemeDark, setIsThemeDark] = useState<boolean>(true);
-	const theme = isThemeDark ? DarkTheme : LightTheme;
+	const colorScheme = useColorScheme();
+	const [themeType, setThemeType] = useState<ThemeType>('dark');
 
-	const toggleTheme = () => {
-		setIsThemeDark(!isThemeDark);
-	};
+	let theme;
+	switch (themeType) {
+		case 'light':
+			theme = LightTheme;
+			break;
+		case 'dark':
+			theme = DarkTheme;
+			break;
+		case 'system':
+			theme = colorScheme === 'dark' ? DarkTheme : LightTheme;
+			break;
+	}
 
 	return {
 		theme,
-		isThemeDark,
-		toggleTheme,
+		themeType,
+		setThemeType,
 	};
 };
 
