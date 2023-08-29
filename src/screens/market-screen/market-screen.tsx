@@ -34,10 +34,10 @@ export const MarketScreen = () => {
 		<View style={styles.body}>
 			<Text variant={'headlineLarge'}>{'Market'}</Text>
 			<View style={styles.listLabelContainer}>
-				<Text variant={'labelMedium'} style={{ color: theme.colors.onSurfaceVariant }}>
+				<Text variant={'labelSmall'} style={{ color: theme.colors.onSurfaceVariant }}>
 					{'COIN · 24H%'}
 				</Text>
-				<Text variant={'labelMedium'} style={{ color: theme.colors.onSurfaceVariant }}>
+				<Text variant={'labelSmall'} style={{ color: theme.colors.onSurfaceVariant }}>
 					{'PRICE · MCAP'}
 				</Text>
 			</View>

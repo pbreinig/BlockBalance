@@ -32,16 +32,16 @@ export const MarketListItem: React.FC<IMarketListItemProps> = (props) => {
 			<Avatar.Image source={{ uri: imageSrc }} size={32} style={styles.image} />
 			<View style={styles.textContainer}>
 				<View>
-					<Text variant={'titleMedium'}>{name}</Text>
+					<Text variant={'bodyLarge'}>{name}</Text>
 					<View style={styles.tickerChangeContainer}>
 						<Text
-							variant={'labelMedium'}
+							variant={'bodySmall'}
 							style={[styles.ticker, { color: theme.colors.onSurfaceVariant }]}
 						>
 							{ticker}
 						</Text>
 						<Text
-							variant={'labelMedium'}
+							variant={'bodySmall'}
 							style={{
 								color: isUp ? theme.additionalColors.green : theme.colors.error,
 							}}
@@ -51,11 +51,9 @@ export const MarketListItem: React.FC<IMarketListItemProps> = (props) => {
 					</View>
 				</View>
 				<View>
-					<Text variant={'titleMedium'} style={styles.textRight}>{`${format(
-						price,
-					)}`}</Text>
+					<Text variant={'bodyLarge'} style={styles.textRight}>{`${format(price)}`}</Text>
 					<Text
-						variant={'labelMedium'}
+						variant={'bodySmall'}
 						style={[styles.textRight, { color: theme.colors.onSurfaceVariant }]}
 					>
 						{`${format(marketCap)}`}
