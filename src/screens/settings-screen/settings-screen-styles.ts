@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { StyleConstants } from '../../constants/style-constants';
 
+const { Screen } = StyleConstants;
 export const styles = StyleSheet.create({
-	body: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
+	headerTitle: {
+		padding: Screen.PADDING,
 	},
 });

@@ -1,15 +1,15 @@
 import { View } from 'react-native';
-import { Switch, Text } from 'react-native-paper';
-import { useSettingsContext } from '../../context/settings-context';
+import { Text } from 'react-native-paper';
 import { styles } from './settings-screen-styles';
+import { AppearanceSettings } from '../../components/settings/appearance-settings';
 
 export const SettingsScreen = () => {
-	const { isThemeDark, toggleTheme } = useSettingsContext();
-
 	return (
-		<View style={styles.body}>
-			<Text>{'Dark Mode'}</Text>
-			<Switch value={isThemeDark} onChange={toggleTheme} />
+		<View>
+			<Text variant={'headlineLarge'} style={styles.headerTitle}>
+				{'Settings'}
+			</Text>
+			<AppearanceSettings />
 		</View>
 	);
 };
