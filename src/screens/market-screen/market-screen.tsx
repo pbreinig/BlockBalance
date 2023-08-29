@@ -1,6 +1,6 @@
 import { FlatList, View } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
-import { MarketListItem } from '../../components/market-list-item';
+import { MarketListItem } from '../../components/market-list-item/market-list-item';
 import { fetchMarket } from '../../api/coingecko-api';
 import { useEffect, useState } from 'react';
 import { useSettingsContext } from '../../context/settings-context';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Avatar, Surface, Text } from 'react-native-paper';
-import { useSettingsContext } from '../context/settings-context';
+import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './market-list-item-styles';
 import { formatCurrency } from '@coingecko/cryptoformat';
 

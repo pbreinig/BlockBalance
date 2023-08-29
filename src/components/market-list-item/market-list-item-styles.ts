@@ -1,4 +1,4 @@
-import { StyleConstants } from '../constants/style-constants';
+import { StyleConstants } from '../../constants/style-constants';
 import { StyleSheet } from 'react-native';
 
 const { ListItem } = StyleConstants;
