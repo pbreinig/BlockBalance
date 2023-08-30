@@ -3,6 +3,7 @@ import { RadioButton, Text, TouchableRipple } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { styles } from './radio-button-row-styles';
 import { View } from 'react-native';
+import { useSettingsContext } from '../../context/settings-context';
 
 interface IRadioButtonRowProps {
 	title: string;
@@ -15,9 +16,14 @@ interface IRadioButtonRowProps {
 
 export const RadioButtonRow: React.FC<IRadioButtonRowProps> = (props) => {
 	const { title, iconName, iconColor, onPress, value, status } = props;
+	const { theme } = useSettingsContext();
 
 	return (
-		<TouchableRipple onPress={onPress} style={styles.touchable} borderless={true}>
+		<TouchableRipple
+			onPress={onPress}
+			style={styles.touchable}
+			rippleColor={theme.additionalColors.ripple}
+		>
 			<>
 				<View style={styles.leftView}>
 					<MaterialIcons name={iconName} color={iconColor} size={22} />

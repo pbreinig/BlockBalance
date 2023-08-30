@@ -3,6 +3,7 @@ import { MD3DarkTheme, MD3LightTheme, MD3Theme } from 'react-native-paper';
 export type AdditionalColors = {
 	additionalColors: {
 		green: string;
+		ripple: string;
 	};
 };
 
@@ -52,6 +53,7 @@ export const DarkTheme: MD3Theme & AdditionalColors = {
 	},
 	additionalColors: {
 		green: '#9ECE6A',
+		ripple: '#C0CAF57F',
 	},
 };
 
@@ -101,5 +103,6 @@ export const LightTheme: MD3Theme & AdditionalColors = {
 	},
 	additionalColors: {
 		green: '#485E30',
+		ripple: '#343B5880',
 	},
 };
