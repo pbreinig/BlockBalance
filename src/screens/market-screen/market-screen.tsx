@@ -2,22 +2,12 @@ import { FlatList, View } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { MarketListItem } from '../../components/market-list-item/market-list-item';
 import { fetchMarket } from '../../api/coingecko-api';
-import { useEffect, useState } from 'react';
 import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './market-screen-styles';
+import { useQuery } from '@tanstack/react-query';
 export const MarketScreen = () => {
 	const { theme } = useSettingsContext();
-	const [data, setData] = useState([]);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const marketData = await fetchMarket(1);
-			setData(marketData);
-			setIsLoading(false);
-		};
-		fetchData();
-	}, []);
+	const { isLoading, data } = useQuery({ queryKey: ['products'], queryFn: () => fetchMarket(1) });
 	const renderItem = ({ item }) => (
 		<MarketListItem
 			rank={item.market_cap_rank}

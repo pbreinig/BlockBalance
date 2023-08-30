@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabNavigator } from './src/navigation/bottom-tab-navigator';
 import { SettingsProvider, useSettingsContext } from './src/context/settings-context';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const AppContent = () => {
 	const { theme } = useSettingsContext();
@@ -23,10 +24,14 @@ const AppContent = () => {
 	);
 };
 const App = () => {
+	const queryClient = new QueryClient();
+
 	return (
-		<SettingsProvider>
-			<AppContent />
-		</SettingsProvider>
+		<QueryClientProvider client={queryClient}>
+			<SettingsProvider>
+				<AppContent />
+			</SettingsProvider>
+		</QueryClientProvider>
 	);
 };
 
