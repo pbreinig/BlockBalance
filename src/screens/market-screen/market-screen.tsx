@@ -49,6 +49,7 @@ export const MarketScreen = () => {
 					showsVerticalScrollIndicator={false}
 					onEndReached={loadMore}
 					onEndReachedThreshold={0.4}
+					removeClippedSubviews={true}
 				/>
 			)}
 			<Portal>

@@ -15,7 +15,7 @@ interface IMarketListItemProps {
 	marketCap: number;
 }
 
-export const MarketListItem: React.FC<IMarketListItemProps> = (props) => {
+export const MarketListItem: React.FC<IMarketListItemProps> = React.memo((props) => {
 	const { rank, name, ticker, imageSrc, price, pricePercentage24h, marketCap } = props;
 	const { theme } = useSettingsContext();
 	const isUp = pricePercentage24h >= 0;
@@ -62,4 +62,4 @@ export const MarketListItem: React.FC<IMarketListItemProps> = (props) => {
 			</View>
 		</Surface>
 	);
-};
+});
