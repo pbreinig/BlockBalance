@@ -102,7 +102,7 @@ export const LightTheme: MD3Theme & AdditionalColors = {
 		backdrop: '#312F3866',
 	},
 	additionalColors: {
-		green: '#485E30',
+		green: '#62843E',
 		ripple: '#343B5880',
 	},
 };
