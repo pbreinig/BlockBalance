@@ -1,13 +1,18 @@
-import { FlatList, View } from 'react-native';
-import { ActivityIndicator, Text } from 'react-native-paper';
+import { FlatList, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Portal, ProgressBar, Text } from 'react-native-paper';
 import { MarketListItem } from '../../components/market-list-item/market-list-item';
-import { fetchMarket } from '../../api/coingecko-api';
+import { useFetchMarket } from '../../api/coingecko-api';
 import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './market-screen-styles';
-import { useQuery } from '@tanstack/react-query';
+
 export const MarketScreen = () => {
 	const { theme } = useSettingsContext();
-	const { isLoading, data } = useQuery({ queryKey: ['products'], queryFn: () => fetchMarket(1) });
+	const { height: WINDOW_HEIGHT } = useWindowDimensions();
+	const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useFetchMarket();
+	const flattenData = data?.pages.flatMap((page) => page.data);
+
+	const loadMore = () => hasNextPage && fetchNextPage();
+
 	const renderItem = ({ item }) => (
 		<MarketListItem
 			rank={item.market_cap_rank}
@@ -35,14 +40,24 @@ export const MarketScreen = () => {
 				<ActivityIndicator style={{ top: 18 }} />
 			) : (
 				<FlatList
-					data={data}
+					data={flattenData}
+					keyExtractor={(item) => item.id}
 					renderItem={renderItem}
 					initialNumToRender={20}
 					style={styles.flatList}
 					contentContainerStyle={styles.flatListContainer}
 					showsVerticalScrollIndicator={false}
+					onEndReached={loadMore}
+					onEndReachedThreshold={0.4}
 				/>
 			)}
+			<Portal>
+				<ProgressBar
+					indeterminate={true}
+					style={{ height: 3, top: WINDOW_HEIGHT - 83 }}
+					visible={isFetchingNextPage}
+				/>
+			</Portal>
 		</View>
 	);
 };
