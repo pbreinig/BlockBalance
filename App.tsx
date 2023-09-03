@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
-import { BottomTabNavigator } from './src/navigation/bottom-tab-navigator';
+import { NavigationStack } from './src/navigation/navigation-stack';
 import { SettingsProvider, useSettingsContext } from './src/context/settings-context';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PortfolioProvider } from './src/context/portfolio-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const AppContent = () => {
 	const { theme } = useSettingsContext();
@@ -19,7 +20,7 @@ const AppContent = () => {
 		<PaperProvider theme={theme}>
 			<StatusBar backgroundColor={theme.colors.background} />
 			<NavigationContainer>
-				<BottomTabNavigator />
+				<NavigationStack />
 			</NavigationContainer>
 		</PaperProvider>
 	);
@@ -31,7 +32,9 @@ const App = () => {
 		<QueryClientProvider client={queryClient}>
 			<PortfolioProvider>
 				<SettingsProvider>
-					<AppContent />
+					<GestureHandlerRootView style={{ flex: 1 }}>
+						<AppContent />
+					</GestureHandlerRootView>
 				</SettingsProvider>
 			</PortfolioProvider>
 		</QueryClientProvider>
