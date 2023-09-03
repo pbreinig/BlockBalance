@@ -52,7 +52,7 @@ export const CoinListScreen = ({ navigation }) => {
 				/>
 			</View>
 			{isLoading ? (
-				<ActivityIndicator />
+				<ActivityIndicator style={{ top: 8 }} />
 			) : (
 				<FlatList
 					data={DATA}
