@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 
 export interface Coin {
-	imageSrc: string;
+	imgSrc: string;
 	name: string;
 	ticker: string;
 	coinAmount: number;
@@ -36,7 +36,7 @@ const initialPortfolio: Portfolio = {
 			ticker: 'eth',
 			coinAmount: 1,
 			dollarAmount: 1633.55,
-			imageSrc: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880',
+			imgSrc: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880',
 		},
 	],
 };

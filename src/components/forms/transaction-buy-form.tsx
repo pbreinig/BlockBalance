@@ -7,14 +7,13 @@ import { usePortfolioContext } from '../../context/portfolio-context';
 interface ITransactionBuyFormProps {
 	navigation: any;
 	name: string;
-	imageSrc: string;
 	ticker: string;
 }
 
 const date = Date.now();
 
 export const TransactionBuyForm: React.FC<ITransactionBuyFormProps> = (props) => {
-	const { navigation, name, imageSrc, ticker } = props;
+	const { navigation, name, ticker } = props;
 	const { theme } = useSettingsContext();
 	const { addTransaction } = usePortfolioContext();
 	const [price, setPrice] = useState<string>('');
@@ -59,12 +58,17 @@ export const TransactionBuyForm: React.FC<ITransactionBuyFormProps> = (props) =>
 					onPress={() => {
 						addTransaction({
 							type: 'buy',
-							coin: { name, imageSrc, ticker, coinAmount: Number(amount) },
+							coin: {
+								name,
+								imgSrc: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
+								ticker,
+								coinAmount: Number(amount),
+							},
 							date: date,
 							price: Number(price),
 							note: note,
 						});
-						navigation.goBack();
+						navigation.popToTop();
 					}}
 				>
 					{'Add transaction'}

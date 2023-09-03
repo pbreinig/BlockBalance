@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 const API_URL = 'https://api.coingecko.com/api/v3/coins/';
 
@@ -23,4 +23,12 @@ export const useFetchMarket = () => {
 		},
 		staleTime: 60000,
 	});
+};
+
+export const useFetchCoinList = () => {
+	const fetchCoinList = async () => {
+		return await (await fetch(`${API_URL}list`)).json();
+	};
+
+	return useQuery({ queryKey: ['coinList'], queryFn: fetchCoinList, staleTime: 300000 });
 };

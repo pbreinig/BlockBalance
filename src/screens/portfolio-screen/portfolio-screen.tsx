@@ -3,7 +3,7 @@ import { styles } from './portfolio-screen-styles';
 import { FAB, Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
-import { PortfolioCoinListItem } from '../../components/portfolio-coins-list-item/portfolio-coin-list-item';
+import { PortfolioCoinListItem } from '../../components/portfolio-coin-list-item/portfolio-coin-list-item';
 import { cryptoFormat } from '../../util';
 export const PortfolioScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
@@ -53,14 +53,7 @@ export const PortfolioScreen = ({ navigation }) => {
 				icon={'plus'}
 				style={styles.fab}
 				rippleColor={theme.additionalColors.ripple}
-				onPress={() =>
-					navigation.navigate('Transaction', {
-						name: Math.random().toString(36).slice(2, 7),
-						imageSrc:
-							'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
-						ticker: Math.random().toString(36).slice(2, 5),
-					})
-				}
+				onPress={() => navigation.navigate('CoinList')}
 			/>
 		</>
 	);
