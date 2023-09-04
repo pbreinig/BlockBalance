@@ -17,4 +17,8 @@ export const styles = StyleSheet.create({
 	searchbar: {
 		marginLeft: 8,
 	},
+	listHeader: {
+		marginLeft: 8,
+		marginTop: 8,
+	},
 });

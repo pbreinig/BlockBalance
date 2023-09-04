@@ -5,13 +5,20 @@ import { styles } from './transaction-screen-styles';
 import { TransactionBuyForm } from '../../components/forms/transaction-buy-form';
 
 export const TransactionScreen = ({ navigation, route }) => {
-	const { name, ticker } = route.params;
+	const { name, ticker, imgSrc } = route.params;
 	const [type, setType] = useState<string>('buy');
 
 	const renderTransactionForm = () => {
 		switch (type) {
 			case 'buy':
-				return <TransactionBuyForm navigation={navigation} name={name} ticker={ticker} />;
+				return (
+					<TransactionBuyForm
+						navigation={navigation}
+						name={name}
+						ticker={ticker}
+						imgSrc={imgSrc}
+					/>
+				);
 			case 'sell':
 				break;
 			case 'transfer':
@@ -23,7 +30,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 		<View>
 			<Appbar.Header>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
-				<Avatar.Text label={name.substring(0, 2)} size={32} style={styles.image} />
+				<Avatar.Image source={{ uri: imgSrc }} size={32} style={styles.image} />
 				<Appbar.Content title={name} />
 			</Appbar.Header>
 			<View style={{ padding: 24 }}>

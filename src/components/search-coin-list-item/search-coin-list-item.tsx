@@ -8,11 +8,12 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 interface ISearchCoinListItemProps {
 	name: string;
 	ticker: string;
+	imgSrc: string;
 	onPress: () => void;
 }
 
 export const SearchCoinListItem: React.FC<ISearchCoinListItemProps> = React.memo((props) => {
-	const { name, ticker, onPress } = props;
+	const { name, ticker, imgSrc, onPress } = props;
 	const { theme } = useSettingsContext();
 
 	return (
@@ -24,7 +25,7 @@ export const SearchCoinListItem: React.FC<ISearchCoinListItemProps> = React.memo
 			>
 				<>
 					<View style={styles.itemLeftContainer}>
-						<Avatar.Text label={name.substring(0, 2)} size={32} style={styles.image} />
+						<Avatar.Image source={{ uri: imgSrc }} size={32} style={styles.image} />
 						<View>
 							<Text variant={'bodyLarge'}>{name}</Text>
 							<Text

@@ -5,5 +5,6 @@ const { ListItem } = StyleConstants;
 export const styles = StyleSheet.create({
 	image: {
 		marginRight: ListItem.PADDING,
+		backgroundColor: 'transparent',
 	},
 });

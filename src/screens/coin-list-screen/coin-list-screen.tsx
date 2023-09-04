@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FlatList, View } from 'react-native';
-import { ActivityIndicator, Searchbar, TouchableRipple } from 'react-native-paper';
+import { ActivityIndicator, Searchbar, Text, TouchableRipple } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { styles } from './coin-list-screen-styles';
 import { useSettingsContext } from '../../context/settings-context';
@@ -21,14 +21,32 @@ export const CoinListScreen = ({ navigation }) => {
 	const onChangeSearch = (query) => setSearchQuery(query);
 
 	const renderItem = ({ item }) => {
-		const { name, symbol } = item.item;
+		const { name, symbol, large } = item.item;
 
 		return (
 			<SearchCoinListItem
 				name={name}
 				ticker={symbol}
-				onPress={() => navigation.navigate('Transaction', { name: name, ticker: symbol })}
+				imgSrc={large}
+				onPress={() =>
+					navigation.navigate('Transaction', {
+						name: name,
+						ticker: symbol,
+						imgSrc: large,
+					})
+				}
 			/>
+		);
+	};
+
+	const renderListHeader = () => {
+		return (
+			<Text
+				variant={'labelLarge'}
+				style={[styles.listHeader, { color: theme.colors.primary }]}
+			>
+				{searchQuery === '' ? 'Trending Coins' : 'Search Result'}
+			</Text>
 		);
 	};
 
@@ -59,6 +77,7 @@ export const CoinListScreen = ({ navigation }) => {
 				<FlatList
 					data={DATA}
 					renderItem={renderItem}
+					ListHeaderComponent={renderListHeader}
 					initialNumToRender={20}
 					removeClippedSubviews={true}
 				/>

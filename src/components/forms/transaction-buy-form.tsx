@@ -8,12 +8,13 @@ interface ITransactionBuyFormProps {
 	navigation: any;
 	name: string;
 	ticker: string;
+	imgSrc: string;
 }
 
 const date = Date.now();
 
 export const TransactionBuyForm: React.FC<ITransactionBuyFormProps> = (props) => {
-	const { navigation, name, ticker } = props;
+	const { navigation, name, ticker, imgSrc } = props;
 	const { theme } = useSettingsContext();
 	const { addTransaction } = usePortfolioContext();
 	const [price, setPrice] = useState<string>('');
@@ -58,12 +59,7 @@ export const TransactionBuyForm: React.FC<ITransactionBuyFormProps> = (props) =>
 					onPress={() => {
 						addTransaction({
 							type: 'buy',
-							coin: {
-								name,
-								imgSrc: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
-								ticker,
-								coinAmount: Number(amount),
-							},
+							coin: { name, imgSrc, ticker, coinAmount: Number(amount) },
 							date: date,
 							price: Number(price),
 							note: note,
