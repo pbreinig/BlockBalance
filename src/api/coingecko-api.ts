@@ -8,9 +8,28 @@ export const useFetchMarket = () => {
 		const response = await axios.get(
 			`${API_URL}coins/markets?vs_currency=usd&per_page=100&page=${pageParam}&precision=full`,
 		);
+		const marketData = response.data.map(
+			(item: {
+				market_cap_rank: number;
+				name: string;
+				symbol: string;
+				image: string;
+				current_price: number;
+				price_change_percentage_24h: number;
+				market_cap: number;
+			}) => ({
+				rank: item.market_cap_rank,
+				name: item.name,
+				ticker: item.symbol,
+				imgSrc: item.image,
+				price: item.current_price,
+				pricePercentage24h: item.price_change_percentage_24h,
+				marketCap: item.market_cap,
+			}),
+		);
 
 		return {
-			data: response.data,
+			data: marketData,
 			nextPage: pageParam + 1,
 		};
 	};

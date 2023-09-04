@@ -15,13 +15,13 @@ export const MarketScreen = () => {
 
 	const renderItem = ({ item }) => (
 		<MarketListItem
-			rank={item.market_cap_rank}
+			rank={item.rank}
 			name={item.name}
-			ticker={item.symbol}
-			imgSrc={item.image}
-			price={item.current_price}
-			pricePercentage24h={item.price_change_percentage_24h}
-			marketCap={item.market_cap}
+			ticker={item.ticker}
+			imgSrc={item.imgSrc}
+			price={item.price}
+			pricePercentage24h={item.pricePercentage24h}
+			marketCap={item.marketCap}
 		/>
 	);
 
@@ -41,7 +41,7 @@ export const MarketScreen = () => {
 			) : (
 				<FlatList
 					data={flattenData}
-					keyExtractor={(item) => item.id}
+					keyExtractor={(item) => item.name}
 					renderItem={renderItem}
 					initialNumToRender={20}
 					style={styles.flatList}
