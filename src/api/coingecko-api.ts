@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
-const API_URL = 'https://api.coingecko.com/api/v3/coins/';
+const API_URL = 'https://api.coingecko.com/api/v3/';
 
 export const useFetchMarket = () => {
 	const fetchMarket = async ({ pageParam = 1 }) => {
 		const response = await axios.get(
-			`${API_URL}markets?vs_currency=usd&per_page=100&page=${pageParam}&precision=full`,
+			`${API_URL}coins/markets?vs_currency=usd&per_page=100&page=${pageParam}&precision=full`,
 		);
 
 		return {
@@ -24,11 +24,15 @@ export const useFetchMarket = () => {
 	});
 };
 
-export const useFetchCoinList = () => {
-	const fetchCoinList = async () => {
-		const response = await axios.get(`${API_URL}list`);
-		return response.data;
+export const useFetchTrendingCoins = () => {
+	const fetchTrendingCoins = async () => {
+		const response = await axios.get(`${API_URL}search/trending`);
+		return response.data.coins;
 	};
 
-	return useQuery({ queryKey: ['coinList'], queryFn: fetchCoinList, staleTime: 300000 });
+	return useQuery({
+		queryKey: ['trendingCoins'],
+		queryFn: fetchTrendingCoins,
+		staleTime: 600000,
+	});
 };

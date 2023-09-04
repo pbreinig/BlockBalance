@@ -5,30 +5,32 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { styles } from './coin-list-screen-styles';
 import { useSettingsContext } from '../../context/settings-context';
 import { SearchCoinListItem } from '../../components/search-coin-list-item/search-coin-list-item';
-import { useFetchCoinList } from '../../api/coingecko-api';
+import { useFetchTrendingCoins } from '../../api/coingecko-api';
 
 export const CoinListScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
 	const [searchQuery, setSearchQuery] = useState<string>('');
-	const { isLoading, data } = useFetchCoinList();
+	const { isLoading, data } = useFetchTrendingCoins();
 
 	const DATA = data?.filter(
-		(item: { name: string; symbol: string }) =>
-			item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			item.symbol.toLowerCase().includes(searchQuery.toLowerCase()),
+		(coins: { item: { name: string; symbol: string } }) =>
+			coins.item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			coins.item.symbol.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
 
 	const onChangeSearch = (query) => setSearchQuery(query);
 
-	const renderItem = ({ item }) => (
-		<SearchCoinListItem
-			name={item.name}
-			ticker={item.symbol}
-			onPress={() =>
-				navigation.navigate('Transaction', { name: item.name, ticker: item.symbol })
-			}
-		/>
-	);
+	const renderItem = ({ item }) => {
+		const { name, symbol } = item.item;
+
+		return (
+			<SearchCoinListItem
+				name={name}
+				ticker={symbol}
+				onPress={() => navigation.navigate('Transaction', { name: name, ticker: symbol })}
+			/>
+		);
+	};
 
 	return (
 		<>
