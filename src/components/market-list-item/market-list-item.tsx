@@ -38,14 +38,16 @@ export const MarketListItem: React.FC<IMarketListItemProps> = React.memo((props)
 						>
 							{ticker}
 						</Text>
-						<Text
-							variant={'bodySmall'}
-							style={{
-								color: isUp ? theme.additionalColors.green : theme.colors.error,
-							}}
-						>
-							{` ${isUp ? '+' : ''}${pricePercentage24h.toFixed(2)}%`}
-						</Text>
+						{pricePercentage24h && (
+							<Text
+								variant={'bodySmall'}
+								style={{
+									color: isUp ? theme.additionalColors.green : theme.colors.error,
+								}}
+							>
+								{` ${isUp ? '+' : ''}${pricePercentage24h.toFixed(2)}%`}
+							</Text>
+						)}
 					</View>
 				</View>
 				<View>
