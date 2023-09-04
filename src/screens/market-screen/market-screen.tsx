@@ -18,7 +18,7 @@ export const MarketScreen = () => {
 			rank={item.market_cap_rank}
 			name={item.name}
 			ticker={item.symbol}
-			imageSrc={item.image}
+			imgSrc={item.image}
 			price={item.current_price}
 			pricePercentage24h={item.price_change_percentage_24h}
 			marketCap={item.market_cap}

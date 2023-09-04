@@ -1,12 +1,12 @@
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
-import { PortfolioScreen } from '../screens/portfolio-screen/portfolio-screen';
 import { MarketScreen } from '../screens/market-screen/market-screen';
 import { SettingsScreen } from '../screens/settings-screen/settings-screen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { PortfolioScreen } from '../screens/portfolio-screen/portfolio-screen';
 
 const Tab = createMaterialBottomTabNavigator();
 
-export const BottomTabNavigator = () => {
+export const BottomTabs = () => {
 	return (
 		<Tab.Navigator>
 			<Tab.Screen

@@ -17,7 +17,7 @@ export const PortfolioCoinListItem: React.FC<IPortfolioCoinListItemProps> = Reac
 
 	return (
 		<Surface style={styles.surface} mode={'flat'}>
-			<Avatar.Image source={{ uri: coin.imageSrc }} size={32} style={styles.image} />
+			<Avatar.Image source={{ uri: coin.imgSrc }} size={32} style={styles.image} />
 			<View style={styles.textContainer}>
 				<View>
 					<Text variant={'bodyLarge'}>{coin.name}</Text>

@@ -9,14 +9,14 @@ interface IMarketListItemProps {
 	rank: number;
 	name: string;
 	ticker: string;
-	imageSrc: string;
+	imgSrc: string;
 	price: number;
 	pricePercentage24h: number;
 	marketCap: number;
 }
 
 export const MarketListItem: React.FC<IMarketListItemProps> = React.memo((props) => {
-	const { rank, name, ticker, imageSrc, price, pricePercentage24h, marketCap } = props;
+	const { rank, name, ticker, imgSrc, price, pricePercentage24h, marketCap } = props;
 	const { theme } = useSettingsContext();
 	const isUp = pricePercentage24h >= 0;
 
@@ -27,7 +27,7 @@ export const MarketListItem: React.FC<IMarketListItemProps> = React.memo((props)
 					{rank}
 				</Text>
 			</View>
-			<Avatar.Image source={{ uri: imageSrc }} size={32} style={styles.image} />
+			<Avatar.Image source={{ uri: imgSrc }} size={32} style={styles.image} />
 			<View style={styles.textContainer}>
 				<View>
 					<Text variant={'bodyLarge'}>{name}</Text>
