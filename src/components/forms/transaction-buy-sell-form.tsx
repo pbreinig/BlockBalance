@@ -5,6 +5,7 @@ import { useSettingsContext } from '../../context/settings-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
 
 interface ITransactionBuyFormProps {
+	type: 'buy' | 'sell';
 	navigation: any;
 	name: string;
 	ticker: string;
@@ -13,20 +14,22 @@ interface ITransactionBuyFormProps {
 
 const date = Date.now();
 
-export const TransactionBuyForm: React.FC<ITransactionBuyFormProps> = (props) => {
-	const { navigation, name, ticker, imgSrc } = props;
+export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props) => {
+	const { type, navigation, name, ticker, imgSrc } = props;
 	const { theme } = useSettingsContext();
 	const { addTransaction } = usePortfolioContext();
 	const [price, setPrice] = useState<string>('');
 	const [amount, setAmount] = useState<string>('');
 	const [note, setNote] = useState<string>('');
+	const capType = type.charAt(0).toUpperCase() + type.slice(1);
+	const boughtSold = type === 'buy' ? 'Bought' : 'Sold';
 
 	return (
 		<>
 			<View>
 				<TextInput
 					mode={'outlined'}
-					label={'Price per coin'}
+					label={`${capType} Price per coin`}
 					value={price}
 					onChangeText={(text) => setPrice(text)}
 					outlineStyle={{ borderRadius: 12 }}
@@ -35,7 +38,7 @@ export const TransactionBuyForm: React.FC<ITransactionBuyFormProps> = (props) =>
 				/>
 				<TextInput
 					mode={'outlined'}
-					label={'Amount'}
+					label={`Amount ${boughtSold}`}
 					value={amount}
 					onChangeText={(text) => setAmount(text)}
 					outlineStyle={{ borderRadius: 12 }}
@@ -55,10 +58,10 @@ export const TransactionBuyForm: React.FC<ITransactionBuyFormProps> = (props) =>
 				<Button
 					mode={'contained'}
 					rippleColor={theme.additionalColors.ripple}
-					disabled={!price || !amount || !date || !note}
+					disabled={!price || !amount || !date}
 					onPress={() => {
 						addTransaction({
-							type: 'buy',
+							type,
 							coin: {
 								name,
 								imgSrc,

@@ -30,35 +30,65 @@ type PortfolioContextType = {
 };
 
 const initialPortfolio: Portfolio = {
-	name: 'Your Portfolio',
-	coins: [
-		{
-			name: 'Ethereum',
-			ticker: 'eth',
-			coinAmount: 1,
-			dollarAmount: 1633.55,
-			imgSrc: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880',
-		},
-	],
+	name: 'Main Portfolio',
+	coins: [],
 };
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
 const usePortfolio = () => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [portfolios, setPortfolios] = useState<Portfolio[]>([initialPortfolio]);
 	const [portfolio, setPortfolio] = useState<Portfolio>(portfolios[0]);
 
 	const addTransaction = (transaction: Transaction) => {
+		const existingCoin = portfolio.coins.find((coin) => coin.name === transaction.coin.name);
+		const transactionCoin = transaction.coin;
+
 		switch (transaction.type) {
 			case 'buy':
-				const newPortfolio = {
-					...portfolio,
-					coins: [...portfolio.coins, transaction.coin],
-				};
-				setPortfolio(newPortfolio);
+				if (existingCoin) {
+					const updatedCoin: Coin = {
+						...existingCoin,
+						coinAmount: existingCoin.coinAmount + transactionCoin.coinAmount,
+						dollarAmount: existingCoin.dollarAmount + transactionCoin.dollarAmount,
+					};
+					let updatedPortfolio: Portfolio = portfolio;
+					updatedPortfolio.coins[updatedPortfolio.coins.indexOf(existingCoin)] =
+						updatedCoin;
+					setPortfolios([updatedPortfolio]);
+				} else {
+					const updatedPortfolio: Portfolio = {
+						...portfolio,
+						coins: [...portfolio.coins, transactionCoin],
+					};
+					setPortfolio(updatedPortfolio);
+				}
 				break;
 			case 'sell':
+				if (existingCoin) {
+					const updatedCoin: Coin = {
+						...existingCoin,
+						coinAmount: existingCoin.coinAmount - transactionCoin.coinAmount,
+						dollarAmount: existingCoin.dollarAmount - transactionCoin.dollarAmount,
+					};
+					let updatedPortfolio: Portfolio = portfolio;
+					updatedPortfolio.coins[updatedPortfolio.coins.indexOf(existingCoin)] =
+						updatedCoin;
+					setPortfolios([updatedPortfolio]);
+				} else {
+					const updatedPortfolio: Portfolio = {
+						...portfolio,
+						coins: [
+							...portfolio.coins,
+							{
+								...transactionCoin,
+								coinAmount: -transactionCoin.coinAmount,
+								dollarAmount: -transactionCoin.dollarAmount,
+							},
+						],
+					};
+					setPortfolio(updatedPortfolio);
+				}
 				break;
 			case 'transfer':
 				break;

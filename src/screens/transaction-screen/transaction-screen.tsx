@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Appbar, Avatar, SegmentedButtons } from 'react-native-paper';
 import { styles } from './transaction-screen-styles';
-import { TransactionBuyForm } from '../../components/forms/transaction-buy-form';
+import { TransactionBuySellForm } from '../../components/forms/transaction-buy-sell-form';
 
 export const TransactionScreen = ({ navigation, route }) => {
 	const { name, ticker, imgSrc } = route.params;
@@ -12,7 +12,8 @@ export const TransactionScreen = ({ navigation, route }) => {
 		switch (type) {
 			case 'buy':
 				return (
-					<TransactionBuyForm
+					<TransactionBuySellForm
+						type={type}
 						navigation={navigation}
 						name={name}
 						ticker={ticker}
@@ -20,7 +21,15 @@ export const TransactionScreen = ({ navigation, route }) => {
 					/>
 				);
 			case 'sell':
-				break;
+				return (
+					<TransactionBuySellForm
+						type={type}
+						navigation={navigation}
+						name={name}
+						ticker={ticker}
+						imgSrc={imgSrc}
+					/>
+				);
 			case 'transfer':
 				break;
 		}
