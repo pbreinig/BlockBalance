@@ -1,4 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
+import { useMMKVObject } from 'react-native-mmkv';
+import { storage } from '../storage';
 
 export interface Coin {
 	imgSrc: string;
@@ -37,8 +39,11 @@ const initialPortfolio: Portfolio = {
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
 const usePortfolio = () => {
-	const [portfolios, setPortfolios] = useState<Portfolio[]>([initialPortfolio]);
-	const [portfolio, setPortfolio] = useState<Portfolio>(portfolios[0]);
+	const [portfolios = [initialPortfolio], setPortfolios] = useMMKVObject<Portfolio[]>(
+		'portfolios',
+		storage,
+	);
+	const portfolio: Portfolio = portfolios[0];
 
 	const addTransaction = (transaction: Transaction) => {
 		const existingCoin = portfolio.coins.find((coin) => coin.name === transaction.coin.name);
@@ -61,7 +66,7 @@ const usePortfolio = () => {
 						...portfolio,
 						coins: [...portfolio.coins, transactionCoin],
 					};
-					setPortfolio(updatedPortfolio);
+					setPortfolios([updatedPortfolio]);
 				}
 				break;
 			case 'sell':
@@ -87,7 +92,7 @@ const usePortfolio = () => {
 							},
 						],
 					};
-					setPortfolio(updatedPortfolio);
+					setPortfolios([updatedPortfolio]);
 				}
 				break;
 			case 'transfer':
