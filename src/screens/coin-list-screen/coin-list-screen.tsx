@@ -54,7 +54,7 @@ export const CoinListScreen = ({ navigation }) => {
 				variant={'labelLarge'}
 				style={[styles.listHeader, { color: theme.colors.primary }]}
 			>
-				{debouncedSearchQuery.length > 2 ? 'Search Results' : 'Trending Coins'}
+				{debouncedSearchQuery.length > 2 ? 'Search Results' : 'Trending'}
 			</Text>
 		);
 	};

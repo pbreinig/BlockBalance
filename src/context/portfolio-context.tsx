@@ -5,12 +5,12 @@ export interface Coin {
 	name: string;
 	ticker: string;
 	coinAmount: number;
-	dollarAmount?: number;
+	dollarAmount: number;
 }
 
 interface Portfolio {
 	name: string;
-	coins?: Coin[];
+	coins: Coin[];
 }
 
 type TransactionType = 'buy' | 'sell' | 'transfer';
@@ -19,12 +19,13 @@ interface Transaction {
 	type: TransactionType;
 	coin: Coin;
 	date: number;
-	price?: number;
+	price: number;
 	note?: string;
 }
 
 type PortfolioContextType = {
 	portfolios: Portfolio[];
+	portfolio: Portfolio;
 	addTransaction: (transaction: Transaction) => void;
 };
 
@@ -44,18 +45,29 @@ const initialPortfolio: Portfolio = {
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
 const usePortfolio = () => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [portfolios, setPortfolios] = useState<Portfolio[]>([initialPortfolio]);
+	const [portfolio, setPortfolio] = useState<Portfolio>(portfolios[0]);
 
 	const addTransaction = (transaction: Transaction) => {
-		portfolios[0].coins = [
-			...portfolios[0].coins,
-			{ ...transaction.coin, dollarAmount: transaction.coin.coinAmount * transaction.price },
-		];
-		setPortfolios([portfolios[0]]);
+		switch (transaction.type) {
+			case 'buy':
+				const newPortfolio = {
+					...portfolio,
+					coins: [...portfolio.coins, transaction.coin],
+				};
+				setPortfolio(newPortfolio);
+				break;
+			case 'sell':
+				break;
+			case 'transfer':
+				break;
+		}
 	};
 
 	return {
 		portfolios,
+		portfolio,
 		addTransaction,
 	};
 };

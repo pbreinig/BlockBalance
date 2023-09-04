@@ -7,8 +7,7 @@ import { PortfolioCoinListItem } from '../../components/portfolio-coin-list-item
 import { cryptoFormat } from '../../util';
 export const PortfolioScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
-	const { portfolios } = usePortfolioContext();
-	const portfolio = portfolios[0];
+	const { portfolio } = usePortfolioContext();
 	const totalDollarAmount = portfolio.coins
 		? portfolio.coins.reduce((total, coin) => total + coin.dollarAmount, 0)
 		: 0;

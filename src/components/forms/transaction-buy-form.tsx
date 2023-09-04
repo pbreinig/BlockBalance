@@ -59,7 +59,13 @@ export const TransactionBuyForm: React.FC<ITransactionBuyFormProps> = (props) =>
 					onPress={() => {
 						addTransaction({
 							type: 'buy',
-							coin: { name, imgSrc, ticker, coinAmount: Number(amount) },
+							coin: {
+								name,
+								imgSrc,
+								ticker,
+								coinAmount: Number(amount),
+								dollarAmount: Number(amount) * Number(price),
+							},
 							date: date,
 							price: Number(price),
 							note: note,
