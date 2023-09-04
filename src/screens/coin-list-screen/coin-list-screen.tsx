@@ -13,26 +13,26 @@ export const CoinListScreen = ({ navigation }) => {
 	const { isLoading, data } = useFetchTrendingCoins();
 
 	const DATA = data?.filter(
-		(coins: { item: { name: string; symbol: string } }) =>
-			coins.item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			coins.item.symbol.toLowerCase().includes(searchQuery.toLowerCase()),
+		(item: { name: string; ticker: string }) =>
+			item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			item.ticker.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
 
 	const onChangeSearch = (query) => setSearchQuery(query);
 
 	const renderItem = ({ item }) => {
-		const { name, symbol, large } = item.item;
+		const { name, ticker, imgSrc } = item;
 
 		return (
 			<SearchCoinListItem
 				name={name}
-				ticker={symbol}
-				imgSrc={large}
+				ticker={ticker}
+				imgSrc={imgSrc}
 				onPress={() =>
 					navigation.navigate('Transaction', {
 						name: name,
-						ticker: symbol,
-						imgSrc: large,
+						ticker: ticker,
+						imgSrc: imgSrc,
 					})
 				}
 			/>

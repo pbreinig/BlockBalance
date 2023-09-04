@@ -27,7 +27,13 @@ export const useFetchMarket = () => {
 export const useFetchTrendingCoins = () => {
 	const fetchTrendingCoins = async () => {
 		const response = await axios.get(`${API_URL}search/trending`);
-		return response.data.coins;
+		return response.data.coins.map(
+			(coin: { item: { name: string; symbol: string; large: string } }) => ({
+				name: coin.item.name,
+				ticker: coin.item.symbol,
+				imgSrc: coin.item.large,
+			}),
+		);
 	};
 
 	return useQuery({
