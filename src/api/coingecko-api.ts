@@ -42,3 +42,12 @@ export const useFetchTrendingCoins = () => {
 		staleTime: 600000,
 	});
 };
+
+export const fetchSearchCoins = async (query: string) => {
+	const response = await axios.get(`${API_URL}/search?query=${query}`);
+	return response.data.coins.map((coin: { name: string; symbol: string; large: string }) => ({
+		name: coin.name,
+		ticker: coin.symbol,
+		imgSrc: coin.large,
+	}));
+};

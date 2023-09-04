@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { ActivityIndicator, Searchbar, Text, TouchableRipple } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { styles } from './coin-list-screen-styles';
 import { useSettingsContext } from '../../context/settings-context';
 import { SearchCoinListItem } from '../../components/search-coin-list-item/search-coin-list-item';
-import { useFetchTrendingCoins } from '../../api/coingecko-api';
+import { fetchSearchCoins, useFetchTrendingCoins } from '../../api/coingecko-api';
+import { useDebounce } from 'use-debounce';
 
 export const CoinListScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
 	const [searchQuery, setSearchQuery] = useState<string>('');
+	const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
+	const [queriedData, setQueriedData] = useState([]);
 	const { isLoading, data } = useFetchTrendingCoins();
+	const DATA = debouncedSearchQuery.length > 2 ? queriedData : data;
+	const isLoadingQuery = debouncedSearchQuery.length > 2 && !queriedData.length;
 
-	const DATA = data?.filter(
-		(item: { name: string; ticker: string }) =>
-			item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			item.ticker.toLowerCase().includes(searchQuery.toLowerCase()),
-	);
+	useEffect(() => {
+		if (debouncedSearchQuery.length > 2) {
+			fetchSearchCoins(debouncedSearchQuery).then((queriedCoins) => {
+				setQueriedData(queriedCoins);
+			});
+		} else {
+			setQueriedData([]);
+		}
+	}, [debouncedSearchQuery]);
 
 	const onChangeSearch = (query) => setSearchQuery(query);
 
@@ -45,7 +54,7 @@ export const CoinListScreen = ({ navigation }) => {
 				variant={'labelLarge'}
 				style={[styles.listHeader, { color: theme.colors.primary }]}
 			>
-				{searchQuery === '' ? 'Trending Coins' : 'Search Result'}
+				{debouncedSearchQuery.length > 2 ? 'Search Results' : 'Trending Coins'}
 			</Text>
 		);
 	};
@@ -71,7 +80,7 @@ export const CoinListScreen = ({ navigation }) => {
 					style={styles.searchbar}
 				/>
 			</View>
-			{isLoading ? (
+			{isLoading || isLoadingQuery ? (
 				<ActivityIndicator style={{ top: 8 }} />
 			) : (
 				<FlatList
