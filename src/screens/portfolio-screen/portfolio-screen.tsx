@@ -15,7 +15,7 @@ export const PortfolioScreen = ({ navigation }) => {
 		<>
 			<View style={styles.listLabelContainer}>
 				<Text variant={'labelSmall'} style={{ color: theme.colors.onSurfaceVariant }}>
-					{'COIN'}
+					{'COIN · 24H%'}
 				</Text>
 				<Text variant={'labelSmall'} style={{ color: theme.colors.onSurfaceVariant }}>
 					{'HOLDINGS'}

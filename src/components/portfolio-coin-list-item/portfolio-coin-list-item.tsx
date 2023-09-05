@@ -12,28 +12,48 @@ interface IPortfolioCoinListItemProps {
 
 export const PortfolioCoinListItem: React.FC<IPortfolioCoinListItemProps> = React.memo((props) => {
 	const { coin } = props;
+	const { name, imgSrc, ticker, fiatValue, coinAmount, pricePercentage24h } = coin;
 	const { theme } = useSettingsContext();
-	const tickerCaps = coin.ticker.toUpperCase();
+	const isUp = pricePercentage24h && pricePercentage24h >= 0;
 
 	return (
 		<Surface style={styles.surface} mode={'flat'}>
-			<Avatar.Image source={{ uri: coin.imgSrc }} size={32} style={styles.image} />
+			<Avatar.Image source={{ uri: imgSrc }} size={32} style={styles.image} />
 			<View style={styles.textContainer}>
 				<View>
-					<Text variant={'bodyLarge'}>{coin.name}</Text>
-					<Text variant={'bodySmall'} style={{ color: theme.colors.onSurfaceVariant }}>
-						{tickerCaps}
-					</Text>
+					<Text variant={'bodyLarge'}>{name}</Text>
+					<View style={styles.tickerChangeContainer}>
+						<Text
+							variant={'bodySmall'}
+							style={[styles.ticker, { color: theme.colors.onSurfaceVariant }]}
+						>
+							{ticker}
+						</Text>
+						{pricePercentage24h && (
+							<Text
+								variant={'bodySmall'}
+								style={{
+									color: isUp ? theme.additionalColors.green : theme.colors.error,
+								}}
+							>
+								{` ${isUp ? '+' : ''}${pricePercentage24h.toFixed(2)}%`}
+							</Text>
+						)}
+					</View>
 				</View>
 				<View>
 					<Text variant={'bodyLarge'} style={styles.textRight}>
-						{`${cryptoFormat(coin.fiatValue, 'USD', 'en')}`}
+						{`${cryptoFormat(fiatValue, 'USD', 'en')}`}
 					</Text>
 					<Text
 						variant={'bodySmall'}
-						style={[styles.textRight, { color: theme.colors.onSurfaceVariant }]}
+						style={[
+							styles.textRight,
+							styles.ticker,
+							{ color: theme.colors.onSurfaceVariant },
+						]}
 					>
-						{`${coin.coinAmount} ${tickerCaps}`}
+						{`${coinAmount} ${ticker}`}
 					</Text>
 				</View>
 			</View>

@@ -21,6 +21,12 @@ export const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
+	tickerChangeContainer: {
+		flexDirection: 'row',
+	},
+	ticker: {
+		textTransform: 'uppercase',
+	},
 	textRight: {
 		textAlign: 'right',
 	},
