@@ -5,7 +5,7 @@ import { styles } from './transaction-screen-styles';
 import { TransactionBuySellForm } from '../../components/forms/transaction-buy-sell-form';
 
 export const TransactionScreen = ({ navigation, route }) => {
-	const { name, ticker, imgSrc } = route.params;
+	const { id, name, ticker, imgSrc } = route.params;
 	const [type, setType] = useState<string>('buy');
 
 	const renderTransactionForm = () => {
@@ -13,6 +13,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 			case 'buy':
 				return (
 					<TransactionBuySellForm
+						id={id}
 						type={type}
 						navigation={navigation}
 						name={name}
@@ -23,6 +24,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 			case 'sell':
 				return (
 					<TransactionBuySellForm
+						id={id}
 						type={type}
 						navigation={navigation}
 						name={name}

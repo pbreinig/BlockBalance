@@ -30,15 +30,17 @@ export const CoinListScreen = ({ navigation }) => {
 	const onChangeSearch = (query) => setSearchQuery(query);
 
 	const renderItem = ({ item }) => {
-		const { name, ticker, imgSrc } = item;
+		const { id, name, ticker, imgSrc } = item;
 
 		return (
 			<SearchCoinListItem
+				id={id}
 				name={name}
 				ticker={ticker}
 				imgSrc={imgSrc}
 				onPress={() =>
 					navigation.navigate('Transaction', {
+						id: id,
 						name: name,
 						ticker: ticker,
 						imgSrc: imgSrc,
@@ -85,6 +87,7 @@ export const CoinListScreen = ({ navigation }) => {
 			) : (
 				<FlatList
 					data={DATA}
+					keyExtractor={(item) => item.id}
 					renderItem={renderItem}
 					ListHeaderComponent={renderListHeader}
 					initialNumToRender={20}

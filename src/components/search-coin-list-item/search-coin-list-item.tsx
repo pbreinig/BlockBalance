@@ -6,6 +6,7 @@ import { styles } from './search-coin-list-item-styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface ISearchCoinListItemProps {
+	id: string;
 	name: string;
 	ticker: string;
 	imgSrc: string;

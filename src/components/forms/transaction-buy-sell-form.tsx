@@ -7,6 +7,7 @@ import { usePortfolioContext } from '../../context/portfolio-context';
 interface ITransactionBuyFormProps {
 	type: 'buy' | 'sell';
 	navigation: any;
+	id: string;
 	name: string;
 	ticker: string;
 	imgSrc: string;
@@ -15,7 +16,7 @@ interface ITransactionBuyFormProps {
 const date = Date.now();
 
 export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props) => {
-	const { type, navigation, name, ticker, imgSrc } = props;
+	const { type, navigation, id, name, ticker, imgSrc } = props;
 	const { theme } = useSettingsContext();
 	const { addTransaction } = usePortfolioContext();
 	const [price, setPrice] = useState<string>('');
@@ -63,6 +64,7 @@ export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props
 						addTransaction({
 							type,
 							coin: {
+								id,
 								name,
 								imgSrc,
 								ticker,

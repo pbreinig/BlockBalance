@@ -3,9 +3,10 @@ import { useMMKVObject } from 'react-native-mmkv';
 import { storage } from '../storage';
 
 export interface Coin {
-	imgSrc: string;
+	id: string;
 	name: string;
 	ticker: string;
+	imgSrc: string;
 	coinAmount: number;
 	dollarAmount: number;
 }
@@ -46,7 +47,7 @@ const usePortfolio = () => {
 	const portfolio: Portfolio = portfolios[0];
 
 	const addTransaction = (transaction: Transaction) => {
-		const existingCoin = portfolio.coins.find((coin) => coin.name === transaction.coin.name);
+		const existingCoin = portfolio.coins.find((coin) => coin.id === transaction.coin.id);
 		const transactionCoin = transaction.coin;
 
 		switch (transaction.type) {

@@ -15,6 +15,7 @@ export const MarketScreen = () => {
 
 	const renderItem = ({ item }) => (
 		<MarketListItem
+			id={item.id}
 			rank={item.rank}
 			name={item.name}
 			ticker={item.ticker}
@@ -41,7 +42,7 @@ export const MarketScreen = () => {
 			) : (
 				<FlatList
 					data={flattenData}
-					keyExtractor={(item) => item.name}
+					keyExtractor={(item) => item.id}
 					renderItem={renderItem}
 					initialNumToRender={20}
 					style={styles.flatList}

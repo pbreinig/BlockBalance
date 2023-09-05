@@ -6,6 +6,7 @@ import { styles } from './market-list-item-styles';
 import { cryptoFormat } from '../../util';
 
 interface IMarketListItemProps {
+	id: string;
 	rank: number;
 	name: string;
 	ticker: string;

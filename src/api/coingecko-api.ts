@@ -10,6 +10,7 @@ export const useFetchMarket = () => {
 		);
 		const marketData = response.data.map(
 			(item: {
+				id: string;
 				market_cap_rank: number;
 				name: string;
 				symbol: string;
@@ -18,6 +19,7 @@ export const useFetchMarket = () => {
 				price_change_percentage_24h: number;
 				market_cap: number;
 			}) => ({
+				id: item.id,
 				rank: item.market_cap_rank,
 				name: item.name,
 				ticker: item.symbol,
@@ -47,7 +49,8 @@ export const useFetchTrendingCoins = () => {
 	const fetchTrendingCoins = async () => {
 		const response = await axios.get(`${API_URL}search/trending`);
 		return response.data.coins.map(
-			(coin: { item: { name: string; symbol: string; large: string } }) => ({
+			(coin: { item: { id: string; name: string; symbol: string; large: string } }) => ({
+				id: coin.item.id,
 				name: coin.item.name,
 				ticker: coin.item.symbol,
 				imgSrc: coin.item.large,
@@ -64,9 +67,12 @@ export const useFetchTrendingCoins = () => {
 
 export const fetchSearchCoins = async (query: string) => {
 	const response = await axios.get(`${API_URL}/search?query=${query}`);
-	return response.data.coins.map((coin: { name: string; symbol: string; large: string }) => ({
-		name: coin.name,
-		ticker: coin.symbol,
-		imgSrc: coin.large,
-	}));
+	return response.data.coins.map(
+		(coin: { id: string; name: string; symbol: string; large: string }) => ({
+			id: coin.id,
+			name: coin.name,
+			ticker: coin.symbol,
+			imgSrc: coin.large,
+		}),
+	);
 };
