@@ -65,6 +65,7 @@ const usePortfolio = () => {
 					(total, coin) => total + coin.fiatValue,
 					0,
 				);
+				updatedCoins.sort((coinA, coinB) => coinB.fiatValue - coinA.fiatValue);
 				const updatedPortfolio: Portfolio = {
 					...portfolio,
 					coins: updatedCoins,
