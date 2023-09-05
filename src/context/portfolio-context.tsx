@@ -1,6 +1,7 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { useMMKVObject } from 'react-native-mmkv';
 import { storage } from '../storage';
+import { fetchPrices } from '../api/coingecko-api';
 
 export interface Coin {
 	id: string;
@@ -9,6 +10,8 @@ export interface Coin {
 	imgSrc: string;
 	coinAmount: number;
 	dollarAmount: number;
+	price?: number;
+	pricePercentage24h?: number;
 }
 
 interface Portfolio {
@@ -45,6 +48,21 @@ const usePortfolio = () => {
 		storage,
 	);
 	const portfolio: Portfolio = portfolios[0];
+
+	useEffect(() => {
+		const coinIds = portfolio.coins.map((coin) => coin.id);
+		fetchPrices(coinIds).then((data) => {
+			const updatedCoins = portfolio.coins.map((coin) => {
+				const priceData = data[coin.id];
+				const { usd: price, usd_24h_change: pricePercentage24h } = priceData;
+				const dollarAmount = coin.coinAmount * price;
+				return { ...coin, price, pricePercentage24h, dollarAmount };
+			});
+			const updatedPortfolio: Portfolio = { ...portfolio, coins: updatedCoins };
+			setPortfolios([updatedPortfolio]);
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [portfolio]);
 
 	const addTransaction = (transaction: Transaction) => {
 		const existingCoin = portfolio.coins.find((coin) => coin.id === transaction.coin.id);

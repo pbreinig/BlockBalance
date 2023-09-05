@@ -66,7 +66,7 @@ export const useFetchTrendingCoins = () => {
 };
 
 export const fetchSearchCoins = async (query: string) => {
-	const response = await axios.get(`${API_URL}/search?query=${query}`);
+	const response = await axios.get(`${API_URL}search?query=${query}`);
 	return response.data.coins.map(
 		(coin: { id: string; name: string; symbol: string; large: string }) => ({
 			id: coin.id,
@@ -75,4 +75,11 @@ export const fetchSearchCoins = async (query: string) => {
 			imgSrc: coin.large,
 		}),
 	);
+};
+
+export const fetchPrices = async (coinIds: string[]) => {
+	const response = await axios.get(
+		`${API_URL}simple/price?ids=${coinIds}&vs_currencies=usd&include_24hr_change=true&precision=full`,
+	);
+	return response.data;
 };
