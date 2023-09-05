@@ -8,9 +8,7 @@ import { cryptoFormat } from '../../util';
 export const PortfolioScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
 	const { portfolio } = usePortfolioContext();
-	const totalDollarAmount = portfolio.coins
-		? portfolio.coins.reduce((total, coin) => total + coin.dollarAmount, 0)
-		: 0;
+
 	const renderItem = ({ item }) => <PortfolioCoinListItem coin={item} />;
 
 	const renderPortfolioCoinList = () => (
@@ -43,7 +41,7 @@ export const PortfolioScreen = ({ navigation }) => {
 					{'Portfolio'}
 				</Text>
 				<Text variant={'displayMedium'}>
-					{cryptoFormat(totalDollarAmount, 'USD', 'en')}
+					{cryptoFormat(portfolio.totalFiatValue, 'USD', 'en')}
 				</Text>
 				<Text variant={'titleMedium'}>{portfolio.name}</Text>
 				{portfolio.coins && renderPortfolioCoinList()}

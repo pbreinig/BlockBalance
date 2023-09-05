@@ -69,7 +69,7 @@ export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props
 								imgSrc,
 								ticker,
 								coinAmount: Number(amount),
-								dollarAmount: Number(amount) * Number(price),
+								fiatValue: Number(amount) * Number(price),
 							},
 							date: date,
 							price: Number(price),

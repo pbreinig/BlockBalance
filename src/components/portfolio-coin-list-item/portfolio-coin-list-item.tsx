@@ -27,7 +27,7 @@ export const PortfolioCoinListItem: React.FC<IPortfolioCoinListItemProps> = Reac
 				</View>
 				<View>
 					<Text variant={'bodyLarge'} style={styles.textRight}>
-						{`${cryptoFormat(coin.dollarAmount, 'USD', 'en')}`}
+						{`${cryptoFormat(coin.fiatValue, 'USD', 'en')}`}
 					</Text>
 					<Text
 						variant={'bodySmall'}

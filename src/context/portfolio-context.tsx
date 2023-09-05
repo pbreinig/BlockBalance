@@ -9,7 +9,7 @@ export interface Coin {
 	ticker: string;
 	imgSrc: string;
 	coinAmount: number;
-	dollarAmount: number;
+	fiatValue: number;
 	price?: number;
 	pricePercentage24h?: number;
 }
@@ -17,6 +17,7 @@ export interface Coin {
 interface Portfolio {
 	name: string;
 	coins: Coin[];
+	totalFiatValue: number;
 }
 
 type TransactionType = 'buy' | 'sell' | 'transfer';
@@ -38,6 +39,7 @@ type PortfolioContextType = {
 const initialPortfolio: Portfolio = {
 	name: 'Main Portfolio',
 	coins: [],
+	totalFiatValue: 0,
 };
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -51,71 +53,53 @@ const usePortfolio = () => {
 
 	useEffect(() => {
 		const coinIds = portfolio.coins.map((coin) => coin.id);
-		fetchPrices(coinIds).then((data) => {
-			const updatedCoins = portfolio.coins.map((coin) => {
-				const priceData = data[coin.id];
-				const { usd: price, usd_24h_change: pricePercentage24h } = priceData;
-				const dollarAmount = coin.coinAmount * price;
-				return { ...coin, price, pricePercentage24h, dollarAmount };
+		if (coinIds.length > 0) {
+			fetchPrices(coinIds).then((data) => {
+				const updatedCoins = portfolio.coins.map((coin) => {
+					const priceData = data[coin.id];
+					const { usd: price, usd_24h_change: pricePercentage24h } = priceData;
+					const fiatValue = coin.coinAmount * price;
+					return { ...coin, price, pricePercentage24h, fiatValue };
+				});
+				const totalFiatValue = updatedCoins.reduce(
+					(total, coin) => total + coin.fiatValue,
+					0,
+				);
+				const updatedPortfolio: Portfolio = {
+					...portfolio,
+					coins: updatedCoins,
+					totalFiatValue,
+				};
+				setPortfolios([updatedPortfolio]);
 			});
-			const updatedPortfolio: Portfolio = { ...portfolio, coins: updatedCoins };
-			setPortfolios([updatedPortfolio]);
-		});
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [portfolio]);
 
 	const addTransaction = (transaction: Transaction) => {
-		const existingCoin = portfolio.coins.find((coin) => coin.id === transaction.coin.id);
-		const transactionCoin = transaction.coin;
+		const { coinAmount, fiatValue } = transaction.coin;
+		const existingCoinIndex = portfolio.coins.findIndex(
+			(coin) => coin.id === transaction.coin.id,
+		);
 
-		switch (transaction.type) {
-			case 'buy':
-				if (existingCoin) {
-					const updatedCoin: Coin = {
-						...existingCoin,
-						coinAmount: existingCoin.coinAmount + transactionCoin.coinAmount,
-						dollarAmount: existingCoin.dollarAmount + transactionCoin.dollarAmount,
-					};
-					let updatedPortfolio: Portfolio = portfolio;
-					updatedPortfolio.coins[updatedPortfolio.coins.indexOf(existingCoin)] =
-						updatedCoin;
-					setPortfolios([updatedPortfolio]);
-				} else {
-					const updatedPortfolio: Portfolio = {
-						...portfolio,
-						coins: [...portfolio.coins, transactionCoin],
-					};
-					setPortfolios([updatedPortfolio]);
-				}
-				break;
-			case 'sell':
-				if (existingCoin) {
-					const updatedCoin: Coin = {
-						...existingCoin,
-						coinAmount: existingCoin.coinAmount - transactionCoin.coinAmount,
-						dollarAmount: existingCoin.dollarAmount - transactionCoin.dollarAmount,
-					};
-					let updatedPortfolio: Portfolio = portfolio;
-					updatedPortfolio.coins[updatedPortfolio.coins.indexOf(existingCoin)] =
-						updatedCoin;
-					setPortfolios([updatedPortfolio]);
-				} else {
-					const updatedPortfolio: Portfolio = {
-						...portfolio,
-						coins: [
-							...portfolio.coins,
-							{
-								...transactionCoin,
-								coinAmount: -transactionCoin.coinAmount,
-								dollarAmount: -transactionCoin.dollarAmount,
-							},
-						],
-					};
-					setPortfolios([updatedPortfolio]);
-				}
-				break;
-			case 'transfer':
-				break;
+		if (transaction.type === 'buy' || transaction.type === 'sell') {
+			const updatedCoins = [...portfolio.coins];
+			if (existingCoinIndex !== -1) {
+				updatedCoins[existingCoinIndex].coinAmount +=
+					transaction.type === 'buy' ? coinAmount : -coinAmount;
+				updatedCoins[existingCoinIndex].fiatValue +=
+					transaction.type === 'buy' ? fiatValue : -fiatValue;
+			} else {
+				updatedCoins.push({
+					...transaction.coin,
+					coinAmount: transaction.type === 'buy' ? coinAmount : -coinAmount,
+					fiatValue: transaction.type === 'buy' ? fiatValue : -fiatValue,
+				});
+			}
+			const updatedPortfolio: Portfolio = { ...portfolio, coins: updatedCoins };
+			setPortfolios([updatedPortfolio]);
+		} else if (transaction.type === 'transfer') {
+			// Handle transfer logic
 		}
 	};
 
