@@ -4,7 +4,7 @@ import { Avatar, Surface, Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './portfolio-coin-list-item-styles';
 import { Coin } from '../../context/portfolio-context';
-import { cryptoFormat } from '../../util';
+import { currencyFormat } from '../../util';
 
 interface IPortfolioCoinListItemProps {
 	coin: Coin;
@@ -43,7 +43,7 @@ export const PortfolioCoinListItem: React.FC<IPortfolioCoinListItemProps> = Reac
 				</View>
 				<View>
 					<Text variant={'bodyLarge'} style={styles.textRight}>
-						{`${cryptoFormat(fiatValue, 'USD', 'en')}`}
+						{`${currencyFormat(fiatValue, 'USD', 'en')}`}
 					</Text>
 					<Text
 						variant={'bodySmall'}

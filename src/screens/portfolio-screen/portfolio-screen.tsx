@@ -5,7 +5,7 @@ import { FAB, Text, TouchableRipple } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
 import { PortfolioCoinListItem } from '../../components/portfolio-coin-list-item/portfolio-coin-list-item';
-import { cryptoFormat } from '../../util';
+import { currencyFormat } from '../../util';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { PortfolioBottomSheet } from '../../components/portfolio-bottom-sheet/portfolio-bottom-sheet';
 
@@ -48,7 +48,7 @@ export const PortfolioScreen = ({ navigation }) => {
 					{'Portfolio'}
 				</Text>
 				<Text variant={'displayMedium'}>
-					{cryptoFormat(portfolio.totalFiatValue, 'USD', 'en')}
+					{currencyFormat(portfolio.totalFiatValue, 'USD', 'en')}
 				</Text>
 				<TouchableRipple
 					onPress={() => setBsOpen(true)}

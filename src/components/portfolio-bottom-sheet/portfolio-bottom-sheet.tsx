@@ -12,6 +12,7 @@ import {
 	BottomSheetModal,
 	BottomSheetView,
 } from '@gorhom/bottom-sheet';
+import { currencyFormat } from '../../util';
 
 interface IPortfolioBottomSheetProps {
 	setOpen: (open: boolean) => void;
@@ -21,8 +22,15 @@ interface IPortfolioBottomSheetProps {
 export const PortfolioBottomSheet: React.FC<IPortfolioBottomSheetProps> = (props) => {
 	const { setOpen, isOpen } = props;
 	const { theme } = useSettingsContext();
-	const { portfolios, portfolio, addPortfolio, switchPortfolio, editPortfolio, deletePortfolio } =
-		usePortfolioContext();
+	const {
+		portfolios,
+		portfolio,
+		portfoliosTotalFiatValue,
+		addPortfolio,
+		switchPortfolio,
+		editPortfolio,
+		deletePortfolio,
+	} = usePortfolioContext();
 	const [isInEditMode, setIsInEditMode] = useState<boolean>(false);
 	const portfolioBottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const inputBottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -85,14 +93,19 @@ export const PortfolioBottomSheet: React.FC<IPortfolioBottomSheetProps> = (props
 	);
 
 	const renderSheetHeader = useCallback(
-		(title: string) => (
+		(title: string, displayTotalValue?: boolean) => (
 			<View style={styles.headerContainer}>
 				<Text variant={'titleMedium'} style={{ color: theme.colors.onSurface }}>
 					{title}
 				</Text>
+				{displayTotalValue && (
+					<Text variant={'titleMedium'} style={{ color: theme.colors.onSurface }}>
+						{currencyFormat(portfoliosTotalFiatValue, 'usd', 'en')}
+					</Text>
+				)}
 			</View>
 		),
-		[theme.colors.onSurface],
+		[theme.colors.onSurface, portfoliosTotalFiatValue],
 	);
 
 	const renderSheetFooter = useCallback(
@@ -232,7 +245,7 @@ export const PortfolioBottomSheet: React.FC<IPortfolioBottomSheetProps> = (props
 					renderItem={renderItem}
 					keyExtractor={(item) => item.id}
 					showsVerticalScrollIndicator={false}
-					ListHeaderComponent={renderSheetHeader('Your Portfolios')}
+					ListHeaderComponent={renderSheetHeader('Your Portfolios', true)}
 					contentContainerStyle={{ height: BS_HEIGHT }}
 				/>
 			</BottomSheetModal>

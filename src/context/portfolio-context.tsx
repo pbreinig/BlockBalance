@@ -35,6 +35,7 @@ interface Transaction {
 type PortfolioContextType = {
 	portfolios: Portfolio[];
 	portfolio: Portfolio;
+	portfoliosTotalFiatValue: number;
 	addPortfolio: (name: string) => void;
 	switchPortfolio: (id: string) => void;
 	editPortfolio: (id: string, newName: string) => void;
@@ -58,6 +59,7 @@ const usePortfolio = () => {
 	);
 	const [portfolioIndex = 0, setPortfolioIndex] = useMMKVNumber('portfolioIndex', storage);
 	const portfolio = portfolios[portfolioIndex];
+	const portfoliosTotalFiatValue = portfolios.reduce((total, pf) => total + pf.totalFiatValue, 0);
 
 	useEffect(() => {
 		const coinIds = portfolio.coins.map((coin) => coin.id);
@@ -154,6 +156,7 @@ const usePortfolio = () => {
 	return {
 		portfolios,
 		portfolio,
+		portfoliosTotalFiatValue,
 		addPortfolio,
 		switchPortfolio,
 		editPortfolio,

@@ -4,6 +4,8 @@ import { StyleConstants } from '../../constants/style-constants';
 const { Screen } = StyleConstants;
 export const styles = StyleSheet.create({
 	headerContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		paddingHorizontal: Screen.PADDING,
 		paddingBottom: 12,
 	},

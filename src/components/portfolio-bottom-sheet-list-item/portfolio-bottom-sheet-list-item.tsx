@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { IconButton, Text, TouchableRipple } from 'react-native-paper';
-import { cryptoFormat } from '../../util';
+import { currencyFormat } from '../../util';
 import { useSettingsContext } from '../../context/settings-context';
 import { Portfolio } from '../../context/portfolio-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -59,7 +59,7 @@ export const PortfolioBottomSheetListItem: React.FC<IPortfolioBottomSheetListIte
 						/>
 					) : (
 						<Text variant={'bodyLarge'} style={{ color: theme.colors.onSurface }}>
-							{cryptoFormat(portfolio.totalFiatValue, 'usd', 'en')}
+							{currencyFormat(portfolio.totalFiatValue, 'usd', 'en')}
 						</Text>
 					)}
 				</View>
