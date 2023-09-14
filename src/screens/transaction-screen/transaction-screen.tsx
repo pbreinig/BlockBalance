@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Appbar, Avatar, SegmentedButtons } from 'react-native-paper';
+import { Appbar, Avatar, SegmentedButtons, Text } from 'react-native-paper';
 import { styles } from './transaction-screen-styles';
 import { TransactionBuySellForm } from '../../components/forms/transaction-buy-sell-form';
+import { useSettingsContext } from '../../context/settings-context';
 
 export const TransactionScreen = ({ navigation, route }) => {
 	const { id, name, ticker, imgSrc } = route.params;
+	const { theme } = useSettingsContext();
 	const [type, setType] = useState<string>('buy');
 
 	const renderTransactionForm = () => {
@@ -41,8 +43,13 @@ export const TransactionScreen = ({ navigation, route }) => {
 		<View>
 			<Appbar.Header>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
-				<Avatar.Image source={{ uri: imgSrc }} size={32} style={styles.image} />
-				<Appbar.Content title={name} />
+				<Avatar.Image source={{ uri: imgSrc }} size={34} style={styles.image} />
+				<View>
+					<Text variant={'titleMedium'}>{name}</Text>
+					<Text variant={'labelMedium'} style={{ color: theme.colors.onSurfaceVariant }}>
+						{ticker}
+					</Text>
+				</View>
 			</Appbar.Header>
 			<View style={{ padding: 24 }}>
 				<SegmentedButtons
