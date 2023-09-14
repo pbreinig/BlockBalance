@@ -37,6 +37,9 @@ export const PortfolioBottomSheet: React.FC<IPortfolioBottomSheetProps> = (props
 	const [portfolioToBeEdited, setPortfolioToBeEdited] = useState<Portfolio>(portfolio);
 	const [newPortfolioName, setNewPortfolioName] = useState<string>('');
 	const BS_HEIGHT = useMemo(() => 100 + portfolios.length * 60, [portfolios.length]);
+	const portfoliosByValue = [...portfolios].sort(
+		(pfA, pfB) => pfB.totalFiatValue - pfA.totalFiatValue,
+	);
 
 	useEffect(() => {
 		if (isOpen) {
@@ -241,7 +244,7 @@ export const PortfolioBottomSheet: React.FC<IPortfolioBottomSheetProps> = (props
 				footerComponent={renderSheetFooter}
 			>
 				<BottomSheetFlatList
-					data={portfolios}
+					data={portfoliosByValue}
 					renderItem={renderItem}
 					keyExtractor={(item) => item.id}
 					showsVerticalScrollIndicator={false}
