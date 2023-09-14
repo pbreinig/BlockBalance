@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { styles } from './portfolio-screen-styles';
-import { FAB, Text, TouchableRipple } from 'react-native-paper';
+import { FAB, Surface, Text, TouchableRipple } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
 import { PortfolioCoinListItem } from '../../components/portfolio-coin-list-item/portfolio-coin-list-item';
@@ -47,32 +47,39 @@ export const PortfolioScreen = ({ navigation }) => {
 				<Text variant={'headlineLarge'} style={styles.headerTitle}>
 					{'Portfolio'}
 				</Text>
-				<Text variant={'displayMedium'}>
-					{currencyFormat(portfolio.totalFiatValue, 'USD', 'en')}
-				</Text>
-				<TouchableRipple
-					onPress={() => setBsOpen(true)}
-					rippleColor={theme.additionalColors.ripple}
-					style={styles.nameContainer}
+				<Surface
+					style={{ backgroundColor: theme.colors.primaryContainer, borderRadius: 12 }}
 				>
-					<>
-						<View style={styles.switchIconsContainer}>
-							<MaterialIcons
-								name={'arrow-drop-up'}
-								size={22}
-								color={theme.colors.onPrimary}
-								style={{ top: -4 }}
-							/>
-							<MaterialIcons
-								name={'arrow-drop-down'}
-								size={22}
-								color={theme.colors.onPrimary}
-								style={{ top: -17 }}
-							/>
-						</View>
-						<Text variant={'titleMedium'}>{portfolio.name}</Text>
-					</>
-				</TouchableRipple>
+					<TouchableRipple
+						rippleColor={theme.additionalColors.ripple}
+						borderless={true}
+						style={styles.headerContainer}
+						onPress={() => setBsOpen(true)}
+					>
+						<>
+							<Text variant={'displayMedium'}>
+								{currencyFormat(portfolio.totalFiatValue, 'USD', 'en')}
+							</Text>
+							<View style={styles.nameContainer}>
+								<View style={styles.switchIconsContainer}>
+									<MaterialIcons
+										name={'arrow-drop-up'}
+										size={22}
+										color={theme.colors.onPrimary}
+										style={{ top: -4 }}
+									/>
+									<MaterialIcons
+										name={'arrow-drop-down'}
+										size={22}
+										color={theme.colors.onPrimary}
+										style={{ top: -17 }}
+									/>
+								</View>
+								<Text variant={'titleMedium'}>{portfolio.name}</Text>
+							</View>
+						</>
+					</TouchableRipple>
+				</Surface>
 				{portfolio.coins && renderPortfolioCoinList()}
 			</View>
 			<FAB

@@ -7,6 +7,10 @@ export const styles = StyleSheet.create({
 		padding: Screen.PADDING,
 		paddingBottom: 0,
 	},
+	headerContainer: {
+		padding: 14,
+		borderRadius: ListItem.BORDER_RADIUS,
+	},
 	headerTitle: {
 		paddingBottom: Screen.PADDING,
 	},
