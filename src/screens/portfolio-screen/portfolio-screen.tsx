@@ -1,13 +1,20 @@
+import { useCallback, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { styles } from './portfolio-screen-styles';
-import { FAB, Text } from 'react-native-paper';
+import { FAB, Text, TouchableRipple } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
 import { PortfolioCoinListItem } from '../../components/portfolio-coin-list-item/portfolio-coin-list-item';
 import { cryptoFormat } from '../../util';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { PortfolioBottomSheet } from '../../components/portfolio-bottom-sheet/portfolio-bottom-sheet';
+
 export const PortfolioScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
 	const { portfolio } = usePortfolioContext();
+	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+
+	const setBsOpen = useCallback((open: boolean) => setIsBottomSheetOpen(open), []);
 
 	const renderItem = ({ item }) => <PortfolioCoinListItem coin={item} />;
 
@@ -43,7 +50,29 @@ export const PortfolioScreen = ({ navigation }) => {
 				<Text variant={'displayMedium'}>
 					{cryptoFormat(portfolio.totalFiatValue, 'USD', 'en')}
 				</Text>
-				<Text variant={'titleMedium'}>{portfolio.name}</Text>
+				<TouchableRipple
+					onPress={() => setBsOpen(true)}
+					rippleColor={theme.additionalColors.ripple}
+					style={styles.nameContainer}
+				>
+					<>
+						<View style={styles.switchIconsContainer}>
+							<MaterialIcons
+								name={'arrow-drop-up'}
+								size={22}
+								color={theme.colors.onPrimary}
+								style={{ top: -4 }}
+							/>
+							<MaterialIcons
+								name={'arrow-drop-down'}
+								size={22}
+								color={theme.colors.onPrimary}
+								style={{ top: -17 }}
+							/>
+						</View>
+						<Text variant={'titleMedium'}>{portfolio.name}</Text>
+					</>
+				</TouchableRipple>
 				{portfolio.coins && renderPortfolioCoinList()}
 			</View>
 			<FAB
@@ -52,6 +81,7 @@ export const PortfolioScreen = ({ navigation }) => {
 				rippleColor={theme.additionalColors.ripple}
 				onPress={() => navigation.navigate('CoinList')}
 			/>
+			<PortfolioBottomSheet setOpen={setBsOpen} isOpen={isBottomSheetOpen} />
 		</>
 	);
 };

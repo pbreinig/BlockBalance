@@ -12,5 +12,6 @@ module.exports = {
 		'no-console': 'error',
 		'linebreak-style': 'off',
 		'react-native/no-inline-styles': 'off',
+		'react-hooks/exhaustive-deps': 'off',
 	},
 };

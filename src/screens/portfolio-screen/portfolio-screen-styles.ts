@@ -10,6 +10,14 @@ export const styles = StyleSheet.create({
 	headerTitle: {
 		paddingBottom: Screen.PADDING,
 	},
+	nameContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	switchIconsContainer: {
+		flexDirection: 'column',
+		height: 20,
+	},
 	fab: {
 		position: 'absolute',
 		right: 16,

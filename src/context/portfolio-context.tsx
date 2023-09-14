@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect } from 'react';
-import { useMMKVObject } from 'react-native-mmkv';
+import { useMMKVNumber, useMMKVObject } from 'react-native-mmkv';
 import { storage } from '../storage';
 import { fetchPrices } from '../api/coingecko-api';
+import { v4 as uuid } from 'uuid';
 
 export interface Coin {
 	id: string;
@@ -14,8 +15,9 @@ export interface Coin {
 	pricePercentage24h?: number;
 }
 
-interface Portfolio {
+export interface Portfolio {
 	name: string;
+	id: string;
 	coins: Coin[];
 	totalFiatValue: number;
 }
@@ -33,11 +35,16 @@ interface Transaction {
 type PortfolioContextType = {
 	portfolios: Portfolio[];
 	portfolio: Portfolio;
+	addPortfolio: (name: string) => void;
+	switchPortfolio: (id: string) => void;
+	editPortfolio: (id: string, newName: string) => void;
+	deletePortfolio: (id: string) => void;
 	addTransaction: (transaction: Transaction) => void;
 };
 
 const initialPortfolio: Portfolio = {
 	name: 'Main Portfolio',
+	id: uuid(),
 	coins: [],
 	totalFiatValue: 0,
 };
@@ -49,7 +56,8 @@ const usePortfolio = () => {
 		'portfolios',
 		storage,
 	);
-	const portfolio: Portfolio = portfolios[0];
+	const [portfolioIndex = 0, setPortfolioIndex] = useMMKVNumber('portfolioIndex', storage);
+	const portfolio = portfolios[portfolioIndex];
 
 	useEffect(() => {
 		const coinIds = portfolio.coins.map((coin) => coin.id);
@@ -71,11 +79,47 @@ const usePortfolio = () => {
 					coins: updatedCoins,
 					totalFiatValue,
 				};
-				setPortfolios([updatedPortfolio]);
+				const updatedPortfolios = portfolios.map((pf, i) =>
+					i === portfolioIndex ? updatedPortfolio : pf,
+				);
+				setPortfolios(updatedPortfolios);
 			});
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [portfolio]);
+
+	const addPortfolio = (name: string) => {
+		setPortfolios([...portfolios, { name, id: uuid(), coins: [], totalFiatValue: 0 }]);
+		setPortfolioIndex(portfolios.length);
+	};
+
+	const switchPortfolio = (id: string) => {
+		const index = portfolios.findIndex((pf) => pf.id === id);
+		setPortfolioIndex(index);
+	};
+
+	const editPortfolio = (id: string, newName: string) => {
+		const updatedPortfolios = portfolios.map((pf) =>
+			pf.id === id ? { ...pf, name: newName } : pf,
+		);
+		setPortfolios(updatedPortfolios);
+	};
+
+	const deletePortfolio = (id: string) => {
+		if (portfolios.length > 1) {
+			setPortfolioIndex(0);
+			setPortfolios(portfolios.filter((pf) => pf.id !== id));
+		} else {
+			setPortfolios([
+				{
+					name: 'New Portfolio',
+					id: uuid(),
+					coins: [],
+					totalFiatValue: 0,
+				},
+			]);
+			setPortfolioIndex(0);
+		}
+	};
 
 	const addTransaction = (transaction: Transaction) => {
 		const { coinAmount, fiatValue } = transaction.coin;
@@ -98,7 +142,10 @@ const usePortfolio = () => {
 				});
 			}
 			const updatedPortfolio: Portfolio = { ...portfolio, coins: updatedCoins };
-			setPortfolios([updatedPortfolio]);
+			const updatedPortfolios = portfolios.map((pf, i) =>
+				i === portfolioIndex ? updatedPortfolio : pf,
+			);
+			setPortfolios(updatedPortfolios);
 		} else if (transaction.type === 'transfer') {
 			// Handle transfer logic
 		}
@@ -107,6 +154,10 @@ const usePortfolio = () => {
 	return {
 		portfolios,
 		portfolio,
+		addPortfolio,
+		switchPortfolio,
+		editPortfolio,
+		deletePortfolio,
 		addTransaction,
 	};
 };

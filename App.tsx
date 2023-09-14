@@ -8,6 +8,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PortfolioProvider } from './src/context/portfolio-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const AppContent = () => {
 	const { theme } = useSettingsContext();
@@ -19,9 +20,13 @@ const AppContent = () => {
 	return (
 		<PaperProvider theme={theme}>
 			<StatusBar backgroundColor={theme.colors.background} />
-			<NavigationContainer>
-				<NavigationStack />
-			</NavigationContainer>
+			<GestureHandlerRootView style={{ flex: 1 }}>
+				<BottomSheetModalProvider>
+					<NavigationContainer>
+						<NavigationStack />
+					</NavigationContainer>
+				</BottomSheetModalProvider>
+			</GestureHandlerRootView>
 		</PaperProvider>
 	);
 };
@@ -32,9 +37,7 @@ const App = () => {
 		<QueryClientProvider client={queryClient}>
 			<PortfolioProvider>
 				<SettingsProvider>
-					<GestureHandlerRootView style={{ flex: 1 }}>
-						<AppContent />
-					</GestureHandlerRootView>
+					<AppContent />
 				</SettingsProvider>
 			</PortfolioProvider>
 		</QueryClientProvider>
