@@ -60,6 +60,8 @@ export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props
 					mode={'contained'}
 					rippleColor={theme.additionalColors.ripple}
 					disabled={!price || !amount || !date}
+					icon={'check'}
+					style={{ borderRadius: 12 }}
 					onPress={() => {
 						addTransaction({
 							type,

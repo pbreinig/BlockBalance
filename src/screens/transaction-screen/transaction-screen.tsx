@@ -59,6 +59,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 						{
 							value: 'buy',
 							label: 'Buy',
+							style: { borderRadius: 12 },
 						},
 						{
 							value: 'sell',
@@ -67,6 +68,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 						{
 							value: 'transfer',
 							label: 'Transfer',
+							style: { borderRadius: 12 },
 						},
 					]}
 				/>
