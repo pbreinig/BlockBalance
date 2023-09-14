@@ -43,7 +43,7 @@ export const PortfolioBottomSheet: React.FC<IPortfolioBottomSheetProps> = (props
 			? editPortfolio(portfolioToBeEdited.id, newPortfolioName)
 			: addPortfolio(newPortfolioName);
 		closeInputSheet();
-	}, [newPortfolioName, portfolioToBeEdited]);
+	}, [addPortfolio, editPortfolio, isInEditMode, newPortfolioName, portfolioToBeEdited.id]);
 
 	const openInputSheet = useCallback((pf?: Portfolio) => {
 		pf && setPortfolioToBeEdited(pf);
@@ -59,10 +59,13 @@ export const PortfolioBottomSheet: React.FC<IPortfolioBottomSheetProps> = (props
 		setNewPortfolioName('');
 	}, []);
 
-	const handleSwitchPortfolio = useCallback((id: string) => {
-		switchPortfolio(id);
-		portfolioBottomSheetModalRef.current?.dismiss();
-	}, []);
+	const handleSwitchPortfolio = useCallback(
+		(id: string) => {
+			switchPortfolio(id);
+			portfolioBottomSheetModalRef.current?.dismiss();
+		},
+		[switchPortfolio],
+	);
 
 	const renderItem = useCallback(
 		({ item }) => {
