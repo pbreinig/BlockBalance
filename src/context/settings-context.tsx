@@ -17,7 +17,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 const useSettings = () => {
 	const colorScheme = useColorScheme();
-	const [themeType = 'dark', setThemeType] = useMMKVString('settings.themeType', storage);
+	const [themeType = 'system', setThemeType] = useMMKVString('settings.themeType', storage);
 
 	let theme = DarkTheme;
 	switch (themeType) {
