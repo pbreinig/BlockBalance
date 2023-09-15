@@ -15,13 +15,6 @@ export interface Coin {
 	pricePercentage24h?: number;
 }
 
-export interface Portfolio {
-	name: string;
-	id: string;
-	coins: Coin[];
-	totalFiatValue: number;
-}
-
 type TransactionType = 'buy' | 'sell' | 'transfer';
 
 interface Transaction {
@@ -30,6 +23,18 @@ interface Transaction {
 	date: number;
 	price: number;
 	note?: string;
+}
+
+export interface Portfolio {
+	name: string;
+	id: string;
+	coins: Coin[];
+	totalFiatValue: number;
+	transactions: Transaction[];
+	totalChange: {
+		totalFiatValueChange: number;
+		totalPercentageChange: number;
+	};
 }
 
 type PortfolioContextType = {
@@ -43,11 +48,22 @@ type PortfolioContextType = {
 	addTransaction: (transaction: Transaction) => void;
 };
 
-const initialPortfolio: Portfolio = {
-	name: 'Main Portfolio',
-	id: uuid(),
+const emptyPortfolio: Portfolio = {
+	name: '',
+	id: '',
 	coins: [],
 	totalFiatValue: 0,
+	transactions: [],
+	totalChange: {
+		totalFiatValueChange: 0,
+		totalPercentageChange: 0,
+	},
+};
+
+const initialPortfolio: Portfolio = {
+	...emptyPortfolio,
+	name: 'Main Portfolio',
+	id: uuid(),
 };
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -75,11 +91,21 @@ const usePortfolio = () => {
 					(total, coin) => total + coin.fiatValue,
 					0,
 				);
+
+				const totalInvestedFiatValue = portfolio.transactions.reduce(
+					(total, transaction) =>
+						(total += transaction.price * transaction.coin.coinAmount),
+					0,
+				);
+				const totalFiatValueChange = totalFiatValue - totalInvestedFiatValue;
+				const totalPercentageChange = (totalFiatValueChange / totalInvestedFiatValue) * 100;
+
 				updatedCoins.sort((coinA, coinB) => coinB.fiatValue - coinA.fiatValue);
 				const updatedPortfolio: Portfolio = {
 					...portfolio,
 					coins: updatedCoins,
 					totalFiatValue,
+					totalChange: { totalFiatValueChange, totalPercentageChange },
 				};
 				const updatedPortfolios = portfolios.map((pf, i) =>
 					i === portfolioIndex ? updatedPortfolio : pf,
@@ -90,7 +116,7 @@ const usePortfolio = () => {
 	}, [portfolio]);
 
 	const addPortfolio = (name: string) => {
-		setPortfolios([...portfolios, { name, id: uuid(), coins: [], totalFiatValue: 0 }]);
+		setPortfolios([...portfolios, { ...emptyPortfolio, name, id: uuid() }]);
 		setPortfolioIndex(portfolios.length);
 	};
 
@@ -111,14 +137,7 @@ const usePortfolio = () => {
 			setPortfolioIndex(0);
 			setPortfolios(portfolios.filter((pf) => pf.id !== id));
 		} else {
-			setPortfolios([
-				{
-					name: 'New Portfolio',
-					id: uuid(),
-					coins: [],
-					totalFiatValue: 0,
-				},
-			]);
+			setPortfolios([{ ...emptyPortfolio, name: 'New Portfolio', id: uuid() }]);
 			setPortfolioIndex(0);
 		}
 	};
@@ -143,7 +162,11 @@ const usePortfolio = () => {
 					fiatValue: transaction.type === 'buy' ? fiatValue : -fiatValue,
 				});
 			}
-			const updatedPortfolio: Portfolio = { ...portfolio, coins: updatedCoins };
+			const updatedPortfolio: Portfolio = {
+				...portfolio,
+				coins: updatedCoins,
+				transactions: [...portfolio.transactions, transaction],
+			};
 			const updatedPortfolios = portfolios.map((pf, i) =>
 				i === portfolioIndex ? updatedPortfolio : pf,
 			);

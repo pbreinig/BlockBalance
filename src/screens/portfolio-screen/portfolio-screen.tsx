@@ -12,7 +12,11 @@ import { PortfolioBottomSheet } from '../../components/portfolio-bottom-sheet/po
 export const PortfolioScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
 	const { portfolio } = usePortfolioContext();
+	const { totalFiatValueChange, totalPercentageChange } = portfolio.totalChange;
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+	const isUp = totalFiatValueChange >= 0;
+	const fiatChangeFormatted = currencyFormat(totalFiatValueChange, 'USD', 'en');
+	const percentageChangeFormatted = `${totalPercentageChange.toFixed(2)}%`;
 
 	const setBsOpen = useCallback((open: boolean) => setIsBottomSheetOpen(open), []);
 
@@ -77,6 +81,18 @@ export const PortfolioScreen = ({ navigation }) => {
 									/>
 								</View>
 								<Text variant={'titleMedium'}>{portfolio.name}</Text>
+								<Text
+									variant={'titleSmall'}
+									style={{
+										color: isUp
+											? theme.additionalColors.green
+											: theme.colors.error,
+									}}
+								>
+									{` ${
+										isUp ? '+' : ''
+									}${fiatChangeFormatted} (${percentageChangeFormatted})`}
+								</Text>
 							</View>
 						</>
 					</TouchableRipple>
