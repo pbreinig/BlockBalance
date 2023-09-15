@@ -48,7 +48,8 @@ export const PortfolioScreen = ({ navigation }) => {
 					{'Portfolio'}
 				</Text>
 				<Surface
-					style={{ backgroundColor: theme.colors.primaryContainer, borderRadius: 12 }}
+					elevation={3}
+					style={{ backgroundColor: theme.colors.primaryContainer, borderRadius: 18 }}
 				>
 					<TouchableRipple
 						rippleColor={theme.additionalColors.ripple}
