@@ -7,4 +7,9 @@ export const styles = StyleSheet.create({
 		marginRight: ListItem.PADDING,
 		backgroundColor: 'transparent',
 	},
+	container: {
+		margin: 12,
+		padding: 12,
+		borderRadius: 12,
+	},
 });

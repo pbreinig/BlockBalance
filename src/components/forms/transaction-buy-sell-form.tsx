@@ -48,7 +48,7 @@ export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props
 				/>
 				<TextInput
 					mode={'outlined'}
-					label={'Note'}
+					label={'Note (optional)'}
 					value={note}
 					onChangeText={(text) => setNote(text)}
 					outlineStyle={{ borderRadius: 12 }}

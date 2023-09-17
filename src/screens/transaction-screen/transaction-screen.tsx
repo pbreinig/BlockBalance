@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Appbar, Avatar, SegmentedButtons, Text } from 'react-native-paper';
+import { Appbar, Avatar, SegmentedButtons, Surface, Text } from 'react-native-paper';
 import { styles } from './transaction-screen-styles';
 import { TransactionBuySellForm } from '../../components/forms/transaction-buy-sell-form';
 import { useSettingsContext } from '../../context/settings-context';
@@ -51,7 +51,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 					</Text>
 				</View>
 			</Appbar.Header>
-			<View style={{ padding: 24 }}>
+			<Surface style={styles.container}>
 				<SegmentedButtons
 					value={type}
 					onValueChange={setType}
@@ -73,7 +73,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 					]}
 				/>
 				{renderTransactionForm()}
-			</View>
+			</Surface>
 		</View>
 	);
 };
