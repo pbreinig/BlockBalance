@@ -20,7 +20,7 @@ type TransactionType = 'buy' | 'sell' | 'transfer';
 interface Transaction {
 	type: TransactionType;
 	coin: Coin;
-	date: number;
+	date: Date;
 	price: number;
 	note?: string;
 }

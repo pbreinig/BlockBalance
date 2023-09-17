@@ -2771,7 +2771,7 @@ color-string@^1.6.0:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
 
-color@^3.1.2:
+color@^3.1.2, color@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/color/-/color-3.2.1.tgz#3544dc198caf4490c3ecc9a790b54fe9ff45e164"
   integrity sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==
@@ -6107,6 +6107,13 @@ react-native-navigation-bar-color@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/react-native-navigation-bar-color/-/react-native-navigation-bar-color-2.0.2.tgz#2e14ca79a656d81d5b4b7433ae43966ef5206444"
   integrity sha512-ZmpLWRocyme1au11e5ZuecMS/UCi57nlzgnioi03Q6ERMbeUOqqbWgNBaNB7SsCeqBV6fZPjo3+A64zEIpzw4w==
+
+react-native-paper-dates@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/react-native-paper-dates/-/react-native-paper-dates-0.19.0.tgz#bb430117ebfb1e3d9ebc376e5e8bbe62454393d5"
+  integrity sha512-MQQ436Uv0XRHichulM2UZIvq0HO8AIiCR/ddGoX+Pe49gfx8JFVmzh2NMzsdL2oei+yCne8Gl9zamtSgDi5+FQ==
+  dependencies:
+    color "^3.2.1"
 
 react-native-paper@^5.10.3:
   version "5.10.3"

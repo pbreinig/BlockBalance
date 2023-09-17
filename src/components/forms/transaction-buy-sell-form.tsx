@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
+import { DatePickerInput } from 'react-native-paper-dates';
 
 interface ITransactionBuyFormProps {
 	type: 'buy' | 'sell';
@@ -13,7 +14,7 @@ interface ITransactionBuyFormProps {
 	imgSrc: string;
 }
 
-const date = Date.now();
+const date = new Date();
 
 export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props) => {
 	const { type, navigation, id, name, ticker, imgSrc } = props;
@@ -21,23 +22,14 @@ export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props
 	const { addTransaction } = usePortfolioContext();
 	const [price, setPrice] = useState<string>('');
 	const [amount, setAmount] = useState<string>('');
+	const [inputDate, setInputDate] = useState<Date>(date);
 	const [note, setNote] = useState<string>('');
 	const capType = type.charAt(0).toUpperCase() + type.slice(1);
-	const boughtSold = type === 'buy' ? 'Bought' : 'Sold';
+	const boughtSold = type === 'buy' ? 'bought' : 'sold';
 
 	return (
 		<>
 			<View>
-				<TextInput
-					mode={'outlined'}
-					label={`${capType} Price per coin`}
-					value={price}
-					onChangeText={(text) => setPrice(text)}
-					keyboardType={'number-pad'}
-					outlineStyle={{ borderRadius: 12 }}
-					right={<TextInput.Affix text="$" />}
-					style={{ marginTop: 12 }}
-				/>
 				<TextInput
 					mode={'outlined'}
 					label={`Amount ${boughtSold}`}
@@ -48,6 +40,29 @@ export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props
 					right={<TextInput.Affix text={ticker.toUpperCase()} />}
 					style={{ marginTop: 12 }}
 				/>
+				<TextInput
+					mode={'outlined'}
+					label={`${capType} price per ${ticker.toUpperCase()}`}
+					value={price}
+					onChangeText={(text) => setPrice(text)}
+					keyboardType={'number-pad'}
+					outlineStyle={{ borderRadius: 12 }}
+					right={<TextInput.Affix text="$" />}
+					style={{ marginTop: 12 }}
+				/>
+				<View style={{ height: 60 }}>
+					<DatePickerInput
+						label={'Date'}
+						inputMode={'start'}
+						mode={'outlined'}
+						locale={'en'}
+						validRange={{ endDate: date }}
+						onChange={(d) => setInputDate(d)}
+						value={inputDate}
+						style={{ marginTop: 12 }}
+						outlineStyle={{ borderRadius: 12 }}
+					/>
+				</View>
 				<TextInput
 					mode={'outlined'}
 					label={'Note (optional)'}
@@ -75,7 +90,7 @@ export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props
 								coinAmount: Number(amount),
 								fiatValue: Number(amount) * Number(price),
 							},
-							date: date,
+							date: inputDate,
 							price: Number(price),
 							note: note,
 						});
