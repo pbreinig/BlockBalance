@@ -90,7 +90,7 @@ const fontConfig = {
 		lineHeight: 20,
 	},
 	bodySmall: {
-		fontFamily: 'Manrope-Regular',
+		fontFamily: 'Manrope-Medium',
 		fontSize: 12,
 		fontWeight: '400',
 		letterSpacing: 0.4,

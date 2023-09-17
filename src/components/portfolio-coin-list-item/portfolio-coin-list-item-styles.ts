@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
-	tickerChangeContainer: {
+	tickerPriceChangeContainer: {
 		flexDirection: 'row',
 	},
 	ticker: {
