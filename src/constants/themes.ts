@@ -1,4 +1,116 @@
-import { MD3DarkTheme, MD3LightTheme, MD3Theme } from 'react-native-paper';
+import { configureFonts, MD3DarkTheme, MD3LightTheme, MD3Theme } from 'react-native-paper';
+
+const fontConfig = {
+	default: {
+		fontFamily: 'Manrope-Regular',
+		fontWeight: '400',
+		letterSpacing: 0,
+	},
+	displaySmall: {
+		fontFamily: 'Manrope-Regular',
+		fontSize: 36,
+		fontWeight: '400',
+		letterSpacing: 0,
+		lineHeight: 44,
+	},
+	displayMedium: {
+		fontFamily: 'Manrope-Bold',
+		fontSize: 45,
+		letterSpacing: 0,
+		lineHeight: 52,
+	},
+	displayLarge: {
+		fontFamily: 'Manrope-Regular',
+		fontSize: 57,
+		fontWeight: '400',
+		letterSpacing: 0,
+		lineHeight: 64,
+	},
+	headlineSmall: {
+		fontFamily: 'Manrope-Regular',
+		fontSize: 24,
+		fontWeight: '400',
+		letterSpacing: 0,
+		lineHeight: 32,
+	},
+	headlineMedium: {
+		fontFamily: 'Manrope-Regular',
+		fontSize: 28,
+		fontWeight: '400',
+		letterSpacing: 0,
+		lineHeight: 36,
+	},
+	headlineLarge: {
+		fontFamily: 'Manrope-Regular',
+		fontSize: 32,
+		fontWeight: '400',
+		letterSpacing: 0,
+		lineHeight: 40,
+	},
+	titleSmall: {
+		fontFamily: 'Manrope-Regular',
+		fontSize: 14,
+		fontWeight: '500',
+		letterSpacing: 0.1,
+		lineHeight: 20,
+	},
+	titleMedium: {
+		fontFamily: 'Manrope-Medium',
+		fontSize: 16,
+		fontWeight: '500',
+		letterSpacing: 0.15,
+		lineHeight: 24,
+	},
+	titleLarge: {
+		fontFamily: 'Manrope-Medium',
+		fontSize: 22,
+		fontWeight: '400',
+		letterSpacing: 0,
+		lineHeight: 28,
+	},
+	labelSmall: {
+		fontFamily: 'Manrope-Medium',
+		fontSize: 11,
+		fontWeight: '500',
+		letterSpacing: 0.5,
+		lineHeight: 16,
+	},
+	labelMedium: {
+		fontFamily: 'Manrope-SemiBold',
+		fontSize: 12,
+		fontWeight: '500',
+		letterSpacing: 0.5,
+		lineHeight: 16,
+	},
+	labelLarge: {
+		fontFamily: 'Manrope-SemiBold',
+		fontSize: 14,
+		fontWeight: '500',
+		letterSpacing: 0.1,
+		lineHeight: 20,
+	},
+	bodySmall: {
+		fontFamily: 'Manrope-Regular',
+		fontSize: 12,
+		fontWeight: '400',
+		letterSpacing: 0.4,
+		lineHeight: 16,
+	},
+	bodyMedium: {
+		fontFamily: 'Manrope-Regular',
+		fontSize: 14,
+		fontWeight: '400',
+		letterSpacing: 0.25,
+		lineHeight: 20,
+	},
+	bodyLarge: {
+		fontFamily: 'Manrope-Medium',
+		fontSize: 16,
+		fontWeight: '400',
+		letterSpacing: 0.15,
+		lineHeight: 24,
+	},
+} as const;
 
 export type AdditionalColors = {
 	additionalColors: {
@@ -55,6 +167,7 @@ export const DarkTheme: MD3Theme & AdditionalColors = {
 		green: '#9ECE6A',
 		ripple: '#C0CAF57F',
 	},
+	fonts: configureFonts({ config: fontConfig }),
 };
 
 export const LightTheme: MD3Theme & AdditionalColors = {
@@ -105,4 +218,5 @@ export const LightTheme: MD3Theme & AdditionalColors = {
 		green: '#62843E',
 		ripple: '#343B5880',
 	},
+	fonts: configureFonts({ config: fontConfig }),
 };
