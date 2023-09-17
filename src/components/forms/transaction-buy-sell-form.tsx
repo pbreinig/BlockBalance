@@ -33,6 +33,7 @@ export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props
 					label={`${capType} Price per coin`}
 					value={price}
 					onChangeText={(text) => setPrice(text)}
+					keyboardType={'number-pad'}
 					outlineStyle={{ borderRadius: 12 }}
 					right={<TextInput.Affix text="$" />}
 					style={{ marginTop: 12 }}
@@ -42,6 +43,7 @@ export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props
 					label={`Amount ${boughtSold}`}
 					value={amount}
 					onChangeText={(text) => setAmount(text)}
+					keyboardType={'number-pad'}
 					outlineStyle={{ borderRadius: 12 }}
 					right={<TextInput.Affix text={ticker.toUpperCase()} />}
 					style={{ marginTop: 12 }}
