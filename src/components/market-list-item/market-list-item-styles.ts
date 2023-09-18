@@ -8,9 +8,14 @@ export const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		height: ListItem.HEIGHT,
-		padding: ListItem.PADDING,
 		borderRadius: ListItem.BORDER_RADIUS,
 		marginBottom: ListItem.MARGIN_BOTTOM,
+	},
+	ripple: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		padding: ListItem.PADDING,
+		borderRadius: ListItem.BORDER_RADIUS,
 	},
 	rankContainer: {
 		flex: 1,

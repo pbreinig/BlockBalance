@@ -5,7 +5,7 @@ import { useFetchMarket } from '../../api/coingecko-api';
 import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './market-screen-styles';
 
-export const MarketScreen = () => {
+export const MarketScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
 	const { height: WINDOW_HEIGHT } = useWindowDimensions();
 	const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useFetchMarket();
@@ -23,6 +23,7 @@ export const MarketScreen = () => {
 			price={item.price}
 			pricePercentage24h={item.pricePercentage24h}
 			marketCap={item.marketCap}
+			onPress={() => navigation.navigate('Coin', { coin: item })}
 		/>
 	);
 

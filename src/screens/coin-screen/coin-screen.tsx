@@ -32,7 +32,7 @@ export const CoinScreen = ({ route }) => {
 
 	return (
 		<>
-			<AppbarHeader title={name} subtitle={ticker} imgSrc={imgSrc} />
+			<AppbarHeader title={name} subtitle={ticker.toUpperCase()} imgSrc={imgSrc} />
 			{isLoading ? (
 				<ActivityIndicator style={{ top: 24 }} />
 			) : (
