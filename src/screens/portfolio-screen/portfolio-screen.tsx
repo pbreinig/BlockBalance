@@ -20,7 +20,12 @@ export const PortfolioScreen = ({ navigation }) => {
 
 	const setBsOpen = useCallback((open: boolean) => setIsBottomSheetOpen(open), []);
 
-	const renderItem = ({ item }) => <PortfolioCoinListItem coin={item} />;
+	const renderItem = ({ item }) => (
+		<PortfolioCoinListItem
+			coin={item}
+			onPress={() => navigation.navigate('Coin', { coin: item })}
+		/>
+	);
 
 	const renderPortfolioCoinList = () => (
 		<>

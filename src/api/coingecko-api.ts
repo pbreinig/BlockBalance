@@ -83,3 +83,18 @@ export const fetchPrices = async (coinIds: string[]) => {
 	);
 	return response.data;
 };
+
+export const useFetchCoin = (coinId: string) => {
+	const fetchCoin = async () => {
+		const response = await axios.get(
+			`${API_URL}coins/${coinId}?localization=false&tickers=false&sparkline=true`,
+		);
+		const { id, name, symbol, market_data } = response.data;
+		return { id, name, ticker: symbol, sparklineData: market_data.sparkline_7d.price };
+	};
+
+	return useQuery({
+		queryKey: ['coin'],
+		queryFn: fetchCoin,
+	});
+};

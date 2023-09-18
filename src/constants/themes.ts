@@ -41,7 +41,7 @@ const fontConfig = {
 		lineHeight: 36,
 	},
 	headlineLarge: {
-		fontFamily: 'Manrope-Regular',
+		fontFamily: 'Manrope-Medium',
 		fontSize: 32,
 		fontWeight: '400',
 		letterSpacing: 0,
