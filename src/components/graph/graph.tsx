@@ -16,6 +16,7 @@ export const Graph: React.FC<IGraphProps> = (props) => {
 	const { data, onPointSelected, onGestureEnd } = props;
 	const { theme } = useSettingsContext();
 	const { width } = useWindowDimensions();
+	const isTimeFrameUp = data[data.length - 1].value >= data[0].value;
 
 	const { maxValue, translateXMax, minValue, translateXMin } = data.reduce(
 		(labelData, item, index) => {
@@ -66,7 +67,12 @@ export const Graph: React.FC<IGraphProps> = (props) => {
 				onGestureEnd={onGestureEnd}
 				TopAxisLabel={() => renderAxisLabel(true)}
 				BottomAxisLabel={() => renderAxisLabel(false)}
-				color={theme.colors.primary}
+				color={isTimeFrameUp ? theme.additionalColors.green : theme.colors.error}
+				gradientFillColors={[
+					isTimeFrameUp
+						? theme.additionalColors.greenOpacity
+						: theme.additionalColors.redOpacity,
+				]}
 				style={styles.lineGraph}
 			/>
 			<View style={styles.timeFrameSelection}>

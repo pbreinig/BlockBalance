@@ -115,6 +115,8 @@ const fontConfig = {
 export type AdditionalColors = {
 	additionalColors: {
 		green: string;
+		greenOpacity: string;
+		redOpacity: string;
 		ripple: string;
 	};
 };
@@ -165,6 +167,8 @@ export const DarkTheme: MD3Theme & AdditionalColors = {
 	},
 	additionalColors: {
 		green: '#9ECE6A',
+		greenOpacity: '#9ECE6A4C',
+		redOpacity: '#F7768E4C',
 		ripple: '#C0CAF57F',
 	},
 	fonts: configureFonts({ config: fontConfig }),
@@ -216,6 +220,8 @@ export const LightTheme: MD3Theme & AdditionalColors = {
 	},
 	additionalColors: {
 		green: '#62843E',
+		greenOpacity: '#9ECE6A4C',
+		redOpacity: '#F7768E4C',
 		ripple: '#343B5880',
 	},
 	fonts: configureFonts({ config: fontConfig }),
