@@ -12,4 +12,8 @@ export const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
+	image: {
+		marginRight: 8,
+		backgroundColor: 'transparent',
+	},
 });

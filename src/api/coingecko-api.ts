@@ -89,8 +89,31 @@ export const useFetchCoin = (coinId: string) => {
 		const response = await axios.get(
 			`${API_URL}coins/${coinId}?localization=false&tickers=false&sparkline=true`,
 		);
-		const { id, name, symbol, market_data } = response.data;
-		return { id, name, ticker: symbol, sparklineData: market_data.sparkline_7d.price };
+		const { id, name, symbol, market_data, market_cap_rank, genesis_date, description } =
+			response.data;
+		return {
+			id,
+			name,
+			ticker: symbol,
+			sparklineData: market_data.sparkline_7d.price,
+			rank: market_cap_rank,
+			marketCap: market_data.market_cap.usd,
+			dilutedValuation: market_data.fully_diluted_valuation.usd,
+			volume: market_data.total_volume.usd,
+			high24h: market_data.high_24h.usd,
+			low24h: market_data.low_24h.usd,
+			genesisDate: genesis_date,
+			circulatingSupply: market_data.circulating_supply,
+			totalSupply: market_data.total_supply,
+			maxSupply: market_data.max_supply,
+			ath: market_data.ath.usd,
+			athDate: market_data.ath_date.usd,
+			athChangePercentage: market_data.ath_change_percentage.usd,
+			atl: market_data.atl.usd,
+			atlDate: market_data.atl_date.usd,
+			atlChangePercentage: market_data.atl_change_percentage.usd,
+			description: description.en,
+		};
 	};
 
 	return useQuery({

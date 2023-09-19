@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { ActivityIndicator, Avatar, Surface, Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './coin-screen-styles';
@@ -8,6 +8,7 @@ import React, { useCallback, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { Graph } from '../../components/graph/graph';
 import { useFetchCoin } from '../../api/coingecko-api';
+import { CoinDetails } from '../../components/coin-details/coin-details';
 
 const currentDate = new Date();
 
@@ -36,10 +37,10 @@ export const CoinScreen = ({ route }) => {
 			{isLoading ? (
 				<ActivityIndicator style={{ top: 24 }} />
 			) : (
-				<View style={styles.body}>
+				<ScrollView contentContainerStyle={styles.body}>
 					<Surface mode={'flat'} style={styles.surface}>
-						<View style={[styles.flexRow, { gap: 8 }]}>
-							<Avatar.Image source={{ uri: imgSrc }} size={18} />
+						<View style={styles.flexRow}>
+							<Avatar.Image source={{ uri: imgSrc }} size={18} style={styles.image} />
 							<Text variant={'titleMedium'}>{name}</Text>
 						</View>
 						<Text variant={'headlineLarge'}>
@@ -70,8 +71,9 @@ export const CoinScreen = ({ route }) => {
 							onPointSelected={updatePriceTitle}
 							onGestureEnd={resetPriceTitle}
 						/>
+						<CoinDetails coinData={data} />
 					</Surface>
-				</View>
+				</ScrollView>
 			)}
 		</>
 	);
