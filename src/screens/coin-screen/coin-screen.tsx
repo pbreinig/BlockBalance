@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { ActivityIndicator, Surface, Text } from 'react-native-paper';
+import { ActivityIndicator, Avatar, Surface, Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './coin-screen-styles';
 import { AppbarHeader } from '../../components/appbar-header/appbar-header';
@@ -38,20 +38,33 @@ export const CoinScreen = ({ route }) => {
 			) : (
 				<View style={styles.body}>
 					<Surface mode={'flat'} style={styles.surface}>
+						<View style={[styles.flexRow, { gap: 8 }]}>
+							<Avatar.Image source={{ uri: imgSrc }} size={18} />
+							<Text variant={'titleMedium'}>{name}</Text>
+						</View>
 						<Text variant={'headlineLarge'}>
 							{cryptoFormat(priceTitle, 'USD', 'en')}
 						</Text>
-						{pricePercentage24h && (
-							<Text
-								variant={'titleMedium'}
-								style={{
-									color: isUp ? theme.additionalColors.green : theme.colors.error,
-									lineHeight: 20,
-								}}
-							>
-								{`${isUp ? '+' : ''}${pricePercentage24h.toFixed(2)}%`}
-							</Text>
-						)}
+						<View style={[styles.flexRow, { gap: 5 }]}>
+							{pricePercentage24h && (
+								<>
+									<Text variant={'titleMedium'} style={{ lineHeight: 18 }}>
+										{'24H'}
+									</Text>
+									<Text
+										variant={'titleMedium'}
+										style={{
+											color: isUp
+												? theme.additionalColors.green
+												: theme.colors.error,
+											lineHeight: 18,
+										}}
+									>
+										{`${isUp ? '+' : ''}${pricePercentage24h.toFixed(2)}%`}
+									</Text>
+								</>
+							)}
+						</View>
 						<Graph
 							data={graphPoints}
 							onPointSelected={updatePriceTitle}

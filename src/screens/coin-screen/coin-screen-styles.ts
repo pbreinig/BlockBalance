@@ -8,4 +8,8 @@ export const styles = StyleSheet.create({
 		padding: 12,
 		borderRadius: 12,
 	},
+	flexRow: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
 });
