@@ -32,7 +32,11 @@ export const CoinDetails: React.FC<ICoinDetailsProps> = (props) => {
 					<Text variant={'titleMedium'} numberOfLines={1}>
 						{leftCellValue}
 					</Text>
-					<Text variant={'labelMedium'} style={{ color: theme.colors.onSurfaceVariant }}>
+					<Text
+						variant={'labelMedium'}
+						numberOfLines={1}
+						style={{ color: theme.colors.onSurfaceVariant }}
+					>
 						{leftCellTitle}
 					</Text>
 				</View>
@@ -46,7 +50,11 @@ export const CoinDetails: React.FC<ICoinDetailsProps> = (props) => {
 					<Text variant={'titleMedium'} numberOfLines={1}>
 						{rightCellValue}
 					</Text>
-					<Text variant={'labelMedium'} style={{ color: theme.colors.onSurfaceVariant }}>
+					<Text
+						variant={'labelMedium'}
+						numberOfLines={1}
+						style={{ color: theme.colors.onSurfaceVariant }}
+					>
 						{rightCellTitle}
 					</Text>
 				</View>

@@ -8,12 +8,13 @@ import { cryptoFormat } from '../../util';
 
 interface IGraphProps {
 	data: GraphPoint[];
+	onGestureStart: () => void;
 	onPointSelected: (p: number) => void;
 	onGestureEnd: () => void;
 }
 
 export const Graph: React.FC<IGraphProps> = (props) => {
-	const { data, onPointSelected, onGestureEnd } = props;
+	const { data, onGestureStart, onPointSelected, onGestureEnd } = props;
 	const { theme } = useSettingsContext();
 	const { width } = useWindowDimensions();
 	const [timeFrameHours, setTimeFrameHours] = useState<number>(168);
@@ -70,6 +71,7 @@ export const Graph: React.FC<IGraphProps> = (props) => {
 				animated={true}
 				enablePanGesture={true}
 				panGestureDelay={150}
+				onGestureStart={onGestureStart}
 				onPointSelected={(p) => onPointSelected(p.value)}
 				onGestureEnd={onGestureEnd}
 				TopAxisLabel={() => renderAxisLabel(true)}

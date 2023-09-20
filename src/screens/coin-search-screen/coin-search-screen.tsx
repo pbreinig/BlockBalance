@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { ActivityIndicator, Searchbar, Text, TouchableRipple } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { styles } from './coin-list-screen-styles';
+import { styles } from './coin-search-screen-styles';
 import { useSettingsContext } from '../../context/settings-context';
 import { SearchCoinListItem } from '../../components/search-coin-list-item/search-coin-list-item';
 import { fetchSearchCoins, useFetchTrendingCoins } from '../../api/coingecko-api';
 import { useDebounce } from 'use-debounce';
 
-export const CoinListScreen = ({ navigation }) => {
+export const CoinSearchScreen = ({ navigation, route }) => {
 	const { theme } = useSettingsContext();
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
@@ -16,6 +16,7 @@ export const CoinListScreen = ({ navigation }) => {
 	const { isLoading, data } = useFetchTrendingCoins();
 	const DATA = debouncedSearchQuery.length > 2 ? queriedData : data;
 	const isLoadingQuery = debouncedSearchQuery.length > 2 && !queriedData.length;
+	const { isMarket } = route.params;
 
 	useEffect(() => {
 		if (debouncedSearchQuery.length > 2) {
@@ -39,12 +40,7 @@ export const CoinListScreen = ({ navigation }) => {
 				ticker={ticker}
 				imgSrc={imgSrc}
 				onPress={() =>
-					navigation.navigate('Transaction', {
-						id: id,
-						name: name,
-						ticker: ticker,
-						imgSrc: imgSrc,
-					})
+					navigation.navigate(isMarket ? 'Coin' : 'Transaction', { coin: item })
 				}
 			/>
 		);

@@ -6,7 +6,7 @@ import { TransactionBuySellForm } from '../../components/forms/transaction-buy-s
 import { AppbarHeader } from '../../components/appbar-header/appbar-header';
 
 export const TransactionScreen = ({ navigation, route }) => {
-	const { id, name, ticker, imgSrc } = route.params;
+	const { id, name, ticker, imgSrc } = route.params.coin;
 	const [type, setType] = useState<string>('buy');
 
 	const renderTransactionForm = () => {

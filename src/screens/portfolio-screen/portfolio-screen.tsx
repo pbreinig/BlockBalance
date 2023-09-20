@@ -108,7 +108,7 @@ export const PortfolioScreen = ({ navigation }) => {
 				icon={'plus'}
 				style={styles.fab}
 				rippleColor={theme.additionalColors.ripple}
-				onPress={() => navigation.navigate('CoinList')}
+				onPress={() => navigation.navigate('CoinSearch', { isMarket: false })}
 			/>
 			<PortfolioBottomSheet setOpen={setBsOpen} isOpen={isBottomSheetOpen} />
 		</>

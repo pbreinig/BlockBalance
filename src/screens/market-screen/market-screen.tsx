@@ -72,11 +72,18 @@ export const MarketScreen = ({ navigation }) => {
 				visible={isFetchingNextPage}
 			/>
 			<FAB
+				variant={'secondary'}
 				icon={'chevron-up'}
 				style={styles.scrollToTopFab}
 				rippleColor={theme.additionalColors.ripple}
 				onPress={scrollToTop}
 				visible={scrollToTopVisible}
+			/>
+			<FAB
+				icon={'magnify'}
+				style={styles.searchFab}
+				rippleColor={theme.additionalColors.ripple}
+				onPress={() => navigation.navigate('CoinSearch', { isMarket: true })}
 			/>
 		</>
 	);

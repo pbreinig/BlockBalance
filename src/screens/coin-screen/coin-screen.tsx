@@ -4,37 +4,49 @@ import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './coin-screen-styles';
 import { AppbarHeader } from '../../components/appbar-header/appbar-header';
 import { cryptoFormat } from '../../util';
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { Graph } from '../../components/graph/graph';
-import { useFetchCoin } from '../../api/coingecko-api';
+import { fetchPrices, useFetchCoin } from '../../api/coingecko-api';
 import { CoinDetails } from '../../components/coin-details/coin-details';
 
 const currentDate = new Date();
 
 export const CoinScreen = ({ route }) => {
-	const { coin } = route.params;
-	const { name, imgSrc, ticker, pricePercentage24h, price, id } = coin;
+	const { name, imgSrc, ticker, id } = route.params.coin;
 	const { theme } = useSettingsContext();
 	const { isLoading, data } = useFetchCoin(id);
-	const [priceTitle, setPriceTitle] = useState<number>(price);
-	const isUp = pricePercentage24h && pricePercentage24h >= 0;
+	const [priceData, setPriceData] = useState({ price: 0, pricePercentage24h: 0 });
+	const [isFetchingPrice, setIsFetchingPrice] = useState<boolean>(true);
+	const [priceAtPoint, setPriceAtPoint] = useState<number>(0);
+	const [isInteracting, setIsInteracting] = useState(false);
+	const isUp = priceData.pricePercentage24h >= 0;
+
+	useEffect(() => {
+		const fetchPriceData = async () => {
+			fetchPrices([id]).then((pData) => {
+				const { usd: price, usd_24h_change: pricePercentage24h } = pData[id];
+				setPriceData({ price, pricePercentage24h });
+				setIsFetchingPrice(false);
+			});
+		};
+
+		fetchPriceData();
+	}, []);
 
 	const graphPoints = data?.sparklineData.map((value, index) => ({
 		value,
 		date: new Date(currentDate.getTime() - (data?.sparklineData.length - 1 - index) * 3600000),
 	}));
 
-	const updatePriceTitle = useDebouncedCallback((p: number) => {
-		setPriceTitle(p);
+	const updatePriceAtPoint = useDebouncedCallback((p: number) => {
+		setPriceAtPoint(p);
 	}, 5);
-
-	const resetPriceTitle = useCallback(() => setPriceTitle(price), []);
 
 	return (
 		<>
 			<AppbarHeader title={name} subtitle={ticker.toUpperCase()} imgSrc={imgSrc} />
-			{isLoading ? (
+			{isLoading || isFetchingPrice ? (
 				<ActivityIndicator style={{ top: 24 }} />
 			) : (
 				<ScrollView contentContainerStyle={styles.body}>
@@ -44,32 +56,31 @@ export const CoinScreen = ({ route }) => {
 							<Text variant={'titleMedium'}>{name}</Text>
 						</View>
 						<Text variant={'headlineLarge'}>
-							{cryptoFormat(priceTitle, 'USD', 'en')}
+							{cryptoFormat(
+								isInteracting ? priceAtPoint : priceData.price,
+								'USD',
+								'en',
+							)}
 						</Text>
 						<View style={[styles.flexRow, { gap: 5 }]}>
-							{pricePercentage24h && (
-								<>
-									<Text variant={'titleMedium'} style={{ lineHeight: 18 }}>
-										{'24H'}
-									</Text>
-									<Text
-										variant={'titleMedium'}
-										style={{
-											color: isUp
-												? theme.additionalColors.green
-												: theme.colors.error,
-											lineHeight: 18,
-										}}
-									>
-										{`${isUp ? '+' : ''}${pricePercentage24h.toFixed(2)}%`}
-									</Text>
-								</>
-							)}
+							<Text variant={'titleMedium'} style={{ lineHeight: 18 }}>
+								{'24H'}
+							</Text>
+							<Text
+								variant={'titleMedium'}
+								style={{
+									color: isUp ? theme.additionalColors.green : theme.colors.error,
+									lineHeight: 18,
+								}}
+							>
+								{`${isUp ? '+' : ''}${priceData.pricePercentage24h.toFixed(2)}%`}
+							</Text>
 						</View>
 						<Graph
 							data={graphPoints}
-							onPointSelected={updatePriceTitle}
-							onGestureEnd={resetPriceTitle}
+							onGestureStart={() => setIsInteracting(true)}
+							onPointSelected={updatePriceAtPoint}
+							onGestureEnd={() => setIsInteracting(false)}
 						/>
 						<CoinDetails coinData={data} />
 					</Surface>

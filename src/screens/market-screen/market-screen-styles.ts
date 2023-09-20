@@ -27,6 +27,11 @@ export const styles = StyleSheet.create({
 	scrollToTopFab: {
 		position: 'absolute',
 		right: 16,
+		bottom: 80,
+	},
+	searchFab: {
+		position: 'absolute',
+		right: 16,
 		bottom: 16,
 	},
 });
