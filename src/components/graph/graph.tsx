@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import { Chip, Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
@@ -18,7 +18,7 @@ export const Graph: React.FC<IGraphProps> = (props) => {
 	const { theme } = useSettingsContext();
 	const { width } = useWindowDimensions();
 	const [timeFrameHours, setTimeFrameHours] = useState<number>(168);
-	const [points, setPoints] = useState<GraphPoint[]>(data);
+	const points = data.slice(-timeFrameHours);
 	const isTimeFrameUp = points[points.length - 1].value >= points[0].value;
 
 	const { maxValue, translateXMax, minValue, translateXMin } = points.reduce(
@@ -41,11 +41,6 @@ export const Graph: React.FC<IGraphProps> = (props) => {
 		},
 		{ maxValue: 0, translateXMax: 0, minValue: points[0].value, translateXMin: 0 },
 	);
-
-	useEffect(() => {
-		const newPoints = [...data].slice(-timeFrameHours);
-		setPoints(newPoints);
-	}, [timeFrameHours]);
 
 	const renderAxisLabel = (isMax: boolean) => {
 		return (
