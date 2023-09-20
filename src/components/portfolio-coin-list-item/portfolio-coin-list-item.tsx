@@ -11,6 +11,7 @@ interface IPortfolioCoinListItemProps {
 	onPress: () => void;
 }
 
+const nFormat = new Intl.NumberFormat('en-US', { maximumFractionDigits: 5 });
 export const PortfolioCoinListItem: React.FC<IPortfolioCoinListItemProps> = (props) => {
 	const { coin, onPress } = props;
 	const { name, imgSrc, ticker, fiatValue, coinAmount, pricePercentage24h, price } = coin;
@@ -69,7 +70,7 @@ export const PortfolioCoinListItem: React.FC<IPortfolioCoinListItemProps> = (pro
 								numberOfLines={1}
 								style={[styles.ticker, { color: theme.colors.onSurfaceVariant }]}
 							>
-								{`${coinAmount} ${ticker}`}
+								{`${nFormat.format(coinAmount)} ${ticker}`}
 							</Text>
 						</View>
 					</View>
