@@ -1,17 +1,26 @@
+import { useCallback, useRef, useState } from 'react';
 import { FlatList, useWindowDimensions, View } from 'react-native';
-import { ActivityIndicator, Portal, ProgressBar, Text } from 'react-native-paper';
+import { ActivityIndicator, FAB, Portal, ProgressBar, Text } from 'react-native-paper';
 import { MarketListItem } from '../../components/market-list-item/market-list-item';
 import { useFetchMarket } from '../../api/coingecko-api';
 import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './market-screen-styles';
+import { useScrollToTop } from '@react-navigation/native';
 
 export const MarketScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
 	const { height: WINDOW_HEIGHT } = useWindowDimensions();
 	const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useFetchMarket();
 	const flattenData = data?.pages.flatMap((page) => page.data);
+	const [scrollToTopVisible, setScrollToTopVisible] = useState<boolean>(false);
+	const flatListRef = useRef<FlatList>(null);
+	useScrollToTop(flatListRef);
 
 	const loadMore = () => hasNextPage && fetchNextPage();
+
+	const scrollToTop = useCallback(() => flatListRef.current?.scrollToOffset({ offset: 0 }), []);
+
+	const onScroll = useCallback((offsetY: number) => setScrollToTopVisible(offsetY > 300), []);
 
 	const renderItem = ({ item }) => (
 		<MarketListItem
@@ -28,39 +37,50 @@ export const MarketScreen = ({ navigation }) => {
 	);
 
 	return (
-		<View style={styles.body}>
-			<Text variant={'headlineLarge'}>{'Market'}</Text>
-			<View style={styles.listLabelContainer}>
-				<Text variant={'labelSmall'} style={{ color: theme.colors.onSurfaceVariant }}>
-					{'COIN · 24H%'}
-				</Text>
-				<Text variant={'labelSmall'} style={{ color: theme.colors.onSurfaceVariant }}>
-					{'PRICE · MCAP'}
-				</Text>
+		<>
+			<View style={styles.body}>
+				<Text variant={'headlineLarge'}>{'Market'}</Text>
+				<View style={styles.listLabelContainer}>
+					<Text variant={'labelSmall'} style={{ color: theme.colors.onSurfaceVariant }}>
+						{'COIN · 24H%'}
+					</Text>
+					<Text variant={'labelSmall'} style={{ color: theme.colors.onSurfaceVariant }}>
+						{'PRICE · MCAP'}
+					</Text>
+				</View>
+				{isLoading ? (
+					<ActivityIndicator style={{ top: 18 }} />
+				) : (
+					<FlatList
+						ref={flatListRef}
+						data={flattenData}
+						keyExtractor={(item) => item.id}
+						renderItem={renderItem}
+						initialNumToRender={20}
+						style={styles.flatList}
+						contentContainerStyle={styles.flatListContainer}
+						showsVerticalScrollIndicator={false}
+						onScroll={(e) => onScroll(e.nativeEvent.contentOffset.y)}
+						onEndReached={loadMore}
+						onEndReachedThreshold={0.4}
+						removeClippedSubviews={true}
+					/>
+				)}
+				<Portal>
+					<ProgressBar
+						indeterminate={true}
+						style={{ height: 3, top: WINDOW_HEIGHT - 83 }}
+						visible={isFetchingNextPage}
+					/>
+				</Portal>
 			</View>
-			{isLoading ? (
-				<ActivityIndicator style={{ top: 18 }} />
-			) : (
-				<FlatList
-					data={flattenData}
-					keyExtractor={(item) => item.id}
-					renderItem={renderItem}
-					initialNumToRender={20}
-					style={styles.flatList}
-					contentContainerStyle={styles.flatListContainer}
-					showsVerticalScrollIndicator={false}
-					onEndReached={loadMore}
-					onEndReachedThreshold={0.4}
-					removeClippedSubviews={true}
-				/>
-			)}
-			<Portal>
-				<ProgressBar
-					indeterminate={true}
-					style={{ height: 3, top: WINDOW_HEIGHT - 83 }}
-					visible={isFetchingNextPage}
-				/>
-			</Portal>
-		</View>
+			<FAB
+				icon={'chevron-up'}
+				style={styles.scrollToTopFab}
+				rippleColor={theme.additionalColors.ripple}
+				onPress={scrollToTop}
+				visible={scrollToTopVisible}
+			/>
+		</>
 	);
 };

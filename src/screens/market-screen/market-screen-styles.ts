@@ -20,4 +20,9 @@ export const styles = StyleSheet.create({
 		top: 6,
 		paddingHorizontal: ListItem.PADDING,
 	},
+	scrollToTopFab: {
+		position: 'absolute',
+		right: 16,
+		bottom: 16,
+	},
 });
