@@ -43,8 +43,10 @@ export const MarketListItem: React.FC<IMarketListItemProps> = React.memo((props)
 					</View>
 					<Avatar.Image source={{ uri: imgSrc }} size={32} style={styles.image} />
 					<View style={styles.textContainer}>
-						<View>
-							<Text variant={'bodyLarge'}>{name}</Text>
+						<View style={styles.leftTextContainer}>
+							<Text variant={'bodyLarge'} numberOfLines={1}>
+								{name}
+							</Text>
 							<View style={styles.tickerChangeContainer}>
 								<Text
 									variant={'bodySmall'}
@@ -58,6 +60,7 @@ export const MarketListItem: React.FC<IMarketListItemProps> = React.memo((props)
 								{pricePercentage24h && (
 									<Text
 										variant={'bodySmall'}
+										numberOfLines={1}
 										style={{
 											color: isUp
 												? theme.additionalColors.green
@@ -69,12 +72,13 @@ export const MarketListItem: React.FC<IMarketListItemProps> = React.memo((props)
 								)}
 							</View>
 						</View>
-						<View>
-							<Text variant={'bodyLarge'} style={styles.textRight}>
+						<View style={styles.rightTextContainer}>
+							<Text variant={'bodyLarge'} numberOfLines={1} style={styles.textRight}>
 								{`${cryptoFormat(price, 'USD', 'en')}`}
 							</Text>
 							<Text
 								variant={'bodySmall'}
+								numberOfLines={1}
 								style={[styles.textRight, { color: theme.colors.onSurfaceVariant }]}
 							>
 								{`${cryptoFormat(marketCap, 'USD', 'en')}`}

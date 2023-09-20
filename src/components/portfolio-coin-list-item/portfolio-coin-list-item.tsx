@@ -28,11 +28,14 @@ export const PortfolioCoinListItem: React.FC<IPortfolioCoinListItemProps> = (pro
 				<>
 					<Avatar.Image source={{ uri: imgSrc }} size={32} style={styles.image} />
 					<View style={styles.textContainer}>
-						<View>
-							<Text variant={'bodyLarge'}>{name}</Text>
+						<View style={styles.leftTextContainer}>
+							<Text variant={'bodyLarge'} numberOfLines={1}>
+								{name}
+							</Text>
 							<View style={styles.tickerPriceChangeContainer}>
 								<Text
 									variant={'bodySmall'}
+									numberOfLines={1}
 									style={[
 										styles.ticker,
 										{ color: theme.colors.onSurfaceVariant },
@@ -52,22 +55,19 @@ export const PortfolioCoinListItem: React.FC<IPortfolioCoinListItemProps> = (pro
 										{` ${isUp ? '+' : ''}${pricePercentage24h.toFixed(2)}% `}
 									</Text>
 								)}
-								<Text variant={'bodySmall'}>
+								<Text variant={'bodySmall'} numberOfLines={1}>
 									{`${cryptoFormat(price || 0, 'USD', 'en')}`}
 								</Text>
 							</View>
 						</View>
-						<View>
-							<Text variant={'bodyLarge'} style={styles.textRight}>
+						<View style={styles.rightTextContainer}>
+							<Text variant={'bodyLarge'} numberOfLines={1}>
 								{currencyFormat(fiatValue, 'USD', 'en')}
 							</Text>
 							<Text
 								variant={'bodySmall'}
-								style={[
-									styles.textRight,
-									styles.ticker,
-									{ color: theme.colors.onSurfaceVariant },
-								]}
+								numberOfLines={1}
+								style={[styles.ticker, { color: theme.colors.onSurfaceVariant }]}
 							>
 								{`${coinAmount} ${ticker}`}
 							</Text>

@@ -39,6 +39,12 @@ export const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
+	leftTextContainer: {
+		maxWidth: '50%',
+	},
+	rightTextContainer: {
+		maxWidth: '50%',
+	},
 	tickerChangeContainer: {
 		flexDirection: 'row',
 	},

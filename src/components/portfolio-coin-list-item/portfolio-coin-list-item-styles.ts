@@ -26,13 +26,17 @@ export const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
+	leftTextContainer: {
+		maxWidth: '50%',
+	},
+	rightTextContainer: {
+		alignItems: 'flex-end',
+		maxWidth: '50%',
+	},
 	tickerPriceChangeContainer: {
 		flexDirection: 'row',
 	},
 	ticker: {
 		textTransform: 'uppercase',
-	},
-	textRight: {
-		textAlign: 'right',
 	},
 });
