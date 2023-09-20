@@ -3,13 +3,14 @@ import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './coin-details-styles';
 import { Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
-import { currencyFormat } from '../../util';
+import { cryptoFormat, currencyFormat } from '../../util';
 
 interface ICoinDetailsProps {
 	coinData: any;
 }
 
 const nFormat = new Intl.NumberFormat();
+const NA = 'N/A';
 
 export const CoinDetails: React.FC<ICoinDetailsProps> = (props) => {
 	const { coinData } = props;
@@ -57,46 +58,52 @@ export const CoinDetails: React.FC<ICoinDetailsProps> = (props) => {
 		<>
 			{renderInfoRow(
 				'Market Cap Rank',
-				`#${coinData?.rank}`,
+				coinData?.rank ? `#${coinData?.rank}` : NA,
 				'Market Cap',
-				currencyFormat(coinData?.marketCap, 'USD', 'en'),
+				coinData?.marketCap ? currencyFormat(coinData?.marketCap, 'USD', 'en') : NA,
 			)}
 			{renderInfoRow(
 				'Fully Diluted Valuation',
-				currencyFormat(coinData?.dilutedValuation, 'USD', 'en'),
+				coinData?.dilutedValuation
+					? currencyFormat(coinData?.dilutedValuation, 'USD', 'en')
+					: NA,
 				'24H Volume',
-				currencyFormat(coinData?.volume, 'USD', 'en'),
+				coinData?.volume ? currencyFormat(coinData?.volume, 'USD', 'en') : NA,
 			)}
 			{renderInfoRow(
 				'24H High',
-				currencyFormat(coinData?.high24h, 'USD', 'en'),
+				coinData?.high24h ? cryptoFormat(coinData?.high24h, 'USD', 'en') : NA,
 				'24H Low',
-				currencyFormat(coinData?.low24h, 'USD', 'en'),
+				coinData?.low24h ? cryptoFormat(coinData?.low24h, 'USD', 'en') : NA,
 			)}
 			{renderInfoRow(
 				`All-Time High (${athDate})`,
-				currencyFormat(coinData?.ath, 'USD', 'en'),
+				coinData?.ath ? cryptoFormat(coinData?.ath, 'USD', 'en') : NA,
 				`All-Time Low (${atlDate})`,
-				currencyFormat(coinData?.atl, 'USD', 'en'),
+				coinData?.atl ? cryptoFormat(coinData?.atl, 'USD', 'en') : NA,
 			)}
 			{renderInfoRow(
 				'Genesis Date',
-				genesisDate,
+				coinData?.genesisDate ? genesisDate : NA,
 				`Circulating Supply (${coinData?.ticker.toUpperCase()})`,
-				nFormat.format(coinData?.circulatingSupply),
+				coinData?.circulatingSupply ? nFormat.format(coinData?.circulatingSupply) : NA,
 			)}
 			{renderInfoRow(
 				`Total Supply (${coinData?.ticker.toUpperCase()})`,
-				nFormat.format(coinData?.totalSupply),
+				coinData?.totalSupply ? nFormat.format(coinData?.totalSupply) : NA,
 				`Max Supply (${coinData?.ticker.toUpperCase()})`,
-				nFormat.format(coinData?.maxSupply),
+				coinData?.maxSupply ? nFormat.format(coinData?.maxSupply) : NA,
 			)}
 			<Divider style={[styles.divider, { backgroundColor: theme.colors.onSurfaceVariant }]} />
-			<Text
-				variant={'titleMedium'}
-				style={{ lineHeight: 28 }}
-			>{`About ${coinData?.name}`}</Text>
-			<Text variant={'bodySmall'}>{coinData?.description}</Text>
+			{coinData?.description && (
+				<>
+					<Text
+						variant={'titleMedium'}
+						style={{ lineHeight: 28 }}
+					>{`About ${coinData?.name}`}</Text>
+					<Text variant={'bodySmall'}>{coinData?.description}</Text>
+				</>
+			)}
 		</>
 	);
 };
