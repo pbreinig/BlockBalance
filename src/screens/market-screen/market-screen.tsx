@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
-import { FlatList, useWindowDimensions, View } from 'react-native';
-import { ActivityIndicator, FAB, Portal, ProgressBar, Text } from 'react-native-paper';
+import { FlatList, View } from 'react-native';
+import { ActivityIndicator, FAB, ProgressBar, Text } from 'react-native-paper';
 import { MarketListItem } from '../../components/market-list-item/market-list-item';
 import { useFetchMarket } from '../../api/coingecko-api';
 import { useSettingsContext } from '../../context/settings-context';
@@ -9,7 +9,6 @@ import { useScrollToTop } from '@react-navigation/native';
 
 export const MarketScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();
-	const { height: WINDOW_HEIGHT } = useWindowDimensions();
 	const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useFetchMarket();
 	const flattenData = data?.pages.flatMap((page) => page.data);
 	const [scrollToTopVisible, setScrollToTopVisible] = useState<boolean>(false);
@@ -66,14 +65,12 @@ export const MarketScreen = ({ navigation }) => {
 						removeClippedSubviews={true}
 					/>
 				)}
-				<Portal>
-					<ProgressBar
-						indeterminate={true}
-						style={{ height: 3, top: WINDOW_HEIGHT - 83 }}
-						visible={isFetchingNextPage}
-					/>
-				</Portal>
 			</View>
+			<ProgressBar
+				indeterminate={true}
+				style={styles.progressBar}
+				visible={isFetchingNextPage}
+			/>
 			<FAB
 				icon={'chevron-up'}
 				style={styles.scrollToTopFab}

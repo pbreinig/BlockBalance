@@ -20,6 +20,10 @@ export const styles = StyleSheet.create({
 		top: 6,
 		paddingHorizontal: ListItem.PADDING,
 	},
+	progressBar: {
+		position: 'absolute',
+		bottom: 56,
+	},
 	scrollToTopFab: {
 		position: 'absolute',
 		right: 16,
