@@ -4,7 +4,7 @@ import { Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { LineChart, TLineChartData, TLineChartPoint } from 'react-native-wagmi-charts';
 import { styles } from './chart-styles';
-import { cryptoFormat } from '../../util';
+import { cryptoFormat, formatTimestamp } from '../../util';
 import { runOnJS, useAnimatedReaction } from 'react-native-reanimated';
 import { useDebouncedCallback } from 'use-debounce';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -24,7 +24,7 @@ export const Chart: React.FC<IChartProps> = (props) => {
 		value: points[points.length - 1].value,
 	});
 	const price = cryptoFormat(isActive.value ? activePoint.value : currentPrice, 'USD', 'en');
-	const priceDateString = new Date(activePoint.timestamp).toLocaleString();
+	const priceDateString = formatTimestamp(activePoint.timestamp);
 	const percentageChange =
 		((points[points.length - 1].value - points[0].value) / points[0].value) * 100;
 	const priceChange = cryptoFormat(
