@@ -7,6 +7,7 @@ import { styles } from './chart-styles';
 import { cryptoFormat } from '../../util';
 import { runOnJS, useAnimatedReaction } from 'react-native-reanimated';
 import { useDebouncedCallback } from 'use-debounce';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface IChartProps {
 	points: TLineChartData;
@@ -22,11 +23,17 @@ export const Chart: React.FC<IChartProps> = (props) => {
 		timestamp: points[points.length - 1].timestamp,
 		value: points[points.length - 1].value,
 	});
+	const price = cryptoFormat(isActive.value ? activePoint.value : currentPrice, 'USD', 'en');
 	const isTimeFrameUp = points[points.length - 1].value >= points[0].value;
 	const priceDateString = new Date(activePoint.timestamp).toLocaleString();
-	const timeFramePercentage =
+	const percentageChange =
 		((points[points.length - 1].value - points[0].value) / points[0].value) * 100;
-	const isUp = timeFramePercentage >= 0;
+	const priceChange = cryptoFormat(
+		points[points.length - 1].value - points[0].value,
+		'USD',
+		'en',
+	);
+	const isUp = percentageChange >= 0;
 
 	const { minValIndex, maxValIndex } = useMemo(
 		() =>
@@ -62,27 +69,34 @@ export const Chart: React.FC<IChartProps> = (props) => {
 
 	return (
 		<>
-			<Text variant={'headlineLarge'}>
-				{cryptoFormat(isActive.value ? activePoint.value : currentPrice, 'USD', 'en')}
-			</Text>
-			<View style={[styles.flexRow, { gap: 5 }]}>
+			<Text variant={'headlineLarge'}>{price}</Text>
+			<View style={styles.flexRow}>
 				{isActive.value ? (
 					<Text variant={'titleMedium'} style={{ lineHeight: 18 }}>
 						{priceDateString}
 					</Text>
 				) : (
-					<Text
-						variant={'titleMedium'}
-						style={{
-							color: isUp ? theme.additionalColors.green : theme.colors.error,
-							lineHeight: 18,
-						}}
-					>
-						{`${isUp ? '+' : ''}${timeFramePercentage.toFixed(2)}%`}
-					</Text>
+					<>
+						<MaterialIcons
+							name={isUp ? 'arrow-drop-up' : 'arrow-drop-down'}
+							size={40}
+							color={isUp ? theme.additionalColors.green : theme.colors.error}
+							style={styles.upDownIcon}
+						/>
+						<Text
+							variant={'titleMedium'}
+							style={{
+								color: isUp ? theme.additionalColors.green : theme.colors.error,
+								lineHeight: 18,
+							}}
+						>
+							{`${priceChange} (${percentageChange.toFixed(2)}%)`}
+						</Text>
+					</>
 				)}
 			</View>
-			<LineChart width={width - 48} height={350}>
+
+			<LineChart width={width - 48} height={350} style={styles.chart}>
 				<LineChart.Path
 					animateOnMount={'foreground'}
 					color={isTimeFrameUp ? theme.additionalColors.green : theme.colors.error}
