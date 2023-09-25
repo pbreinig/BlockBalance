@@ -24,7 +24,6 @@ export const Chart: React.FC<IChartProps> = (props) => {
 		value: points[points.length - 1].value,
 	});
 	const price = cryptoFormat(isActive.value ? activePoint.value : currentPrice, 'USD', 'en');
-	const isTimeFrameUp = points[points.length - 1].value >= points[0].value;
 	const priceDateString = new Date(activePoint.timestamp).toLocaleString();
 	const percentageChange =
 		((points[points.length - 1].value - points[0].value) / points[0].value) * 100;
@@ -99,14 +98,23 @@ export const Chart: React.FC<IChartProps> = (props) => {
 			<LineChart width={width - 48} height={350} style={styles.chart}>
 				<LineChart.Path
 					animateOnMount={'foreground'}
-					color={isTimeFrameUp ? theme.additionalColors.green : theme.colors.error}
+					color={isUp ? theme.additionalColors.green : theme.colors.error}
 				>
 					<LineChart.Gradient />
 					<LineChart.Dot color={theme.colors.onSurface} at={minValIndex} />
 					<LineChart.Dot color={theme.colors.onSurface} at={maxValIndex} />
+					<LineChart.Dot
+						color={isUp ? theme.additionalColors.green : theme.colors.error}
+						at={points.length - 1}
+					/>
+					<LineChart.HorizontalLine
+						color={isUp ? theme.additionalColors.green : theme.colors.error}
+						at={points.length - 1}
+						lineProps={{ opacity: isActive.value ? 0.3 : 1 }}
+					/>
 				</LineChart.Path>
 				<LineChart.CursorCrosshair
-					color={isTimeFrameUp ? theme.additionalColors.green : theme.colors.error}
+					color={isUp ? theme.additionalColors.green : theme.colors.error}
 				/>
 			</LineChart>
 		</>
