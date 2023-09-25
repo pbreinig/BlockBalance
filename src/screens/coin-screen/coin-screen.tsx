@@ -8,6 +8,8 @@ import { Chart } from '../../components/chart/chart';
 import { fetchPrices, useFetchCoin } from '../../api/coingecko-api';
 import { CoinDetails } from '../../components/coin-details/coin-details';
 import { LineChart } from 'react-native-wagmi-charts';
+import { useMMKVNumber } from 'react-native-mmkv';
+import { storage } from '../../storage';
 
 export const CoinScreen = ({ route }) => {
 	const { name, imgSrc, ticker, id } = route.params.coin;
@@ -15,7 +17,7 @@ export const CoinScreen = ({ route }) => {
 	const { isLoading, data } = useFetchCoin(id);
 	const [currentPrice, setCurrentPrice] = useState<number>(0);
 	const [isFetchingPrice, setIsFetchingPrice] = useState<boolean>(true);
-	const [timeFrame, setTimeFrame] = useState<number>(24);
+	const [timeFrame = 24, setTimeFrame] = useMMKVNumber('timeFrame', storage);
 	const dataTimestamp = Date.parse(data?.lastUpdated);
 
 	useEffect(() => {
