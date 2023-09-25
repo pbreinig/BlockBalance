@@ -16,4 +16,12 @@ export const styles = StyleSheet.create({
 		marginRight: 8,
 		backgroundColor: 'transparent',
 	},
+	timeFrameSelection: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		gap: 12,
+	},
+	chipUnselected: {
+		backgroundColor: 'transparent',
+	},
 });

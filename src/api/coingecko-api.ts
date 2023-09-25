@@ -89,8 +89,16 @@ export const useFetchCoin = (coinId: string) => {
 		const response = await axios.get(
 			`${API_URL}coins/${coinId}?localization=false&tickers=false&sparkline=true`,
 		);
-		const { id, name, symbol, market_data, market_cap_rank, genesis_date, description } =
-			response.data;
+		const {
+			id,
+			name,
+			symbol,
+			market_data,
+			market_cap_rank,
+			genesis_date,
+			description,
+			last_updated,
+		} = response.data;
 		return {
 			id,
 			name,
@@ -113,6 +121,7 @@ export const useFetchCoin = (coinId: string) => {
 			atlDate: market_data.atl_date.usd,
 			atlChangePercentage: market_data.atl_change_percentage.usd,
 			description: description.en,
+			lastUpdated: last_updated,
 		};
 	};
 
