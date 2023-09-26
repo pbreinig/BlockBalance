@@ -5,13 +5,13 @@ import { styles } from './appbar-header-styles';
 import { useSettingsContext } from '../../context/settings-context';
 import { useNavigation } from '@react-navigation/native';
 
-interface IAppbarHeaderProps {
+interface AppbarHeaderProps {
 	title: string;
 	subtitle?: string;
 	imgSrc?: string;
 }
 
-export const AppbarHeader: React.FC<IAppbarHeaderProps> = (props) => {
+export const AppbarHeader: React.FC<AppbarHeaderProps> = (props) => {
 	const { title, subtitle, imgSrc } = props;
 	const { theme } = useSettingsContext();
 	const { goBack } = useNavigation();

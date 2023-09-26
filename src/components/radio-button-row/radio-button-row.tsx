@@ -5,7 +5,7 @@ import { styles } from './radio-button-row-styles';
 import { View } from 'react-native';
 import { useSettingsContext } from '../../context/settings-context';
 
-interface IRadioButtonRowProps {
+interface RadioButtonRowProps {
 	title: string;
 	iconName: string;
 	iconColor: string;
@@ -14,7 +14,7 @@ interface IRadioButtonRowProps {
 	status: 'checked' | 'unchecked' | undefined;
 }
 
-export const RadioButtonRow: React.FC<IRadioButtonRowProps> = (props) => {
+export const RadioButtonRow: React.FC<RadioButtonRowProps> = (props) => {
 	const { title, iconName, iconColor, onPress, value, status } = props;
 	const { theme } = useSettingsContext();
 

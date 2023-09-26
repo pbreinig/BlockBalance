@@ -6,13 +6,13 @@ import { styles } from './portfolio-coin-list-item-styles';
 import { Coin } from '../../context/portfolio-context';
 import { cryptoFormat, currencyFormat } from '../../util';
 
-interface IPortfolioCoinListItemProps {
+interface PortfolioCoinListItemProps {
 	coin: Coin;
 	onPress: () => void;
 }
 
 const nFormat = new Intl.NumberFormat('en-US', { maximumFractionDigits: 5 });
-export const PortfolioCoinListItem: React.FC<IPortfolioCoinListItemProps> = (props) => {
+export const PortfolioCoinListItem: React.FC<PortfolioCoinListItemProps> = (props) => {
 	const { coin, onPress } = props;
 	const { name, imgSrc, ticker, fiatValue, coinAmount, pricePercentage24h, price } = coin;
 	const { theme } = useSettingsContext();

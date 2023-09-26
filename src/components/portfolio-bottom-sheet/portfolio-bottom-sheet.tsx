@@ -14,12 +14,12 @@ import {
 } from '@gorhom/bottom-sheet';
 import { currencyFormat } from '../../util';
 
-interface IPortfolioBottomSheetProps {
+interface PortfolioBottomSheetProps {
 	setOpen: (open: boolean) => void;
 	isOpen: boolean;
 }
 
-export const PortfolioBottomSheet: React.FC<IPortfolioBottomSheetProps> = (props) => {
+export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props) => {
 	const { setOpen, isOpen } = props;
 	const { theme } = useSettingsContext();
 	const {

@@ -2,13 +2,13 @@ import { createContext, useContext } from 'react';
 import { useColorScheme } from 'react-native';
 import { MD3Theme } from 'react-native-paper';
 import { useMMKVString } from 'react-native-mmkv';
-import { AdditionalColors, DarkTheme, LightTheme } from '../constants/themes';
+import { AdditionalColorsType, DarkTheme, LightTheme } from '../constants/themes';
 import { storage } from '../storage';
 
 type ThemeType = 'light' | 'dark' | 'system';
 
 type SettingsContextType = {
-	theme: MD3Theme & AdditionalColors;
+	theme: MD3Theme & AdditionalColorsType;
 	themeType: string;
 	setThemeType: (theme: ThemeType) => void;
 };

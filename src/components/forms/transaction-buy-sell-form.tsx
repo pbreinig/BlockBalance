@@ -5,7 +5,7 @@ import { useSettingsContext } from '../../context/settings-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
 import { DatePickerInput } from 'react-native-paper-dates';
 
-interface ITransactionBuyFormProps {
+interface TransactionBuyFormProps {
 	type: 'buy' | 'sell';
 	navigation: any;
 	id: string;
@@ -16,7 +16,7 @@ interface ITransactionBuyFormProps {
 
 const date = new Date();
 
-export const TransactionBuySellForm: React.FC<ITransactionBuyFormProps> = (props) => {
+export const TransactionBuySellForm: React.FC<TransactionBuyFormProps> = (props) => {
 	const { type, navigation, id, name, ticker, imgSrc } = props;
 	const { theme } = useSettingsContext();
 	const { addTransaction } = usePortfolioContext();

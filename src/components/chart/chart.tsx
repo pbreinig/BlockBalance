@@ -9,12 +9,12 @@ import { runOnJS, useAnimatedReaction } from 'react-native-reanimated';
 import { useDebouncedCallback } from 'use-debounce';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-interface IChartProps {
+interface ChartProps {
 	points: TLineChartData;
 	currentPrice: number;
 }
 
-export const Chart: React.FC<IChartProps> = (props) => {
+export const Chart: React.FC<ChartProps> = (props) => {
 	const { points, currentPrice } = props;
 	const { theme } = useSettingsContext();
 	const { width } = useWindowDimensions();

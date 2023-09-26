@@ -5,14 +5,14 @@ import { Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { cryptoFormat, currencyFormat } from '../../util';
 
-interface ICoinDetailsProps {
+interface CoinDetailsProps {
 	coinData: any;
 }
 
 const nFormat = new Intl.NumberFormat();
 const NA = 'N/A';
 
-export const CoinDetails: React.FC<ICoinDetailsProps> = (props) => {
+export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 	const { coinData } = props;
 	const { theme } = useSettingsContext();
 	const genesisDate = new Date(coinData?.genesisDate).toLocaleDateString();

@@ -7,7 +7,7 @@ import { Portfolio } from '../../context/portfolio-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { styles } from './portfolio-bottom-sheet-list-item-styles';
 
-interface IPortfolioBottomSheetListItemProps {
+interface PortfolioBottomSheetListItemProps {
 	portfolio: Portfolio;
 	isActivePortfolio: boolean;
 	onPress: () => void;
@@ -16,8 +16,8 @@ interface IPortfolioBottomSheetListItemProps {
 	isEditActive: boolean;
 }
 
-export const PortfolioBottomSheetListItem: React.FC<IPortfolioBottomSheetListItemProps> =
-	React.memo((props) => {
+export const PortfolioBottomSheetListItem: React.FC<PortfolioBottomSheetListItemProps> = React.memo(
+	(props) => {
 		const { portfolio, isActivePortfolio, onPress, onPressEdit, onPressDelete, isEditActive } =
 			props;
 		const { theme } = useSettingsContext();
@@ -65,4 +65,5 @@ export const PortfolioBottomSheetListItem: React.FC<IPortfolioBottomSheetListIte
 				</View>
 			</TouchableRipple>
 		);
-	});
+	},
+);

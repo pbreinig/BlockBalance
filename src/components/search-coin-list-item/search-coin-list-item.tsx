@@ -5,7 +5,7 @@ import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './search-coin-list-item-styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-interface ISearchCoinListItemProps {
+interface SearchCoinListItemProps {
 	id: string;
 	name: string;
 	ticker: string;
@@ -13,7 +13,7 @@ interface ISearchCoinListItemProps {
 	onPress: () => void;
 }
 
-export const SearchCoinListItem: React.FC<ISearchCoinListItemProps> = React.memo((props) => {
+export const SearchCoinListItem: React.FC<SearchCoinListItemProps> = React.memo((props) => {
 	const { name, ticker, imgSrc, onPress } = props;
 	const { theme } = useSettingsContext();
 

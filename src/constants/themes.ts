@@ -112,7 +112,7 @@ const fontConfig = {
 	},
 } as const;
 
-export type AdditionalColors = {
+export type AdditionalColorsType = {
 	additionalColors: {
 		green: string;
 		greenOpacity: string;
@@ -121,7 +121,7 @@ export type AdditionalColors = {
 	};
 };
 
-export const DarkTheme: MD3Theme & AdditionalColors = {
+export const DarkTheme: MD3Theme & AdditionalColorsType = {
 	...MD3DarkTheme,
 	colors: {
 		primary: '#34548A',
@@ -174,7 +174,7 @@ export const DarkTheme: MD3Theme & AdditionalColors = {
 	fonts: configureFonts({ config: fontConfig }),
 };
 
-export const LightTheme: MD3Theme & AdditionalColors = {
+export const LightTheme: MD3Theme & AdditionalColorsType = {
 	...MD3LightTheme,
 	colors: {
 		primary: '#7AA2F7',

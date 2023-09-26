@@ -5,7 +5,7 @@ import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './market-list-item-styles';
 import { cryptoFormat } from '../../util';
 
-interface IMarketListItemProps {
+interface MarketListItemProps {
 	id: string;
 	rank: number;
 	name: string;
@@ -17,7 +17,7 @@ interface IMarketListItemProps {
 	onPress: () => void;
 }
 
-export const MarketListItem: React.FC<IMarketListItemProps> = React.memo((props) => {
+export const MarketListItem: React.FC<MarketListItemProps> = React.memo((props) => {
 	const { rank, name, ticker, imgSrc, price, pricePercentage24h, marketCap, onPress } = props;
 	const { theme } = useSettingsContext();
 	const isUp = pricePercentage24h >= 0;
