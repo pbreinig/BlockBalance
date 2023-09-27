@@ -41,7 +41,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 	return (
 		<View>
 			<AppbarHeader title={name} subtitle={ticker} imgSrc={imgSrc} />
-			<Surface style={styles.container}>
+			<Surface mode={'flat'} style={styles.container}>
 				<SegmentedButtons
 					value={type}
 					onValueChange={setType}
