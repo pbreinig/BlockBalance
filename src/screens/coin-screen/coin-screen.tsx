@@ -10,10 +10,12 @@ import { CoinDetails } from '../../components/coin-details/coin-details';
 import { LineChart } from 'react-native-wagmi-charts';
 import { useMMKVNumber } from 'react-native-mmkv';
 import { storage } from '../../storage';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const CoinScreen = ({ route }) => {
 	const { name, imgSrc, ticker, id } = route.params.coin;
 	const { theme } = useSettingsContext();
+	const insets = useSafeAreaInsets();
 	const { isLoading, data } = useFetchCoin(id);
 	const [currentPrice, setCurrentPrice] = useState<number>(0);
 	const [isFetchingPrice, setIsFetchingPrice] = useState<boolean>(true);
@@ -57,7 +59,12 @@ export const CoinScreen = ({ route }) => {
 			{isLoading || isFetchingPrice ? (
 				<ActivityIndicator style={{ top: 24 }} />
 			) : (
-				<ScrollView contentContainerStyle={styles.body}>
+				<ScrollView
+					contentContainerStyle={[
+						styles.body,
+						{ paddingBottom: styles.body.padding + insets.bottom },
+					]}
+				>
 					<Surface mode={'flat'} style={styles.surface}>
 						<View style={styles.flexRow}>
 							<Avatar.Image source={{ uri: imgSrc }} size={18} style={styles.image} />

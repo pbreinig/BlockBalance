@@ -13,6 +13,7 @@ import {
 	BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { currencyFormat } from '../../util';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface PortfolioBottomSheetProps {
 	setOpen: (open: boolean) => void;
@@ -31,12 +32,16 @@ export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props)
 		editPortfolio,
 		deletePortfolio,
 	} = usePortfolioContext();
+	const insets = useSafeAreaInsets();
 	const [isInEditMode, setIsInEditMode] = useState<boolean>(false);
 	const portfolioBottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const inputBottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const [portfolioToBeEdited, setPortfolioToBeEdited] = useState<Portfolio>(portfolio);
 	const [newPortfolioName, setNewPortfolioName] = useState<string>('');
-	const BS_HEIGHT = useMemo(() => 100 + portfolios.length * 60, [portfolios.length]);
+	const BS_HEIGHT = useMemo(
+		() => 100 + insets.bottom + portfolios.length * 60,
+		[portfolios.length],
+	);
 	const portfoliosByValue = [...portfolios].sort(
 		(pfA, pfB) => pfB.totalFiatValue - pfA.totalFiatValue,
 	);
@@ -120,6 +125,7 @@ export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props)
 						{
 							backgroundColor: theme.colors.background,
 							borderTopColor: theme.colors.onSurfaceVariant,
+							paddingBottom: styles.footerContainer.paddingVertical + insets.bottom,
 						},
 					]}
 				>
@@ -166,7 +172,7 @@ export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props)
 
 	const renderInputSheetContent = useCallback(
 		() => (
-			<BottomSheetView>
+			<BottomSheetView style={{ paddingBottom: insets.bottom }}>
 				{renderSheetHeader(isInEditMode ? 'Edit Portfolio' : 'New Portfolio')}
 				<TextInput
 					mode={'outlined'}
@@ -191,6 +197,7 @@ export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props)
 						{
 							backgroundColor: theme.colors.background,
 							borderTopColor: theme.colors.onSurfaceVariant,
+							paddingBottom: styles.footerContainer.paddingVertical + insets.bottom,
 						},
 					]}
 				>
