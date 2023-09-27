@@ -10,11 +10,12 @@ interface SearchCoinListItemProps {
 	name: string;
 	ticker: string;
 	imgSrc: string;
+	rank: number;
 	onPress: () => void;
 }
 
 export const SearchCoinListItem: React.FC<SearchCoinListItemProps> = React.memo((props) => {
-	const { name, ticker, imgSrc, onPress } = props;
+	const { name, ticker, imgSrc, rank, onPress } = props;
 	const { theme } = useSettingsContext();
 
 	return (
@@ -25,23 +26,37 @@ export const SearchCoinListItem: React.FC<SearchCoinListItemProps> = React.memo(
 				style={styles.itemContainer}
 			>
 				<>
-					<View style={styles.itemLeftContainer}>
+					<View style={styles.itemLeftRightContainer}>
 						<Avatar.Image source={{ uri: imgSrc }} size={32} style={styles.image} />
 						<View>
-							<Text variant={'bodyLarge'}>{name}</Text>
+							<Text variant={'bodyLarge'} numberOfLines={1}>
+								{name}
+							</Text>
 							<Text
 								variant={'bodySmall'}
+								numberOfLines={1}
 								style={{ color: theme.colors.onSurfaceVariant }}
 							>
 								{ticker.toUpperCase()}
 							</Text>
 						</View>
 					</View>
-					<MaterialIcons
-						name={'chevron-right'}
-						size={30}
-						color={theme.colors.onPrimary}
-					/>
+					<View style={styles.itemLeftRightContainer}>
+						{rank && (
+							<Text
+								variant={'bodySmall'}
+								numberOfLines={1}
+								style={{ color: theme.colors.onSurfaceVariant }}
+							>
+								{`#${rank}`}
+							</Text>
+						)}
+						<MaterialIcons
+							name={'chevron-right'}
+							size={30}
+							color={theme.colors.onPrimary}
+						/>
+					</View>
 				</>
 			</TouchableRipple>
 			<Divider

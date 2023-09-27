@@ -6,9 +6,11 @@ import { useSettingsContext } from '../../context/settings-context';
 import { SearchCoinListItem } from '../../components/search-coin-list-item/search-coin-list-item';
 import { fetchSearchCoins, useFetchTrendingCoins } from '../../api/coingecko-api';
 import { useDebounce } from 'use-debounce';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const CoinSearchScreen = ({ navigation, route }) => {
 	const { theme } = useSettingsContext();
+	const insets = useSafeAreaInsets();
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
 	const [queriedData, setQueriedData] = useState([]);
@@ -32,7 +34,7 @@ export const CoinSearchScreen = ({ navigation, route }) => {
 	const handleScrollBeginDrag = useCallback(() => Keyboard.dismiss(), []);
 
 	const renderItem = ({ item }) => {
-		const { id, name, ticker, imgSrc } = item;
+		const { id, name, ticker, rank, imgSrc } = item;
 
 		return (
 			<SearchCoinListItem
@@ -40,6 +42,7 @@ export const CoinSearchScreen = ({ navigation, route }) => {
 				name={name}
 				ticker={ticker}
 				imgSrc={imgSrc}
+				rank={rank}
 				onPress={() =>
 					navigation.navigate(isMarket ? 'Coin' : 'Transaction', { coin: item })
 				}
@@ -85,6 +88,7 @@ export const CoinSearchScreen = ({ navigation, route }) => {
 					initialNumToRender={20}
 					removeClippedSubviews={true}
 					onScrollBeginDrag={handleScrollBeginDrag}
+					contentContainerStyle={{ paddingBottom: insets.bottom }}
 				/>
 			)}
 		</>
