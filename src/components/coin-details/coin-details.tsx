@@ -4,6 +4,7 @@ import { styles } from './coin-details-styles';
 import { Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { cryptoFormat, currencyFormat, stripHTML } from '../../util';
+import { ExpandableText } from '../expandable-text/expandable-text';
 
 interface CoinDetailsProps {
 	coinData: any;
@@ -110,7 +111,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						variant={'titleMedium'}
 						style={{ lineHeight: 28 }}
 					>{`About ${coinData?.name}`}</Text>
-					<Text variant={'bodySmall'}>{aboutText}</Text>
+					<ExpandableText text={aboutText} />
 				</>
 			)}
 		</>
