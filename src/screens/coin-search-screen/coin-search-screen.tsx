@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
-import { ActivityIndicator, Searchbar, Text, TouchableRipple } from 'react-native-paper';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, Keyboard } from 'react-native';
+import { ActivityIndicator, Searchbar, Text } from 'react-native-paper';
 import { styles } from './coin-search-screen-styles';
 import { useSettingsContext } from '../../context/settings-context';
 import { SearchCoinListItem } from '../../components/search-coin-list-item/search-coin-list-item';
@@ -30,6 +29,8 @@ export const CoinSearchScreen = ({ navigation, route }) => {
 
 	const onChangeSearch = (query) => setSearchQuery(query);
 
+	const handleScrollBeginDrag = useCallback(() => Keyboard.dismiss(), []);
+
 	const renderItem = ({ item }) => {
 		const { id, name, ticker, imgSrc } = item;
 
@@ -52,34 +53,29 @@ export const CoinSearchScreen = ({ navigation, route }) => {
 				variant={'labelLarge'}
 				style={[styles.listHeader, { color: theme.colors.primary }]}
 			>
-				{debouncedSearchQuery.length > 2 ? 'Search Results' : 'Trending'}
+				{debouncedSearchQuery.length > 2 ? 'Search Results' : 'Trending Search'}
 			</Text>
 		);
 	};
 
 	return (
 		<>
-			<View style={styles.headerContainer}>
-				<TouchableRipple
-					onPress={() => navigation.goBack()}
-					rippleColor={theme.additionalColors.ripple}
-					style={styles.backButton}
-					borderless={true}
-				>
-					<MaterialIcons name={'arrow-back'} size={25} color={theme.colors.onPrimary} />
-				</TouchableRipple>
-				<Searchbar
-					placeholder={'Search Crypto'}
-					value={searchQuery}
-					onChangeText={onChangeSearch}
-					rippleColor={theme.additionalColors.ripple}
-					inputStyle={{ color: theme.colors.onPrimary }}
-					placeholderTextColor={theme.colors.onSurfaceVariant}
-					style={styles.searchbar}
-				/>
-			</View>
+			<Searchbar
+				mode={'view'}
+				theme={{ colors: { outline: theme.colors.onSurfaceVariant } }}
+				placeholder={'Search Crypto'}
+				icon={'arrow-left'}
+				iconColor={theme.colors.onPrimary}
+				onIconPress={() => navigation.goBack()}
+				value={searchQuery}
+				onChangeText={onChangeSearch}
+				rippleColor={theme.additionalColors.ripple}
+				inputStyle={{ color: theme.colors.onPrimary }}
+				placeholderTextColor={theme.colors.onSurfaceVariant}
+				autoFocus={true}
+			/>
 			{isLoading || isLoadingQuery ? (
-				<ActivityIndicator style={{ top: 8 }} />
+				<ActivityIndicator style={{ top: 12 }} />
 			) : (
 				<FlatList
 					data={DATA}
@@ -88,6 +84,7 @@ export const CoinSearchScreen = ({ navigation, route }) => {
 					ListHeaderComponent={renderListHeader}
 					initialNumToRender={20}
 					removeClippedSubviews={true}
+					onScrollBeginDrag={handleScrollBeginDrag}
 				/>
 			)}
 		</>

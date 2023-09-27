@@ -26,6 +26,7 @@ export const NavigationStack = () => {
 				options={{
 					headerShown: false,
 					contentStyle: { backgroundColor: theme.colors.background },
+					statusBarColor: theme.colors.surface,
 				}}
 			/>
 			<Stack.Screen
