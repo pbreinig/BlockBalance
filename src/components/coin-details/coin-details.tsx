@@ -3,7 +3,7 @@ import { useSettingsContext } from '../../context/settings-context';
 import { styles } from './coin-details-styles';
 import { Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
-import { cryptoFormat, currencyFormat } from '../../util';
+import { cryptoFormat, currencyFormat, stripHTML } from '../../util';
 
 interface CoinDetailsProps {
 	coinData: any;
@@ -18,6 +18,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 	const genesisDate = new Date(coinData?.genesisDate).toLocaleDateString();
 	const athDate = new Date(coinData?.athDate).toLocaleDateString();
 	const atlDate = new Date(coinData?.atlDate).toLocaleDateString();
+	const aboutText = stripHTML(coinData?.description);
 
 	const renderInfoRow = (
 		leftCellTitle: string,
@@ -109,7 +110,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						variant={'titleMedium'}
 						style={{ lineHeight: 28 }}
 					>{`About ${coinData?.name}`}</Text>
-					<Text variant={'bodySmall'}>{coinData?.description}</Text>
+					<Text variant={'bodySmall'}>{aboutText}</Text>
 				</>
 			)}
 		</>
