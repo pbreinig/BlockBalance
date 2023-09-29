@@ -24,6 +24,7 @@ export const NavigationStack = () => {
 						paddingTop: insets.top,
 					},
 					statusBarColor: theme.colors.background,
+					statusBarAnimation: 'fade',
 					navigationBarColor: theme.colors.surface,
 				}}
 			/>
@@ -37,6 +38,7 @@ export const NavigationStack = () => {
 						paddingTop: insets.top,
 					},
 					statusBarColor: theme.colors.surface,
+					statusBarAnimation: 'fade',
 					navigationBarColor: theme.colors.background,
 				}}
 			/>
@@ -47,6 +49,7 @@ export const NavigationStack = () => {
 					headerShown: false,
 					contentStyle: { backgroundColor: theme.colors.background },
 					statusBarColor: theme.colors.surface,
+					statusBarAnimation: 'fade',
 					navigationBarColor: theme.colors.background,
 				}}
 			/>
@@ -57,6 +60,7 @@ export const NavigationStack = () => {
 					headerShown: false,
 					contentStyle: { backgroundColor: theme.colors.background },
 					statusBarColor: theme.colors.surface,
+					statusBarAnimation: 'fade',
 					navigationBarColor: theme.colors.background,
 				}}
 			/>
