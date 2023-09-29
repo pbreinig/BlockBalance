@@ -116,6 +116,9 @@ export const Chart: React.FC<ChartProps> = (props) => {
 				<LineChart.CursorCrosshair
 					color={isUp ? theme.additionalColors.green : theme.colors.error}
 				/>
+				<LineChart.CursorLine
+					color={isUp ? theme.additionalColors.green : theme.colors.error}
+				/>
 			</LineChart>
 		</>
 	);
