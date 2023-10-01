@@ -8,6 +8,7 @@ import { AppbarHeader } from '../../components/appbar-header/appbar-header';
 export const TransactionScreen = ({ navigation, route }) => {
 	const { id, name, ticker, imgSrc } = route.params.coin;
 	const [type, setType] = useState<string>('buy');
+	const { cameFromCoinScreen } = route.params;
 
 	const renderTransactionForm = () => {
 		switch (type) {
@@ -20,6 +21,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 						name={name}
 						ticker={ticker}
 						imgSrc={imgSrc}
+						cameFromCoinScreen={cameFromCoinScreen}
 					/>
 				);
 			case 'sell':
@@ -31,6 +33,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 						name={name}
 						ticker={ticker}
 						imgSrc={imgSrc}
+						cameFromCoinScreen={cameFromCoinScreen}
 					/>
 				);
 			case 'transfer':
@@ -40,7 +43,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 
 	return (
 		<View>
-			<AppbarHeader title={name} subtitle={ticker} imgSrc={imgSrc} />
+			<AppbarHeader title={name} subtitle={ticker.toUpperCase()} imgSrc={imgSrc} />
 			<Surface mode={'flat'} style={styles.container}>
 				<SegmentedButtons
 					value={type}

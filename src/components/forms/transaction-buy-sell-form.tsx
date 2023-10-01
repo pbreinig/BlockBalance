@@ -4,6 +4,7 @@ import { Button, TextInput } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
 import { DatePickerInput } from 'react-native-paper-dates';
+import { v4 as uuid } from 'uuid';
 
 interface TransactionBuyFormProps {
 	type: 'buy' | 'sell';
@@ -12,20 +13,40 @@ interface TransactionBuyFormProps {
 	name: string;
 	ticker: string;
 	imgSrc: string;
+	cameFromCoinScreen: boolean;
 }
 
 const date = new Date();
 
 export const TransactionBuySellForm: React.FC<TransactionBuyFormProps> = (props) => {
-	const { type, navigation, id, name, ticker, imgSrc } = props;
+	const { type, navigation, id, name, ticker, imgSrc, cameFromCoinScreen } = props;
 	const { theme } = useSettingsContext();
 	const { addTransaction } = usePortfolioContext();
 	const [price, setPrice] = useState<string>('');
 	const [amount, setAmount] = useState<string>('');
-	const [inputDate, setInputDate] = useState<Date>(date);
+	const [inputDate, setInputDate] = useState<Date | undefined>(undefined);
 	const [note, setNote] = useState<string>('');
 	const capType = type.charAt(0).toUpperCase() + type.slice(1);
 	const boughtSold = type === 'buy' ? 'bought' : 'sold';
+
+	const handleAddTransactionPress = () => {
+		addTransaction({
+			id: uuid(),
+			type,
+			coin: {
+				id,
+				name,
+				imgSrc,
+				ticker,
+				coinAmount: Number(amount),
+				fiatValue: Number(amount) * Number(price),
+			},
+			date: inputDate ? inputDate.getTime() : new Date().getTime(),
+			price: Number(price),
+			note: note,
+		});
+		cameFromCoinScreen ? navigation.goBack() : navigation.popToTop();
+	};
 
 	return (
 		<>
@@ -58,7 +79,7 @@ export const TransactionBuySellForm: React.FC<TransactionBuyFormProps> = (props)
 						locale={'en'}
 						validRange={{ endDate: date }}
 						onChange={(d) => setInputDate(d)}
-						value={inputDate}
+						value={inputDate || date}
 						style={{ marginTop: 12 }}
 						outlineStyle={{ borderRadius: 12 }}
 					/>
@@ -79,23 +100,7 @@ export const TransactionBuySellForm: React.FC<TransactionBuyFormProps> = (props)
 					disabled={!price || !amount || !date}
 					icon={'check'}
 					style={{ borderRadius: 12 }}
-					onPress={() => {
-						addTransaction({
-							type,
-							coin: {
-								id,
-								name,
-								imgSrc,
-								ticker,
-								coinAmount: Number(amount),
-								fiatValue: Number(amount) * Number(price),
-							},
-							date: inputDate,
-							price: Number(price),
-							note: note,
-						});
-						navigation.popToTop();
-					}}
+					onPress={handleAddTransactionPress}
 				>
 					{'Add transaction'}
 				</Button>

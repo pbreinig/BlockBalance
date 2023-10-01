@@ -18,9 +18,10 @@ export interface Coin {
 type TransactionType = 'buy' | 'sell' | 'transfer';
 
 interface Transaction {
+	id: string;
 	type: TransactionType;
 	coin: Coin;
-	date: Date;
+	date: number;
 	price: number;
 	note?: string;
 }
