@@ -94,12 +94,20 @@ const usePortfolio = () => {
 				);
 
 				const totalInvestedFiatValue = portfolio.transactions.reduce(
-					(total, transaction) =>
-						(total += transaction.price * transaction.coin.coinAmount),
+					(total, transaction) => {
+						const transactionValue = transaction.price * transaction.coin.coinAmount;
+						return transaction.type === 'buy'
+							? total + transactionValue
+							: total - transactionValue;
+					},
 					0,
 				);
-				const totalFiatValueChange = totalFiatValue - totalInvestedFiatValue;
-				const totalPercentageChange = (totalFiatValueChange / totalInvestedFiatValue) * 100;
+				const totalFiatValueChange =
+					totalInvestedFiatValue <= 0 ? 0 : totalFiatValue - totalInvestedFiatValue;
+				const totalPercentageChange =
+					totalInvestedFiatValue > 0
+						? (totalFiatValueChange / totalInvestedFiatValue) * 100
+						: 0;
 
 				updatedCoins.sort((coinA, coinB) => coinB.fiatValue - coinA.fiatValue);
 				const updatedPortfolio: Portfolio = {
