@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
 import { FlatList, View } from 'react-native';
 import { FAB, Surface, Text } from 'react-native-paper';
-import { styles } from './transcations-list-styles';
+import { styles } from './transactions-list-styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
 import { useSettingsContext } from '../../context/settings-context';
-import { cryptoFormat, currencyFormat, formatTimestamp } from '../../util';
+import { cryptoFormat } from '../../util';
+import { TransactionsListItem } from '../transactions-list-item/transactions-list-item';
 
 interface TransactionsListProps {
 	id: string;
@@ -16,7 +17,6 @@ interface TransactionsListProps {
 	navigation: any;
 }
 
-const nFormat = new Intl.NumberFormat('en-US', { maximumFractionDigits: 5 });
 export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 	const { id, name, ticker, imgSrc, currentPrice, navigation } = props;
 	const insets = useSafeAreaInsets();
@@ -37,117 +37,9 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 		navigation.navigate('Transaction', { coin, cameFromCoinScreen: true });
 	}, []);
 
-	const renderItem = ({ item }) => {
-		const isBuy = item.type === 'buy';
-		const date = formatTimestamp(item.date, 'd MMM YYY HH:mm');
-		const buySell = isBuy ? 'Buy' : 'Sell';
-		const change = ((currentPrice - item.price) / item.price) * 100;
-
-		return (
-			<Surface
-				mode={'flat'}
-				style={[
-					styles.surface,
-					{ borderColor: isBuy ? theme.additionalColors.green : theme.colors.error },
-				]}
-				key={item.id}
-			>
-				<View style={styles.row}>
-					<View
-						style={[
-							styles.typeContainer,
-							{
-								borderColor: isBuy
-									? theme.additionalColors.green
-									: theme.colors.error,
-							},
-						]}
-					>
-						<Text variant={'labelMedium'}>{buySell}</Text>
-					</View>
-					<Text variant={'bodySmall'} style={{ color: theme.colors.onSurfaceVariant }}>
-						{date}
-					</Text>
-				</View>
-				<View style={[styles.row, { justifyContent: 'space-between' }]}>
-					<View>
-						<Text variant={'bodyLarge'}>{cryptoFormat(item.price, 'USD', 'en')}</Text>
-						<Text
-							variant={'bodySmall'}
-							style={{ color: theme.colors.onSurfaceVariant }}
-						>
-							{`${buySell} Price (${ticker.toUpperCase()}/USD)`}
-						</Text>
-					</View>
-					<View style={{ alignItems: 'flex-end' }}>
-						<Text variant={'bodyLarge'}>{nFormat.format(item.coin.coinAmount)}</Text>
-						<Text
-							variant={'bodySmall'}
-							style={{ color: theme.colors.onSurfaceVariant }}
-						>
-							{`Amount (${ticker.toUpperCase()})`}
-						</Text>
-					</View>
-				</View>
-				<View style={[styles.row, { justifyContent: 'space-between' }]}>
-					<View>
-						<Text variant={'bodyLarge'}>
-							{currencyFormat(item.coin.fiatValue, 'USD', 'en')}
-						</Text>
-						<Text
-							variant={'bodySmall'}
-							style={{ color: theme.colors.onSurfaceVariant }}
-						>
-							{isBuy ? 'Cost (USD)' : 'Proceeds (USD)'}
-						</Text>
-					</View>
-					{isBuy && (
-						<View style={{ alignItems: 'flex-end' }}>
-							<Text variant={'bodyLarge'}>
-								{currencyFormat(currentPrice * item.coin.coinAmount, 'USD', 'en')}
-							</Text>
-							<Text
-								variant={'bodySmall'}
-								style={{ color: theme.colors.onSurfaceVariant }}
-							>
-								{'Worth (USD)'}
-							</Text>
-						</View>
-					)}
-				</View>
-				{isBuy && (
-					<View>
-						<Text
-							variant={'bodyLarge'}
-							style={{
-								color:
-									change >= 0 ? theme.additionalColors.green : theme.colors.error,
-							}}
-						>
-							{`${change.toFixed(2)}%`}
-						</Text>
-						<Text
-							variant={'bodySmall'}
-							style={{ color: theme.colors.onSurfaceVariant }}
-						>
-							{'Change'}
-						</Text>
-					</View>
-				)}
-				{item.note && (
-					<View>
-						<Text variant={'bodyLarge'}>{item.note}</Text>
-						<Text
-							variant={'bodySmall'}
-							style={{ color: theme.colors.onSurfaceVariant }}
-						>
-							{'Note'}
-						</Text>
-					</View>
-				)}
-			</Surface>
-		);
-	};
+	const renderItem = ({ item }) => (
+		<TransactionsListItem transaction={item} ticker={ticker} currentPrice={currentPrice} />
+	);
 
 	const renderListHeader = () => (
 		<View style={[styles.row, styles.listHeader]}>

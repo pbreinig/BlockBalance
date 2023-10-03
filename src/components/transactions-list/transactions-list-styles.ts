@@ -4,13 +4,6 @@ export const styles = StyleSheet.create({
 	body: {
 		padding: 12,
 	},
-	surface: {
-		padding: 12,
-		borderRadius: 12,
-		marginBottom: 8,
-		borderLeftWidth: 6,
-		gap: 12,
-	},
 	noTransactionsSurface: {
 		flex: 1,
 		justifyContent: 'center',
@@ -28,14 +21,6 @@ export const styles = StyleSheet.create({
 		position: 'absolute',
 		right: 16,
 		bottom: 16,
-	},
-	typeContainer: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: 55,
-		padding: 8,
-		borderRadius: 12,
-		borderWidth: 1,
 	},
 	row: {
 		flexDirection: 'row',

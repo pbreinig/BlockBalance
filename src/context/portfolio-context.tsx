@@ -17,7 +17,7 @@ export interface Coin {
 
 type TransactionType = 'buy' | 'sell' | 'transfer';
 
-interface Transaction {
+export interface Transaction {
 	id: string;
 	type: TransactionType;
 	coin: Coin;
