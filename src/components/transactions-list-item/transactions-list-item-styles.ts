@@ -2,11 +2,16 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 	surface: {
-		padding: 12,
 		borderRadius: 12,
 		marginBottom: 8,
-		borderLeftWidth: 6,
+	},
+	touchable: {
+		borderRadius: 12,
+	},
+	container: {
+		padding: 12,
 		gap: 12,
+		borderLeftWidth: 6,
 	},
 	typeContainer: {
 		justifyContent: 'center',
