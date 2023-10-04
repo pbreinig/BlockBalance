@@ -3,7 +3,7 @@ import { FlatList, View } from 'react-native';
 import { FAB, Surface, Text } from 'react-native-paper';
 import { styles } from './transactions-list-styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { usePortfolioContext } from '../../context/portfolio-context';
+import { Transaction, usePortfolioContext } from '../../context/portfolio-context';
 import { useSettingsContext } from '../../context/settings-context';
 import { cryptoFormat } from '../../util';
 import { TransactionsListItem } from '../transactions-list-item/transactions-list-item';
@@ -24,6 +24,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 	const { theme } = useSettingsContext();
 	const { portfolio } = usePortfolioContext();
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+	const [pressedTransaction, setPressedTransaction] = useState<Transaction | null>(null);
 	const transactions = portfolio.transactions
 		.filter((t) => t.coin.id === id)
 		.sort((t1, t2) => t2.date - t1.date);
@@ -34,7 +35,10 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 	const avgSellPrice =
 		sellTransactions.reduce((total, t) => total + t.price, 0) / sellTransactions.length;
 
-	const setBsOpen = useCallback((open: boolean) => setIsBottomSheetOpen(open), []);
+	const setBsOpen = useCallback((open: boolean, transaction?: Transaction) => {
+		transaction && setPressedTransaction(transaction);
+		setIsBottomSheetOpen(open);
+	}, []);
 
 	const handleNavigation = useCallback(() => {
 		const coin = { id, name, ticker, imgSrc };
@@ -46,7 +50,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 			transaction={item}
 			ticker={ticker}
 			currentPrice={currentPrice}
-			onPress={() => setBsOpen(true)}
+			onPress={() => setBsOpen(true, item)}
 		/>
 	);
 
@@ -92,7 +96,11 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 				style={[styles.fab, { bottom: styles.fab.bottom + insets.bottom }]}
 				onPress={handleNavigation}
 			/>
-			<TransactionsBottomSheet setOpen={setBsOpen} isOpen={isBottomSheetOpen} />
+			<TransactionsBottomSheet
+				setOpen={setBsOpen}
+				isOpen={isBottomSheetOpen}
+				transaction={pressedTransaction}
+			/>
 		</>
 	) : (
 		<Surface

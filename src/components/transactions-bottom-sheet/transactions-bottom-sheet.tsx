@@ -6,15 +6,18 @@ import { styles } from './transactions-bottom-sheet-styles';
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Transaction, usePortfolioContext } from '../../context/portfolio-context';
 
 interface TransactionsBottomSheetProps {
 	setOpen: (open: boolean) => void;
 	isOpen: boolean;
+	transaction: Transaction | null;
 }
 
 export const TransactionsBottomSheet: React.FC<TransactionsBottomSheetProps> = (props) => {
-	const { setOpen, isOpen } = props;
+	const { setOpen, isOpen, transaction } = props;
 	const { theme } = useSettingsContext();
+	const { deleteTransaction } = usePortfolioContext();
 	const insets = useSafeAreaInsets();
 	const transactionBottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -33,6 +36,11 @@ export const TransactionsBottomSheet: React.FC<TransactionsBottomSheetProps> = (
 		),
 		[theme.colors.backdrop],
 	);
+
+	const handleDelete = useCallback(() => {
+		transactionBottomSheetModalRef.current?.dismiss();
+		transaction && deleteTransaction(transaction);
+	}, [transaction]);
 
 	return (
 		<BottomSheetModal
@@ -70,7 +78,7 @@ export const TransactionsBottomSheet: React.FC<TransactionsBottomSheetProps> = (
 					</View>
 				</TouchableRipple>
 				<TouchableRipple
-					onPress={() => {}}
+					onPress={handleDelete}
 					rippleColor={theme.additionalColors.ripple}
 					style={styles.touchable}
 				>

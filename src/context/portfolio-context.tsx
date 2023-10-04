@@ -47,6 +47,7 @@ type PortfolioContextType = {
 	editPortfolio: (id: string, newName: string) => void;
 	deletePortfolio: (id: string) => void;
 	addTransaction: (transaction: Transaction) => void;
+	deleteTransaction: (transaction: Transaction) => void;
 };
 
 const emptyPortfolio: Portfolio = {
@@ -77,6 +78,13 @@ const usePortfolio = () => {
 	const [portfolioIndex = 0, setPortfolioIndex] = useMMKVNumber('portfolioIndex', storage);
 	const portfolio = portfolios[portfolioIndex];
 	const portfoliosTotalFiatValue = portfolios.reduce((total, pf) => total + pf.totalFiatValue, 0);
+
+	const updatePortfolios = (updatedPortfolio: Portfolio) => {
+		const updatedPortfolios = portfolios.map((pf, i) =>
+			i === portfolioIndex ? updatedPortfolio : pf,
+		);
+		setPortfolios(updatedPortfolios);
+	};
 
 	useEffect(() => {
 		const coinIds = portfolio.coins.map((coin) => coin.id);
@@ -116,10 +124,7 @@ const usePortfolio = () => {
 					totalFiatValue,
 					totalChange: { totalFiatValueChange, totalPercentageChange },
 				};
-				const updatedPortfolios = portfolios.map((pf, i) =>
-					i === portfolioIndex ? updatedPortfolio : pf,
-				);
-				setPortfolios(updatedPortfolios);
+				updatePortfolios(updatedPortfolio);
 			});
 		}
 	}, [portfolio]);
@@ -151,38 +156,46 @@ const usePortfolio = () => {
 		}
 	};
 
-	const addTransaction = (transaction: Transaction) => {
+	const updateCoinsArray = (transaction: Transaction, deleteMode: boolean): Coin[] => {
+		const updatedCoins = [...portfolio.coins];
+		const coinIndex = portfolio.coins.findIndex((coin) => coin.id === transaction.coin.id);
+		const coinExistsInPf = coinIndex !== -1;
 		const { coinAmount, fiatValue } = transaction.coin;
-		const existingCoinIndex = portfolio.coins.findIndex(
-			(coin) => coin.id === transaction.coin.id,
-		);
-
-		if (transaction.type === 'buy' || transaction.type === 'sell') {
-			const updatedCoins = [...portfolio.coins];
-			if (existingCoinIndex !== -1) {
-				updatedCoins[existingCoinIndex].coinAmount +=
-					transaction.type === 'buy' ? coinAmount : -coinAmount;
-				updatedCoins[existingCoinIndex].fiatValue +=
-					transaction.type === 'buy' ? fiatValue : -fiatValue;
-			} else {
-				updatedCoins.push({
-					...transaction.coin,
-					coinAmount: transaction.type === 'buy' ? coinAmount : -coinAmount,
-					fiatValue: transaction.type === 'buy' ? fiatValue : -fiatValue,
-				});
-			}
-			const updatedPortfolio: Portfolio = {
-				...portfolio,
-				coins: updatedCoins,
-				transactions: [...portfolio.transactions, transaction],
-			};
-			const updatedPortfolios = portfolios.map((pf, i) =>
-				i === portfolioIndex ? updatedPortfolio : pf,
-			);
-			setPortfolios(updatedPortfolios);
-		} else if (transaction.type === 'transfer') {
-			// Handle transfer logic
+		if (coinExistsInPf) {
+			const sign = deleteMode ? -1 : 1;
+			updatedCoins[coinIndex].coinAmount +=
+				sign * (transaction.type === 'buy' ? coinAmount : -coinAmount);
+			updatedCoins[coinIndex].fiatValue +=
+				sign * (transaction.type === 'buy' ? fiatValue : -fiatValue);
+		} else {
+			updatedCoins.push({
+				...transaction.coin,
+				coinAmount: transaction.type === 'buy' ? coinAmount : -coinAmount,
+				fiatValue: transaction.type === 'buy' ? fiatValue : -fiatValue,
+			});
 		}
+		return updatedCoins;
+	};
+
+	const addTransaction = (transaction: Transaction) => {
+		const updatedCoins = updateCoinsArray(transaction, false);
+		const updatedPortfolio: Portfolio = {
+			...portfolio,
+			coins: updatedCoins,
+			transactions: [...portfolio.transactions, transaction],
+		};
+		updatePortfolios(updatedPortfolio);
+	};
+
+	const deleteTransaction = (transaction: Transaction) => {
+		const updatedTransactions = portfolio.transactions.filter((t) => t.id !== transaction.id);
+		const updatedCoins = updateCoinsArray(transaction, true);
+		const updatedPortfolio: Portfolio = {
+			...portfolio,
+			coins: updatedCoins,
+			transactions: updatedTransactions,
+		};
+		updatePortfolios(updatedPortfolio);
 	};
 
 	return {
@@ -194,6 +207,7 @@ const usePortfolio = () => {
 		editPortfolio,
 		deletePortfolio,
 		addTransaction,
+		deleteTransaction,
 	};
 };
 
