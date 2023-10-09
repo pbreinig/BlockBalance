@@ -157,73 +157,42 @@ const usePortfolio = () => {
 		}
 	};
 
-	const updateCoinsArray = (
-		transaction: Transaction,
-		deleteMode: boolean,
-		editMode: boolean,
-	): Coin[] => {
-		const updatedCoins = [...portfolio.coins];
-		const coinIndex = portfolio.coins.findIndex((coin) => coin.id === transaction.coin.id);
-		const coinExistsInPf = coinIndex !== -1;
-		const { coinAmount, fiatValue } = transaction.coin;
-		if (coinExistsInPf) {
-			if (editMode) {
-				const oldTransaction = portfolio.transactions.find((t) => t.id === transaction.id);
-				const amountDelta = transaction.coin.coinAmount - oldTransaction!.coin.coinAmount;
-				const valueDelta = transaction.coin.fiatValue - oldTransaction!.coin.fiatValue;
-				updatedCoins[coinIndex].coinAmount +=
-					transaction.type === 'buy' ? amountDelta : -amountDelta;
-				updatedCoins[coinIndex].fiatValue +=
-					transaction.type === 'buy' ? valueDelta : -valueDelta;
+	const updateCoins = (transactions: Transaction[]) => {
+		return transactions.reduce((updatedCoins: Coin[], transaction) => {
+			const existingCoinIndex = updatedCoins.findIndex(
+				(coin) => coin.id === transaction.coin.id,
+			);
+			const { coinAmount: amount, fiatValue: value } = transaction.coin;
+			const coinAmount = transaction.type === 'buy' ? amount : -amount;
+			const fiatValue = transaction.type === 'buy' ? value : -value;
+			if (existingCoinIndex !== -1) {
+				updatedCoins[existingCoinIndex].coinAmount += coinAmount;
+				updatedCoins[existingCoinIndex].fiatValue += fiatValue;
 			} else {
-				const sign = deleteMode ? -1 : 1;
-				updatedCoins[coinIndex].coinAmount +=
-					sign * (transaction.type === 'buy' ? coinAmount : -coinAmount);
-				updatedCoins[coinIndex].fiatValue +=
-					sign * (transaction.type === 'buy' ? fiatValue : -fiatValue);
+				updatedCoins.push({ ...transaction.coin, coinAmount, fiatValue });
 			}
-		} else {
-			updatedCoins.push({
-				...transaction.coin,
-				coinAmount: transaction.type === 'buy' ? coinAmount : -coinAmount,
-				fiatValue: transaction.type === 'buy' ? fiatValue : -fiatValue,
-			});
-		}
-		return updatedCoins;
+			return updatedCoins;
+		}, []);
 	};
 
 	const addTransaction = (transaction: Transaction) => {
-		const updatedCoins = updateCoinsArray(transaction, false, false);
-		const updatedPortfolio: Portfolio = {
-			...portfolio,
-			coins: updatedCoins,
-			transactions: [...portfolio.transactions, transaction],
-		};
-		updatePortfolios(updatedPortfolio);
+		const transactions = [...portfolio.transactions, transaction];
+		const coins = updateCoins(transactions);
+		updatePortfolios({ ...portfolio, transactions, coins });
 	};
 
 	const editTransaction = (editedTransaction: Transaction) => {
-		const updatedCoins = updateCoinsArray(editedTransaction, false, true);
-		const updatedTransactions = portfolio.transactions.map((t) =>
+		const transactions = portfolio.transactions.map((t) =>
 			t.id === editedTransaction.id ? editedTransaction : t,
 		);
-		const updatedPortfolios: Portfolio = {
-			...portfolio,
-			coins: updatedCoins,
-			transactions: updatedTransactions,
-		};
-		updatePortfolios(updatedPortfolios);
+		const coins = updateCoins(transactions);
+		updatePortfolios({ ...portfolio, transactions, coins });
 	};
 
 	const deleteTransaction = (transaction: Transaction) => {
-		const updatedTransactions = portfolio.transactions.filter((t) => t.id !== transaction.id);
-		const updatedCoins = updateCoinsArray(transaction, true, false);
-		const updatedPortfolio: Portfolio = {
-			...portfolio,
-			coins: updatedCoins,
-			transactions: updatedTransactions,
-		};
-		updatePortfolios(updatedPortfolio);
+		const transactions = portfolio.transactions.filter((t) => t.id !== transaction.id);
+		const coins = updateCoins(transactions);
+		updatePortfolios({ ...portfolio, transactions, coins });
 	};
 
 	return {
