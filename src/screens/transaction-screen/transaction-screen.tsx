@@ -8,7 +8,7 @@ import { AppbarHeader } from '../../components/appbar-header/appbar-header';
 export const TransactionScreen = ({ navigation, route }) => {
 	const { id, name, ticker, imgSrc } = route.params.coin;
 	const [type, setType] = useState<string>('buy');
-	const { cameFromCoinScreen } = route.params;
+	const { cameFromCoinScreen, transaction } = route.params;
 
 	const renderTransactionForm = () => {
 		switch (type) {
@@ -22,6 +22,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 						ticker={ticker}
 						imgSrc={imgSrc}
 						cameFromCoinScreen={cameFromCoinScreen}
+						transactionToBeEdited={transaction}
 					/>
 				);
 			case 'sell':
@@ -34,6 +35,7 @@ export const TransactionScreen = ({ navigation, route }) => {
 						ticker={ticker}
 						imgSrc={imgSrc}
 						cameFromCoinScreen={cameFromCoinScreen}
+						transactionToBeEdited={transaction}
 					/>
 				);
 			case 'transfer':

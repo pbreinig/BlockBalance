@@ -12,10 +12,11 @@ interface TransactionsBottomSheetProps {
 	setOpen: (open: boolean) => void;
 	isOpen: boolean;
 	transaction: Transaction | null;
+	navigation: any;
 }
 
 export const TransactionsBottomSheet: React.FC<TransactionsBottomSheetProps> = (props) => {
-	const { setOpen, isOpen, transaction } = props;
+	const { setOpen, isOpen, transaction, navigation } = props;
 	const { theme } = useSettingsContext();
 	const { deleteTransaction } = usePortfolioContext();
 	const insets = useSafeAreaInsets();
@@ -36,6 +37,11 @@ export const TransactionsBottomSheet: React.FC<TransactionsBottomSheetProps> = (
 		),
 		[theme.colors.backdrop],
 	);
+
+	const handleEdit = useCallback(() => {
+		transactionBottomSheetModalRef.current?.dismiss();
+		navigation.navigate('Transaction', { coin: transaction?.coin, transaction });
+	}, [transaction]);
 
 	const handleDelete = useCallback(() => {
 		transactionBottomSheetModalRef.current?.dismiss();
@@ -59,7 +65,7 @@ export const TransactionsBottomSheet: React.FC<TransactionsBottomSheetProps> = (
 					</Text>
 				</View>
 				<TouchableRipple
-					onPress={() => {}}
+					onPress={handleEdit}
 					rippleColor={theme.additionalColors.ripple}
 					style={styles.touchable}
 				>

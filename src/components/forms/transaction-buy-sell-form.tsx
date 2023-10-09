@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
-import { usePortfolioContext } from '../../context/portfolio-context';
+import { Transaction, usePortfolioContext } from '../../context/portfolio-context';
 import { DatePickerInput } from 'react-native-paper-dates';
 import { v4 as uuid } from 'uuid';
 
@@ -14,23 +14,40 @@ interface TransactionBuyFormProps {
 	ticker: string;
 	imgSrc: string;
 	cameFromCoinScreen: boolean;
+	transactionToBeEdited: Transaction;
 }
 
 const date = new Date();
 
 export const TransactionBuySellForm: React.FC<TransactionBuyFormProps> = (props) => {
-	const { type, navigation, id, name, ticker, imgSrc, cameFromCoinScreen } = props;
+	const {
+		type,
+		navigation,
+		id,
+		name,
+		ticker,
+		imgSrc,
+		cameFromCoinScreen,
+		transactionToBeEdited,
+	} = props;
 	const { theme } = useSettingsContext();
-	const { addTransaction } = usePortfolioContext();
-	const [price, setPrice] = useState<string>('');
-	const [amount, setAmount] = useState<string>('');
-	const [inputDate, setInputDate] = useState<Date | undefined>(undefined);
-	const [note, setNote] = useState<string>('');
+	const { addTransaction, editTransaction } = usePortfolioContext();
+	const isEdit = transactionToBeEdited !== undefined;
+	const initialValues = {
+		price: isEdit ? String(transactionToBeEdited.price) : '',
+		amount: isEdit ? String(transactionToBeEdited.coin.coinAmount) : '',
+		date: isEdit ? new Date(transactionToBeEdited.date) : undefined,
+		note: transactionToBeEdited?.note ? transactionToBeEdited.note : '',
+	};
+	const [price, setPrice] = useState<string>(initialValues.price);
+	const [amount, setAmount] = useState<string>(initialValues.amount);
+	const [inputDate, setInputDate] = useState<Date | undefined>(initialValues.date);
+	const [note, setNote] = useState<string>(initialValues.note);
 	const capType = type.charAt(0).toUpperCase() + type.slice(1);
 	const boughtSold = type === 'buy' ? 'bought' : 'sold';
 
-	const handleAddTransactionPress = () => {
-		addTransaction({
+	const handleTransactionPress = () => {
+		const transaction: Transaction = {
 			id: uuid(),
 			type,
 			coin: {
@@ -43,9 +60,26 @@ export const TransactionBuySellForm: React.FC<TransactionBuyFormProps> = (props)
 			},
 			date: inputDate ? inputDate.getTime() : new Date().getTime(),
 			price: Number(price),
-			note: note,
-		});
-		cameFromCoinScreen ? navigation.goBack() : navigation.popToTop();
+			note,
+		};
+		if (isEdit) {
+			const editedTransaction: Transaction = {
+				...transactionToBeEdited,
+				type: transaction.type,
+				coin: {
+					...transactionToBeEdited.coin,
+					coinAmount: transaction.coin.coinAmount,
+					fiatValue: transaction.coin.fiatValue,
+				},
+				date: transaction.date,
+				price: transaction.price,
+				note: transaction.note,
+			};
+			editTransaction(editedTransaction);
+		} else {
+			addTransaction(transaction);
+		}
+		cameFromCoinScreen || isEdit ? navigation.goBack() : navigation.popToTop();
 	};
 
 	return (
@@ -100,9 +134,9 @@ export const TransactionBuySellForm: React.FC<TransactionBuyFormProps> = (props)
 					disabled={!price || !amount || !date}
 					icon={'check'}
 					style={{ borderRadius: 12 }}
-					onPress={handleAddTransactionPress}
+					onPress={handleTransactionPress}
 				>
-					{'Add transaction'}
+					{isEdit ? 'Update transaction' : 'Add transaction'}
 				</Button>
 			</View>
 		</>

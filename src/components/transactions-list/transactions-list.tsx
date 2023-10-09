@@ -100,6 +100,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 				setOpen={setBsOpen}
 				isOpen={isBottomSheetOpen}
 				transaction={pressedTransaction}
+				navigation={navigation}
 			/>
 		</>
 	) : (
