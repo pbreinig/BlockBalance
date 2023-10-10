@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { FAB, Surface, Text } from 'react-native-paper';
 import { styles } from './transactions-list-styles';
@@ -24,7 +24,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 	const { theme } = useSettingsContext();
 	const { portfolio } = usePortfolioContext();
 	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
-	const [pressedTransaction, setPressedTransaction] = useState<Transaction | null>(null);
+	const pressedTransactionRef = useRef<Transaction | null>(null);
 	const transactions = portfolio.transactions
 		.filter((t) => t.coin.id === id)
 		.sort((t1, t2) => t2.date - t1.date);
@@ -34,11 +34,6 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 		buyTransactions.reduce((total, t) => total + t.price, 0) / buyTransactions.length;
 	const avgSellPrice =
 		sellTransactions.reduce((total, t) => total + t.price, 0) / sellTransactions.length;
-
-	const setBsOpen = useCallback((open: boolean, transaction?: Transaction) => {
-		transaction && setPressedTransaction(transaction);
-		setIsBottomSheetOpen(open);
-	}, []);
 
 	const handleNavigation = useCallback(() => {
 		const coin = { id, name, ticker, imgSrc };
@@ -50,7 +45,10 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 			transaction={item}
 			ticker={ticker}
 			currentPrice={currentPrice}
-			onPress={() => setBsOpen(true, item)}
+			onPress={() => {
+				pressedTransactionRef.current = item;
+				setIsBottomSheetOpen(true);
+			}}
 		/>
 	);
 
@@ -97,9 +95,9 @@ export const TransactionsList: React.FC<TransactionsListProps> = (props) => {
 				onPress={handleNavigation}
 			/>
 			<TransactionsBottomSheet
-				setOpen={setBsOpen}
+				setOpen={setIsBottomSheetOpen}
 				isOpen={isBottomSheetOpen}
-				transaction={pressedTransaction}
+				transaction={pressedTransactionRef.current}
 				navigation={navigation}
 			/>
 		</>
