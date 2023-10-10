@@ -14,6 +14,7 @@ import {
 } from '@gorhom/bottom-sheet';
 import { currencyFormat } from '../../util';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 
 interface PortfolioBottomSheetProps {
 	setOpen: (open: boolean) => void;
@@ -38,6 +39,8 @@ export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props)
 	const inputBottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const [portfolioToBeEdited, setPortfolioToBeEdited] = useState<Portfolio>(portfolio);
 	const [newPortfolioName, setNewPortfolioName] = useState<string>('');
+	const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+	const portfolioIdRef = useRef<string | null>(null);
 	const BS_HEIGHT = useMemo(
 		() => 100 + insets.bottom + portfolios.length * 60,
 		[portfolios.length],
@@ -83,6 +86,11 @@ export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props)
 		[switchPortfolio],
 	);
 
+	const handleDelete = useCallback(() => {
+		setIsDialogVisible(false);
+		portfolioIdRef.current && deletePortfolio(portfolioIdRef.current);
+	}, [portfolioIdRef.current]);
+
 	const renderItem = useCallback(
 		({ item }) => {
 			const isActivePortfolio = portfolio.id === item.id;
@@ -92,7 +100,10 @@ export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props)
 					isActivePortfolio={isActivePortfolio}
 					onPress={() => handleSwitchPortfolio(item.id)}
 					onPressEdit={() => openInputSheet(item)}
-					onPressDelete={() => deletePortfolio(item.id)}
+					onPressDelete={() => {
+						portfolioIdRef.current = item.id;
+						setIsDialogVisible(true);
+					}}
 					isEditActive={isInEditMode}
 				/>
 			);
@@ -272,6 +283,15 @@ export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props)
 			>
 				{renderInputSheetContent()}
 			</BottomSheetModal>
+			<ConfirmDialog
+				title={'Delete Portfolio'}
+				text={
+					'Are you sure you want to delete this portfolio? All data in this portfolio, including transactions, will be gone forever. This action cannot be undone.'
+				}
+				onConfirm={handleDelete}
+				isVisible={isDialogVisible}
+				setIsVisible={setIsDialogVisible}
+			/>
 		</>
 	);
 };
