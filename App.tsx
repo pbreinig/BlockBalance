@@ -1,3 +1,4 @@
+import { View } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { NavigationStack } from './src/navigation/navigation-stack';
@@ -17,7 +18,9 @@ const AppContent = () => {
 				<GestureHandlerRootView style={{ flex: 1 }}>
 					<BottomSheetModalProvider>
 						<NavigationContainer>
-							<NavigationStack />
+							<View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+								<NavigationStack />
+							</View>
 						</NavigationContainer>
 					</BottomSheetModalProvider>
 				</GestureHandlerRootView>
