@@ -20,4 +20,12 @@ export const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 	},
+	linkButtonContainer: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		gap: 8,
+	},
+	linkButton: {
+		alignSelf: 'flex-start',
+	},
 });

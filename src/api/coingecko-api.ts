@@ -114,6 +114,7 @@ export const useFetchCoin = (coinId: string) => {
 			genesis_date,
 			description,
 			last_updated,
+			links,
 		} = response.data;
 		return {
 			id,
@@ -138,6 +139,7 @@ export const useFetchCoin = (coinId: string) => {
 			atlChangePercentage: market_data.atl_change_percentage.usd,
 			description: description.en,
 			lastUpdated: last_updated,
+			links,
 		};
 	};
 
