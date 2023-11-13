@@ -128,6 +128,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						mode={'contained-tonal'}
 						icon={'web'}
 						style={styles.linkButton}
+						rippleColor={theme.additionalColors.ripple}
 						onPress={() => Linking.openURL(coinData.links.homepage[0])}
 					>
 						{'Website'}
@@ -138,6 +139,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						mode={'contained-tonal'}
 						icon={'magnify'}
 						style={styles.linkButton}
+						rippleColor={theme.additionalColors.ripple}
 						onPress={() => Linking.openURL(coinData.links.blockchain_site[0])}
 					>
 						{'Explorer'}
@@ -148,6 +150,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						mode={'contained-tonal'}
 						icon={'github'}
 						style={styles.linkButton}
+						rippleColor={theme.additionalColors.ripple}
 						onPress={() => Linking.openURL(coinData.links.repos_url.github[0])}
 					>
 						{'GitHub'}
@@ -158,6 +161,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						mode={'contained-tonal'}
 						icon={'forum'}
 						style={styles.linkButton}
+						rippleColor={theme.additionalColors.ripple}
 						onPress={() => Linking.openURL(coinData.links.official_forum_url[0])}
 					>
 						{'Forum'}
@@ -168,6 +172,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						mode={'contained-tonal'}
 						icon={'twitter'}
 						style={styles.linkButton}
+						rippleColor={theme.additionalColors.ripple}
 						onPress={() =>
 							Linking.openURL(
 								`https://twitter.com/${coinData.links.twitter_screen_name}`,
@@ -182,6 +187,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						mode={'contained-tonal'}
 						icon={'facebook'}
 						style={styles.linkButton}
+						rippleColor={theme.additionalColors.ripple}
 						onPress={() =>
 							Linking.openURL(
 								`https://www.facebook.com/${coinData.links.facebook_username}`,
@@ -196,6 +202,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						mode={'contained-tonal'}
 						icon={'reddit'}
 						style={styles.linkButton}
+						rippleColor={theme.additionalColors.ripple}
 						onPress={() => Linking.openURL(coinData.links.subreddit_url)}
 					>
 						{'Reddit'}
@@ -206,6 +213,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						mode={'contained-tonal'}
 						icon={'discord'}
 						style={styles.linkButton}
+						rippleColor={theme.additionalColors.ripple}
 						onPress={() => Linking.openURL(coinData.links.chat_url[0])}
 					>
 						{'Discord'}
@@ -216,6 +224,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						mode={'contained-tonal'}
 						icon={TelegramIcon}
 						style={[styles.linkButton, { flexDirection: 'row', alignItems: 'center' }]}
+						rippleColor={theme.additionalColors.ripple}
 						onPress={() =>
 							Linking.openURL(
 								`https://t.me/${coinData.links.telegram_channel_identifier}`,
