@@ -3,12 +3,14 @@ import { MarketScreen } from '../screens/market-screen/market-screen';
 import { SettingsScreen } from '../screens/settings-screen/settings-screen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { PortfolioScreen } from '../screens/portfolio-screen/portfolio-screen';
+import { storage } from '../storage';
 
 const Tab = createMaterialBottomTabNavigator();
+const initialRoute = storage.getString('settings.startTab');
 
 export const BottomTabs = () => {
 	return (
-		<Tab.Navigator>
+		<Tab.Navigator initialRouteName={initialRoute}>
 			<Tab.Screen
 				name="Portfolio"
 				component={PortfolioScreen}

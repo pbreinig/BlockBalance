@@ -3,10 +3,15 @@ import { List, Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { RadioButtonRow } from '../radio-button-row/radio-button-row';
 import { StyleConstants } from '../../constants/style-constants';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export const AppearanceSettings: React.FC = () => {
 	const { theme, themeType, setThemeType } = useSettingsContext();
 	const { Screen } = StyleConstants;
+
+	const renderIcon = (name: string) => (
+		<MaterialIcons name={name} size={22} color={theme.colors.onPrimary} />
+	);
 
 	return (
 		<List.Section>
@@ -18,24 +23,21 @@ export const AppearanceSettings: React.FC = () => {
 			</Text>
 			<RadioButtonRow
 				title={'Light mode'}
-				iconName={'light-mode'}
-				iconColor={theme.colors.onPrimary}
+				icon={() => renderIcon('light-mode')}
 				onPress={() => setThemeType('light')}
 				value={'light'}
 				status={themeType === 'light' ? 'checked' : 'unchecked'}
 			/>
 			<RadioButtonRow
 				title={'Dark mode'}
-				iconName={'dark-mode'}
-				iconColor={theme.colors.onPrimary}
+				icon={() => renderIcon('dark-mode')}
 				onPress={() => setThemeType('dark')}
 				value={'dark'}
 				status={themeType === 'dark' ? 'checked' : 'unchecked'}
 			/>
 			<RadioButtonRow
 				title={'Follow system'}
-				iconName={'brightness-medium'}
-				iconColor={theme.colors.onPrimary}
+				icon={() => renderIcon('brightness-medium')}
 				onPress={() => setThemeType('system')}
 				value={'system'}
 				status={themeType === 'system' ? 'checked' : 'unchecked'}
