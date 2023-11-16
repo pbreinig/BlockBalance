@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
 	},
 	leftView: {
 		flexDirection: 'row',
+		alignItems: 'center',
 	},
 	title: {
 		marginLeft: 16,
