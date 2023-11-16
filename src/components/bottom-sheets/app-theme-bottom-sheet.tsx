@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
-import { styles } from './app-theme-bottom-sheet-styles';
+import { styles } from './bottom-sheet-styles';
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RadioButtonRow } from '../radio-button-row/radio-button-row';

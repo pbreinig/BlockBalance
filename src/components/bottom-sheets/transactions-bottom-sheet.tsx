@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Text, TouchableRipple } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
-import { styles } from './transactions-bottom-sheet-styles';
+import { styles } from './bottom-sheet-styles';
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

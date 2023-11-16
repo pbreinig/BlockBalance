@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
-import { useSettingsContext } from '../../context/settings-context';
-import { Portfolio, usePortfolioContext } from '../../context/portfolio-context';
+import { useSettingsContext } from '../../../context/settings-context';
+import { Portfolio, usePortfolioContext } from '../../../context/portfolio-context';
 import { styles } from './portfolio-bottom-sheet-styles';
-import { PortfolioBottomSheetListItem } from '../portfolio-bottom-sheet-list-item/portfolio-bottom-sheet-list-item';
+import { PortfolioBottomSheetListItem } from './portfolio-bottom-sheet-list-item';
 import {
 	BottomSheetBackdrop,
 	BottomSheetFlatList,
@@ -12,9 +12,9 @@ import {
 	BottomSheetModal,
 	BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import { currencyFormat } from '../../util';
+import { currencyFormat } from '../../../util';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
+import { ConfirmDialog } from '../../confirm-dialog/confirm-dialog';
 
 interface PortfolioBottomSheetProps {
 	setOpen: (open: boolean) => void;

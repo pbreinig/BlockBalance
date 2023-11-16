@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { List, Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { StyleConstants } from '../../constants/style-constants';
-import { AppThemeBottomSheet } from '../app-theme-bottom-sheet/app-theme-bottom-sheet';
+import { AppThemeBottomSheet } from '../bottom-sheets/app-theme-bottom-sheet';
 import { SettingOption } from '../setting-option/setting-option';
 
 export const AppearanceSettings: React.FC = () => {

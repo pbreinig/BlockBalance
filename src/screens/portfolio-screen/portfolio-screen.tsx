@@ -7,7 +7,7 @@ import { usePortfolioContext } from '../../context/portfolio-context';
 import { PortfolioCoinListItem } from '../../components/portfolio-coin-list-item/portfolio-coin-list-item';
 import { currencyFormat } from '../../util';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { PortfolioBottomSheet } from '../../components/portfolio-bottom-sheet/portfolio-bottom-sheet';
+import { PortfolioBottomSheet } from '../../components/bottom-sheets/portfolio-bottom-sheet/portfolio-bottom-sheet';
 
 export const PortfolioScreen = ({ navigation }) => {
 	const { theme } = useSettingsContext();

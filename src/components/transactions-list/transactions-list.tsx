@@ -7,7 +7,7 @@ import { Transaction, usePortfolioContext } from '../../context/portfolio-contex
 import { useSettingsContext } from '../../context/settings-context';
 import { cryptoFormat } from '../../util';
 import { TransactionsListItem } from '../transactions-list-item/transactions-list-item';
-import { TransactionsBottomSheet } from '../transactions-bottom-sheet/transactions-bottom-sheet';
+import { TransactionsBottomSheet } from '../bottom-sheets/transactions-bottom-sheet';
 
 interface TransactionsListProps {
 	id: string;

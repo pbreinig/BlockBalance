@@ -3,7 +3,7 @@ import { List, Text } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { StyleConstants } from '../../constants/style-constants';
 import { SettingOption } from '../setting-option/setting-option';
-import { StartTabBottomSheet } from '../start-tab-bottom-sheet/start-tab-bottom-sheet';
+import { StartTabBottomSheet } from '../bottom-sheets/start-tab-bottom-sheet';
 
 export const GeneralSettings: React.FC = () => {
 	const { theme } = useSettingsContext();
