@@ -9,4 +9,7 @@ export const styles = StyleSheet.create({
 		height: 60,
 		paddingHorizontal: Screen.PADDING,
 	},
+	title: {
+		lineHeight: 20,
+	},
 });

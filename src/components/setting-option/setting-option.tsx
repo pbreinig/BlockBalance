@@ -20,7 +20,9 @@ export const SettingOption: React.FC<RadioButtonRowProps> = (props) => {
 			rippleColor={theme.additionalColors.ripple}
 		>
 			<>
-				<Text variant={'bodyLarge'}>{title}</Text>
+				<Text variant={'bodyLarge'} style={styles.title}>
+					{title}
+				</Text>
 				<Text variant={'labelLarge'} style={{ color: theme.colors.onSurfaceVariant }}>
 					{label}
 				</Text>
