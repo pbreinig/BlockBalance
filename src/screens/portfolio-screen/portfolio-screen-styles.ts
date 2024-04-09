@@ -18,6 +18,12 @@ export const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
+	totalFiatValue: {
+		fontFamily: 'Manrope-Bold',
+		fontSize: 45,
+		letterSpacing: 0,
+		lineHeight: 52,
+	},
 	switchIconsContainer: {
 		flexDirection: 'column',
 		height: 20,

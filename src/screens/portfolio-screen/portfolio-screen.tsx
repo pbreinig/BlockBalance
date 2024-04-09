@@ -1,11 +1,11 @@
-import { useCallback, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Animated, FlatList, View } from 'react-native';
 import { styles } from './portfolio-screen-styles';
 import { FAB, Surface, Text, TouchableRipple } from 'react-native-paper';
 import { useSettingsContext } from '../../context/settings-context';
 import { usePortfolioContext } from '../../context/portfolio-context';
 import { PortfolioCoinListItem } from '../../components/portfolio-coin-list-item/portfolio-coin-list-item';
-import { currencyFormat } from '../../util';
+import { currencyFormat, usePrevious } from '../../util';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { PortfolioBottomSheet } from '../../components/bottom-sheets/portfolio-bottom-sheet/portfolio-bottom-sheet';
 
@@ -17,8 +17,32 @@ export const PortfolioScreen = ({ navigation }) => {
 	const isUp = totalFiatValueChange >= 0;
 	const fiatChangeFormatted = currencyFormat(totalFiatValueChange, 'USD', 'en');
 	const percentageChangeFormatted = `${totalPercentageChange.toFixed(2)}%`;
+	const prevTotalFiatValue = usePrevious(portfolio.totalFiatValue);
+	const [textColorAnimation] = useState(new Animated.Value(0));
+	const totalUpDownColor =
+		prevTotalFiatValue && portfolio.totalFiatValue >= prevTotalFiatValue
+			? theme.additionalColors.green
+			: theme.colors.error;
+
+	useEffect(() => {
+		prevTotalFiatValue && animateTextColor();
+	}, [portfolio.totalFiatValue]);
 
 	const setBsOpen = useCallback((open: boolean) => setIsBottomSheetOpen(open), []);
+
+	const animateTextColor = () => {
+		textColorAnimation.setValue(0);
+		Animated.timing(textColorAnimation, {
+			toValue: 1,
+			duration: 2000,
+			useNativeDriver: false,
+		}).start();
+	};
+
+	const totalTextColor = textColorAnimation.interpolate({
+		inputRange: [0, 0.25, 1],
+		outputRange: [theme.colors.onPrimary, totalUpDownColor, theme.colors.onPrimary],
+	});
 
 	const renderItem = ({ item }) => (
 		<PortfolioCoinListItem
@@ -67,9 +91,11 @@ export const PortfolioScreen = ({ navigation }) => {
 						onPress={() => setBsOpen(true)}
 					>
 						<>
-							<Text variant={'displayMedium'}>
+							<Animated.Text
+								style={[styles.totalFiatValue, { color: totalTextColor }]}
+							>
 								{currencyFormat(portfolio.totalFiatValue, 'USD', 'en')}
-							</Text>
+							</Animated.Text>
 							<View style={styles.nameContainer}>
 								<View style={styles.switchIconsContainer}>
 									<MaterialIcons
