@@ -30,22 +30,22 @@ export const PortfolioBottomSheetListItem: React.FC<PortfolioBottomSheetListItem
 			>
 				<View style={styles.container}>
 					<View style={styles.row}>
-						{isEditActive && (
+						{isEditActive ? (
 							<IconButton
 								icon={'delete'}
 								iconColor={theme.colors.error}
 								onPress={onPressDelete}
 							/>
-						)}
+						) : null}
 						<View style={styles.row}>
-							{isActivePortfolio && !isEditActive && (
+							{isActivePortfolio && !isEditActive ? (
 								<MaterialCommunityIcons
 									name={'check'}
 									color={theme.colors.onSurface}
 									size={18}
 									style={styles.icon}
 								/>
-							)}
+							) : null}
 							<Text variant={'bodyLarge'} style={{ color: theme.colors.onSurface }}>
 								{portfolio.name}
 							</Text>

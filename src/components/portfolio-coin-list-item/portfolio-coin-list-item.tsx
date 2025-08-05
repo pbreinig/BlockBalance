@@ -44,7 +44,7 @@ export const PortfolioCoinListItem: React.FC<PortfolioCoinListItemProps> = (prop
 								>
 									{ticker}
 								</Text>
-								{pricePercentage24h && (
+								{pricePercentage24h ? (
 									<Text
 										variant={'bodySmall'}
 										style={{
@@ -55,7 +55,7 @@ export const PortfolioCoinListItem: React.FC<PortfolioCoinListItemProps> = (prop
 									>
 										{` ${isUp ? '+' : ''}${pricePercentage24h.toFixed(2)}% `}
 									</Text>
-								)}
+								) : null}
 								<Text variant={'bodySmall'} numberOfLines={1}>
 									{`${cryptoFormat(price || 0, 'USD', 'en')}`}
 								</Text>

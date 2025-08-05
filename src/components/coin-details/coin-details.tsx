@@ -110,7 +110,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 				coinData?.maxSupply ? nFormat.format(coinData?.maxSupply) : NA,
 			)}
 			<Divider style={[styles.divider, { backgroundColor: theme.colors.onSurfaceVariant }]} />
-			{coinData?.description && (
+			{coinData?.description ? (
 				<>
 					<Text
 						variant={'titleMedium'}
@@ -121,9 +121,9 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 						style={[styles.divider, { backgroundColor: theme.colors.onSurfaceVariant }]}
 					/>
 				</>
-			)}
+			) : null}
 			<View style={styles.linkButtonContainer}>
-				{coinData.links.homepage[0] && (
+				{coinData.links.homepage[0] ? (
 					<Button
 						mode={'contained-tonal'}
 						icon={'web'}
@@ -133,8 +133,8 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 					>
 						{'Website'}
 					</Button>
-				)}
-				{coinData.links.blockchain_site[0] && (
+				) : null}
+				{coinData.links.blockchain_site[0] ? (
 					<Button
 						mode={'contained-tonal'}
 						icon={'magnify'}
@@ -144,8 +144,8 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 					>
 						{'Explorer'}
 					</Button>
-				)}
-				{coinData.links.repos_url.github[0] && (
+				) : null}
+				{coinData.links.repos_url.github[0] ? (
 					<Button
 						mode={'contained-tonal'}
 						icon={'github'}
@@ -155,8 +155,8 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 					>
 						{'GitHub'}
 					</Button>
-				)}
-				{coinData.links.official_forum_url[0] && (
+				) : null}
+				{coinData.links.official_forum_url[0] ? (
 					<Button
 						mode={'contained-tonal'}
 						icon={'forum'}
@@ -166,8 +166,8 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 					>
 						{'Forum'}
 					</Button>
-				)}
-				{coinData.links.twitter_screen_name && (
+				) : null}
+				{coinData.links.twitter_screen_name ? (
 					<Button
 						mode={'contained-tonal'}
 						icon={'twitter'}
@@ -181,8 +181,8 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 					>
 						{'Twitter'}
 					</Button>
-				)}
-				{coinData.links.facebook_username && (
+				) : null}
+				{coinData.links.facebook_username ? (
 					<Button
 						mode={'contained-tonal'}
 						icon={'facebook'}
@@ -196,8 +196,8 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 					>
 						{'Facebook'}
 					</Button>
-				)}
-				{coinData.links.subreddit_url && (
+				) : null}
+				{coinData.links.subreddit_url ? (
 					<Button
 						mode={'contained-tonal'}
 						icon={'reddit'}
@@ -207,8 +207,8 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 					>
 						{'Reddit'}
 					</Button>
-				)}
-				{coinData.links.chat_url[0] && (
+				) : null}
+				{coinData.links.chat_url[0] ? (
 					<Button
 						mode={'contained-tonal'}
 						icon={'discord'}
@@ -218,8 +218,8 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 					>
 						{'Discord'}
 					</Button>
-				)}
-				{coinData.links.telegram_channel_identifier && (
+				) : null}
+				{coinData.links.telegram_channel_identifier ? (
 					<Button
 						mode={'contained-tonal'}
 						icon={TelegramIcon}
@@ -233,7 +233,7 @@ export const CoinDetails: React.FC<CoinDetailsProps> = (props) => {
 					>
 						{'Telegram'}
 					</Button>
-				)}
+				) : null}
 			</View>
 		</>
 	);

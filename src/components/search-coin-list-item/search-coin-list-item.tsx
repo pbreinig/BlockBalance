@@ -42,7 +42,7 @@ export const SearchCoinListItem: React.FC<SearchCoinListItemProps> = React.memo(
 						</View>
 					</View>
 					<View style={styles.itemLeftRightContainer}>
-						{rank && (
+						{rank ? (
 							<Text
 								variant={'bodySmall'}
 								numberOfLines={1}
@@ -50,7 +50,7 @@ export const SearchCoinListItem: React.FC<SearchCoinListItemProps> = React.memo(
 							>
 								{`#${rank}`}
 							</Text>
-						)}
+						) : null}
 						<MaterialIcons
 							name={'chevron-right'}
 							size={30}

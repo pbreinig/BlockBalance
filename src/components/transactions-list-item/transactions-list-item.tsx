@@ -90,7 +90,7 @@ export const TransactionsListItem: React.FC<TransactionsListItemProps> = React.m
 								{isBuy ? 'Cost (USD)' : 'Proceeds (USD)'}
 							</Text>
 						</View>
-						{isBuy && (
+						{isBuy ? (
 							<View style={{ alignItems: 'flex-end' }}>
 								<Text variant={'bodyLarge'}>
 									{currencyFormat(worth, 'USD', 'en')}
@@ -102,9 +102,9 @@ export const TransactionsListItem: React.FC<TransactionsListItemProps> = React.m
 									{'Worth (USD)'}
 								</Text>
 							</View>
-						)}
+						) : null}
 					</View>
-					{isBuy && (
+					{isBuy ? (
 						<View>
 							<Text
 								variant={'bodyLarge'}
@@ -124,8 +124,8 @@ export const TransactionsListItem: React.FC<TransactionsListItemProps> = React.m
 								{'Change'}
 							</Text>
 						</View>
-					)}
-					{note && (
+					) : null}
+					{note ? (
 						<View>
 							<Text variant={'bodyLarge'}>{note}</Text>
 							<Text
@@ -135,7 +135,7 @@ export const TransactionsListItem: React.FC<TransactionsListItemProps> = React.m
 								{'Note'}
 							</Text>
 						</View>
-					)}
+					) : null}
 				</View>
 			</TouchableRipple>
 		</Surface>

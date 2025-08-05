@@ -117,11 +117,11 @@ export const PortfolioBottomSheet: React.FC<PortfolioBottomSheetProps> = (props)
 				<Text variant={'titleMedium'} style={{ color: theme.colors.onSurface }}>
 					{title}
 				</Text>
-				{displayTotalValue && (
+				{displayTotalValue ? (
 					<Text variant={'titleMedium'} style={{ color: theme.colors.onSurface }}>
 						{currencyFormat(portfoliosTotalFiatValue, 'usd', 'en')}
 					</Text>
-				)}
+				) : null}
 			</View>
 		),
 		[theme.colors.onSurface, portfoliosTotalFiatValue],

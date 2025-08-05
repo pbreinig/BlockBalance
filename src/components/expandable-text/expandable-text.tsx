@@ -17,9 +17,9 @@ export const ExpandableText: React.FC<ExpandableTextProps> = ({ text }) => {
 				{text}
 			</Text>
 			<TouchableOpacity onPress={expand} style={{ marginTop: 5 }}>
-				{!isExpanded && text.length > 350 && (
+				{!isExpanded && text.length > 350 ? (
 					<Text variant={'labelMedium'}>{'Read More'}</Text>
-				)}
+				) : null}
 			</TouchableOpacity>
 		</>
 	);

@@ -57,7 +57,7 @@ export const MarketListItem: React.FC<MarketListItemProps> = React.memo((props) 
 								>
 									{ticker}
 								</Text>
-								{pricePercentage24h && (
+								{pricePercentage24h ? (
 									<Text
 										variant={'bodySmall'}
 										numberOfLines={1}
@@ -69,7 +69,7 @@ export const MarketListItem: React.FC<MarketListItemProps> = React.memo((props) 
 									>
 										{` ${isUp ? '+' : ''}${pricePercentage24h.toFixed(2)}%`}
 									</Text>
-								)}
+								) : null}
 							</View>
 						</View>
 						<View style={styles.rightTextContainer}>

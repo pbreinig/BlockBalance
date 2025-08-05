@@ -19,14 +19,16 @@ export const AppbarHeader: React.FC<AppbarHeaderProps> = (props) => {
 	return (
 		<Appbar.Header>
 			<Appbar.BackAction onPress={goBack} rippleColor={theme.additionalColors.ripple} />
-			{imgSrc && <Avatar.Image source={{ uri: imgSrc }} size={34} style={styles.image} />}
+			{imgSrc ? (
+				<Avatar.Image source={{ uri: imgSrc }} size={34} style={styles.image} />
+			) : null}
 			<View>
 				<Text variant={'titleMedium'}>{title}</Text>
-				{subtitle && (
+				{subtitle ? (
 					<Text variant={'labelMedium'} style={{ color: theme.colors.onSurfaceVariant }}>
 						{subtitle}
 					</Text>
-				)}
+				) : null}
 			</View>
 		</Appbar.Header>
 	);

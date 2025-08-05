@@ -128,7 +128,7 @@ export const PortfolioScreen = ({ navigation }) => {
 						</>
 					</TouchableRipple>
 				</Surface>
-				{portfolio.coins && renderPortfolioCoinList()}
+				{portfolio.coins ? renderPortfolioCoinList() : null}
 			</View>
 			<FAB
 				icon={'plus'}
